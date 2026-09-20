@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-subtle: var(--primary-subtle);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-subtle: var(--danger-subtle);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root {
+  /* LIGHT MODE (DEFAULT): Clean, enterprise-grade, soft neutral surfaces */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --surface-muted: #F1F5F9;
+  --foreground: #0F172A;
+  --muted-foreground: #475569;
+  --border: #E2E8F0;
+  --border-subtle: #F1F5F9;
+
+  --primary: #0284C7;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #0369A1;
+  --primary-subtle: #E0F2FE;
+
+  --secondary: #F1F5F9;
+  --secondary-foreground: #1E293B;
+
+  --success: #16A34A;
+  --success-foreground: #FFFFFF;
+  --success-subtle: #DCFCE7;
+
+  --warning: #D97706;
+  --warning-foreground: #FFFFFF;
+  --warning-subtle: #FEF3C7;
+
+  --danger: #DC2626;
+  --danger-foreground: #FFFFFF;
+  --danger-subtle: #FEE2E2;
+
+  --info: #2563EB;
+  --info-foreground: #FFFFFF;
+  --info-subtle: #DBEAFE;
+}
+
+.dark {
+  /* DARK MODE: Layered slate/charcoal surfaces, controlled contrast, non-gaming, non-pitch-black */
+  --background: #0B0F17;
+  --surface: #121A28;
+  --surface-elevated: #1A2436;
+  --surface-muted: #162030;
+  --foreground: #F8FAFC;
+  --muted-foreground: #94A3B8;
+  --border: #233147;
+  --border-subtle: #192334;
+
+  --primary: #38BDF8;
+  --primary-foreground: #0B0F17;
+  --primary-hover: #7DD3FC;
+  --primary-subtle: #0C2B45;
+
+  --secondary: #1A2436;
+  --secondary-foreground: #F8FAFC;
+
+  --success: #34D399;
+  --success-foreground: #022C22;
+  --success-subtle: #063C2E;
+
+  --warning: #FBBF24;
+  --warning-foreground: #1C1917;
+  --warning-subtle: #3B2405;
+
+  --danger: #F87171;
+  --danger-foreground: #FFFFFF;
+  --danger-subtle: #3E1010;
+
+  --info: #38BDF8;
+  --info-foreground: #082F49;
+  --info-subtle: #0C344E;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom subtle scrollbars for dense data views */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Micro-animations and Enterprise Transitions */
+.transition-smooth {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes enterpriseCardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-enter {
+  animation: enterpriseCardEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Subtle Interactive States */
+.card-interactive {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+
+.table-row-hover {
+  transition: background-color 0.15s ease;
+}
+
+.table-row-hover:hover {
+  background-color: var(--surface-muted);
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2s infinite ease-in-out;
+}
+
+@keyframes lineDrawAnimation {
+  0% {
+    stroke-dashoffset: 1200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-line-draw {
+  stroke-dasharray: 1200;
+  animation: lineDrawAnimation 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes donutSpin {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+.animate-donut-draw {
+  stroke-dasharray: 400;
+  animation: donutSpin 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-line-draw,
+  .animate-donut-draw,
+  .animate-card-enter {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+

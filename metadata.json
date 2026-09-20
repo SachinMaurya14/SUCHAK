@@ -1,0 +1,6 @@
+{
+  "name": "SUCHAK",
+  "description": "Enterprise HSE Safety Intelligence & Early-Warning Platform converting safety reports into actionable SIF-precursor intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
