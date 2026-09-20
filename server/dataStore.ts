@@ -672,6 +672,10 @@ class SafetyDataStore {
     };
   }
 
+  getAllReports(): ReportRecord[] {
+    return Array.from(new Set(this.reports.values()));
+  }
+
   getReportById(identifier: string): ReportRecord | null {
     const report = this.reports.get(identifier);
     if (!report) return null;

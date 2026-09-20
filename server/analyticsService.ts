@@ -27,6 +27,7 @@ import {
   ANALYTICS_SCHEMA_VERSION,
   METRIC_DEFINITION_VERSION,
   ReviewedStatePolicy,
+  TimeWindowPreset,
 } from './analyticsTypes.ts';
 
 import { dataStore, ReportRecord, SITES, ACTIVITIES } from './dataStore.ts';
@@ -141,9 +142,9 @@ export class AnalyticsService {
     currentEnd: Date;
     previousStart: Date | null;
     previousEnd: Date | null;
-    preset: AnalyticsFilterOptions['time_window'];
+    preset: TimeWindowPreset;
   } {
-    const preset = options.time_window || '30d';
+    const preset: TimeWindowPreset = options.time_window || '30d';
     const now = new Date();
     let currentEnd = options.end_date ? new Date(options.end_date) : now;
     let currentStart: Date | null = null;
@@ -299,10 +300,13 @@ export class AnalyticsService {
     const humanReview = reviewStore.getReviewedSafetyRecord(report.id, orgId);
 
     if (policy === 'LATEST_REVIEWED' && humanReview) {
-      const isConfirmed = humanReview.corrections_applied.length === 0;
-      const isCorrected = humanReview.corrections_applied.length > 0;
+      const isConfirmed = humanReview.decision === 'CONFIRM' || humanReview.corrections_count === 0;
+      const isCorrected = humanReview.decision === 'CORRECT' || humanReview.corrections_count > 0;
       return {
-        classification: humanReview.classification,
+        classification: (humanReview.reviewed_sif_classification || 'NEEDS_REVIEW') as
+          | 'SIF_POTENTIAL'
+          | 'NON_SIF_POTENTIAL'
+          | 'NEEDS_REVIEW',
         isHumanConfirmed: isConfirmed,
         isHumanCorrected: isCorrected,
       };
@@ -329,7 +333,7 @@ export class AnalyticsService {
     }
 
     const windows = this.resolveTimeWindows(options);
-    const allReports = Array.from(new Set(dataStore.reports.values()));
+    const allReports = dataStore.getAllReports();
 
     // Current period reports
     const currentReports = this.filterReports(
@@ -614,7 +618,7 @@ export class AnalyticsService {
         recurring_patterns_count: patternStore.getPatterns(orgId, { site_id: agg.site_id }).total,
         open_actions_count: openActions,
         overdue_actions_count: overdueActions,
-        pending_reviews_count: siteReviews.filter((r) => r.status !== 'COMPLETED').length,
+        pending_reviews_count: siteReviews.filter((r) => r.status !== 'REVIEW_CONFIRMED' && r.status !== 'REVIEW_CORRECTED' && r.status !== 'REVIEW_REJECTED').length,
         sample_sufficiency: agg.sample_sufficiency,
       };
     });
@@ -650,7 +654,7 @@ export class AnalyticsService {
       total_patterns: patternSummaryKpis.total_patterns,
       active_emerging: patternSummaryKpis.emerging_patterns,
       active_persistent: patternSummaryKpis.persistent_patterns,
-      inactive_archived: patternSummaryKpis.archived_patterns,
+      inactive_archived: patternSummaryKpis.inactive_patterns,
       top_patterns: patternsRes.patterns.slice(0, 5).map((p) => ({
         id: p.id,
         title: p.title,
@@ -722,7 +726,7 @@ export class AnalyticsService {
 
     // 11. Alerts (Phase 11)
     const alertMetrics = alertStore.getMetrics(orgId);
-    const allAlertsList = alertStore.listAlerts({ organization_id: orgId, page_size: 200 }).data || [];
+    const allAlertsList = alertStore.listAlerts({ organization_id: orgId, page_size: 200 }).items || [];
     const bySeverity = {
       CRITICAL: allAlertsList.filter((a) => a.severity === 'CRITICAL').length,
       HIGH: allAlertsList.filter((a) => a.severity === 'HIGH').length,
@@ -968,6 +972,144 @@ export class AnalyticsService {
     this.cache.set(cacheKey, { data: result, expiry: Date.now() + this.cacheTtlMs });
 
     return result;
+  }
+
+  public async getReportMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      filters: overview.filters,
+      total_reports: overview.kpi_strip.find((k) => k.metric_id === 'TOTAL_REPORTS'),
+      trend_series: overview.trend_series,
+      data_quality: overview.data_quality,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getSifMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      sif_distribution: overview.sif_distribution,
+      trend_series: overview.trend_series.map((t) => ({
+        date: t.date,
+        sif_potential: t.sif_potential,
+        non_sif_potential: t.non_sif_potential,
+      })),
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getRiskMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      risk_distribution: overview.risk_distribution,
+      trend_series: overview.trend_series.map((t) => ({
+        date: t.date,
+        high_critical_risk: t.high_critical_risk,
+      })),
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getPrecursorMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      precursors: overview.top_precursors,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getBarrierMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      barriers: overview.barrier_failures,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getIogpMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      iogp_rules: overview.iogp_rules,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getSiteMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      sites: overview.site_summaries,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getActivityMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      activities: overview.activity_summaries,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getPatternMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      patterns: overview.pattern_summary,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getReviewMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      reviews: overview.review_summary,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getActionMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      capa: overview.capa_summary,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getAlertMetrics(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      alerts: overview.alert_summary,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async getTrends(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      series: overview.trend_series,
+      methodology_version: overview.schema_version,
+    };
+  }
+
+  public async comparePeriods(options: AnalyticsFilterOptions = {}) {
+    const overview = await this.getOverview(options);
+    return {
+      period: overview.period,
+      kpi_strip: overview.kpi_strip,
+      methodology_version: overview.schema_version,
+    };
   }
 
   /**

@@ -58,7 +58,8 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'admin-org', label: 'Organization', path: '/admin/organization', iconName: 'Building2', section: 'ADMIN', rolesAllowed: ['OrgAdmin'] },
   { id: 'admin-sites', label: 'Sites & Assets', path: '/admin/sites', iconName: 'Network', section: 'ADMIN', rolesAllowed: ['OrgAdmin', 'HSEOfficer'] },
   { id: 'admin-audit', label: 'Audit Logs', path: '/admin/audit', iconName: 'ScrollText', section: 'ADMIN', rolesAllowed: ['OrgAdmin'] },
-  { id: 'admin-models', label: 'Model Registry', path: '/admin/models', iconName: 'Cpu', section: 'ADMIN' },
+  { id: 'admin-models', label: 'AI Eval & Governance', path: '/admin/models', iconName: 'Cpu', section: 'ADMIN', badge: 'GOV' },
+  { id: 'admin-security', label: 'Security & Operations', path: '/admin/security', iconName: 'Shield', section: 'ADMIN', badge: 'SEC' },
   { id: 'settings', label: 'Settings', path: '/settings', iconName: 'Settings', section: 'ADMIN' },
 ];
 

@@ -426,6 +426,15 @@ export class ReviewStore {
   }
 
   /**
+   * Retrieves all reviews for an organization.
+   */
+  public getAllReviews(organizationId = 'oil-india-demo'): ReviewRecord[] {
+    return Array.from(this.reviews.values()).filter(
+      (r) => !organizationId || r.organization_id === organizationId
+    );
+  }
+
+  /**
    * Retrieves review for a report with strict tenant isolation.
    */
   public getReviewByReportId(reportId: string, organizationId: string): ReviewRecord | null {

@@ -24,6 +24,7 @@ import { AdminOrgPage } from './pages/AdminOrgPage.tsx';
 import { AdminSitesPage } from './pages/AdminSitesPage.tsx';
 import { AdminAuditPage } from './pages/AdminAuditPage.tsx';
 import { AdminModelsPage } from './pages/AdminModelsPage.tsx';
+import { AdminSecurityPage } from './pages/AdminSecurityPage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
 import { LoginPage } from './pages/LoginPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
@@ -104,7 +105,7 @@ export default function App() {
       return <ActivityRiskPage onNavigate={handleNavigate} />;
     }
 
-    if (currentPath === '/analytics') {
+    if (currentPath === '/analytics' || currentPath === '/executive') {
       return <AnalyticsPage onNavigate={handleNavigate} />;
     }
 
@@ -150,8 +151,17 @@ export default function App() {
       return <AdminAuditPage onNavigate={handleNavigate} />;
     }
 
-    if (currentPath === '/admin/models') {
+    if (
+      currentPath === '/admin/models' ||
+      currentPath === '/governance' ||
+      currentPath === '/evaluation' ||
+      currentPath === '/ai-evaluation'
+    ) {
       return <AdminModelsPage onNavigate={handleNavigate} />;
+    }
+
+    if (currentPath === '/admin/security' || currentPath === '/admin/operations') {
+      return <AdminSecurityPage />;
     }
 
     if (currentPath === '/settings') {

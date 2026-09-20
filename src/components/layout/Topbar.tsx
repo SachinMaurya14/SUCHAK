@@ -54,6 +54,14 @@ export const Topbar: React.FC<TopbarProps> = ({
   // Check health check status from backend & fetch unread alerts
   useEffect(() => {
     let isMounted = true;
+
+    // Subscribe to auth changes
+    const unsub = authService.subscribe((session) => {
+      if (isMounted) {
+        setCurrentUser(session?.user || authService.getCurrentUser());
+      }
+    });
+
     healthService
       .checkRootHealth()
       .then((res) => {
@@ -80,6 +88,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 
     return () => {
       isMounted = false;
+      unsub();
       clearInterval(interval);
     };
   }, []);
@@ -101,10 +110,16 @@ export const Topbar: React.FC<TopbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleRoleChange = (role: UserRole) => {
-    const updated = authService.switchPreviewRole(role);
+  const handleRoleChange = async (role: UserRole) => {
+    const updated = await authService.switchPreviewRole(role);
     setCurrentUser(updated);
     setShowUserMenu(false);
+  };
+
+  const handleSignOut = async () => {
+    setShowUserMenu(false);
+    await authService.logout();
+    onNavigate('/login');
   };
 
   const getBreadcrumbs = (path: string): { label: string; path?: string }[] => {
@@ -473,10 +488,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowUserMenu(false);
-                    onNavigate('/login');
-                  }}
+                  onClick={handleSignOut}
                   className="w-full text-left px-2.5 py-1.5 text-xs text-danger hover:bg-danger/10 rounded-md transition-all duration-200 ease-in-out cursor-pointer"
                 >
                   Sign Out

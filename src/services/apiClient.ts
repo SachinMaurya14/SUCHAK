@@ -3,6 +3,8 @@
  * Standardizes fetch requests, headers, and error handling.
  */
 
+import { authService } from './authService.ts';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export interface ApiRequestOptions extends RequestInit {
@@ -45,13 +47,25 @@ export async function apiClient<T>(
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
+  const token = authService.getToken();
+  const requestId = `req-${Math.random().toString(36).substring(2, 10)}`;
+
+  const requestHeaders: Record<string, string> = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'X-Organization-Slug': 'oil-india-demo',
+    'X-Request-ID': requestId,
+  };
+
+  if (token) {
+    requestHeaders['Authorization'] = `Bearer ${token}`;
+  }
+
   try {
     const response = await fetch(url, {
       ...rest,
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-Organization-Slug': 'oil-india-demo',
+        ...requestHeaders,
         ...headers,
       },
       signal: controller.signal,
