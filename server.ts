@@ -4,6 +4,10 @@ import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { dataStore } from './server/dataStore.ts';
 import { reviewStore, REVIEWERS } from './server/reviewStore.ts';
+import { actionStore } from './server/actionStore.ts';
+import { alertStore } from './server/alertStore.ts';
+import { alertEngine } from './server/alertEngine.ts';
+import { analyticsService } from './server/analyticsService.ts';
 import { GoogleGenAI } from '@google/genai';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -82,9 +86,254 @@ async function startServer() {
     res.json(dataStore.getReportTypes());
   });
 
-  // Analytics endpoint
-  app.get('/api/v1/analytics/overview', (_req: Request, res: Response) => {
-    res.json(dataStore.getAnalyticsOverview());
+  // Phase 12 - Advanced HSE Analytics & Executive Intelligence API Endpoints
+  const parseAnalyticsQuery = (req: Request) => ({
+    organization_id: (req.query.organization_id as string) || 'oil-india-demo',
+    time_window: req.query.time_window as any,
+    start_date: req.query.start_date as string | undefined,
+    end_date: req.query.end_date as string | undefined,
+    site_id: req.query.site_id as string | undefined,
+    activity_id: req.query.activity_id as string | undefined,
+    report_type: req.query.report_type as string | undefined,
+    sif_status: req.query.sif_status as any,
+    risk_priority: req.query.risk_priority as any,
+    reviewed_state_policy: (req.query.reviewed_state_policy as any) || 'LATEST_REVIEWED',
+  });
+
+  app.get('/api/v1/analytics/overview', async (req: Request, res: Response) => {
+    try {
+      const query = parseAnalyticsQuery(req);
+      const overview = await analyticsService.getOverview(query);
+      res.json(overview);
+    } catch (err: any) {
+      console.error('[SUCHAK Analytics] Error computing overview:', err);
+      res.status(500).json({ error: 'Failed to compute analytics overview', details: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/reports', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        filters: overview.filters,
+        total_reports: overview.kpi_strip.find((k) => k.metric_id === 'TOTAL_REPORTS'),
+        trend_series: overview.trend_series,
+        data_quality: overview.data_quality,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/sif', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        sif_distribution: overview.sif_distribution,
+        trend_series: overview.trend_series.map((t) => ({
+          date: t.date,
+          sif_potential: t.sif_potential,
+          non_sif_potential: t.non_sif_potential,
+        })),
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/risk', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        risk_distribution: overview.risk_distribution,
+        trend_series: overview.trend_series.map((t) => ({
+          date: t.date,
+          high_critical_risk: t.high_critical_risk,
+        })),
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/precursors', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        precursors: overview.top_precursors,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/barriers', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        barriers: overview.barrier_failures,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/iogp', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        iogp_rules: overview.iogp_rules,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/sites', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        sites: overview.site_summaries,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/activities', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        activities: overview.activity_summaries,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/patterns', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        patterns: overview.pattern_summary,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/reviews', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        reviews: overview.review_summary,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/actions', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        capa: overview.capa_summary,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/alerts', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        alerts: overview.alert_summary,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/trends', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        series: overview.trend_series,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/comparisons', async (req: Request, res: Response) => {
+    try {
+      const overview = await analyticsService.getOverview(parseAnalyticsQuery(req));
+      res.json({
+        period: overview.period,
+        kpi_strip: overview.kpi_strip,
+        methodology_version: overview.schema_version,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/analytics/management-summary', async (req: Request, res: Response) => {
+    try {
+      const summary = await analyticsService.generateManagementSummary(parseAnalyticsQuery(req));
+      res.json(summary);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post('/api/v1/analytics/export', async (req: Request, res: Response) => {
+    try {
+      const datasetType = (req.body?.dataset_type as any) || 'overview';
+      const filters = req.body?.filters || {};
+      const format = (req.body?.format as string) || 'csv';
+
+      if (format === 'json') {
+        const overview = await analyticsService.getOverview(filters);
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', `attachment; filename="suchak_analytics_${Date.now()}.json"`);
+        return res.json(overview);
+      }
+
+      const { filename, csv } = await analyticsService.exportToCsv(datasetType, filters);
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(csv);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
   });
 
   // Reports collection endpoints
@@ -672,7 +921,30 @@ async function startServer() {
     res.json(result);
   });
 
-  // 4. Review Queue List (Paginated & Filtered)
+  // 4. Create / Explicitly Register Review
+  app.post('/api/v1/reviews', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { report_id, reason, reviewer_id } = req.body;
+
+    if (!report_id) {
+      return res.status(400).json({ error: 'report_id is required' });
+    }
+
+    const report = dataStore.getReportById(report_id);
+    if (!report) {
+      return res.status(404).json({ error: 'Report not found' });
+    }
+
+    try {
+      const review = reviewStore.createReview(report, orgId, reason || 'MANUAL_REVIEW_REQUESTED', reviewer_id, actor);
+      res.status(201).json(review);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 5. Review Queue List (Paginated & Filtered)
   app.get('/api/v1/reviews', (req: Request, res: Response) => {
     const orgId = (req.query.organization_id as string) || 'oil-india-demo';
     const status = (req.query.status as any) || 'ALL';
@@ -955,6 +1227,9 @@ async function startServer() {
       dataStore.updateReport(report.id, { review_status: 'Verified SIF' });
       res.json(result);
     } catch (err: any) {
+      if (err.message && err.message.startsWith('Conflict:')) {
+        return res.status(409).json({ error: err.message, conflict: true });
+      }
       res.status(400).json({ error: err.message });
     }
   });
@@ -988,6 +1263,9 @@ async function startServer() {
       dataStore.updateReport(report.id, { review_status: newSifStatus });
       res.json(result);
     } catch (err: any) {
+      if (err.message && err.message.startsWith('Conflict:')) {
+        return res.status(409).json({ error: err.message, conflict: true });
+      }
       res.status(400).json({ error: err.message });
     }
   });
@@ -1078,6 +1356,553 @@ async function startServer() {
       completed_at: review?.completed_at || null,
       review_version: review?.review_version || 'REVIEW_V1',
     });
+  });
+
+  /* -------------------------------------------------------------------------- */
+  /* PHASE 10: HSE ACTION CENTER & CORRECTIVE/PREVENTIVE ACTIONS ENDPOINTS       */
+  /* -------------------------------------------------------------------------- */
+
+  // 1. Action Summary KPIs
+  app.get('/api/v1/actions/summary', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const summary = actionStore.getSummary(orgId);
+    res.json(summary);
+  });
+
+  // 2. My Actions
+  app.get('/api/v1/actions/my', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const userId = (req.query.user_id as string) || actor.id;
+    const actions = actionStore.getMyActions(userId, orgId);
+    res.json(actions);
+  });
+
+  // 3. Verification Queue
+  app.get('/api/v1/actions/verification-queue', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const queue = actionStore.getVerificationQueue(orgId);
+    res.json(queue);
+  });
+
+  // 4. Action Queue List (Paginated, Filtered, Sorted)
+  app.get('/api/v1/actions', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const status = (req.query.status as any) || 'ALL';
+    const priority = (req.query.priority as any) || 'ALL';
+    const action_type = (req.query.action_type as any) || 'ALL';
+    const owner_id = req.query.owner_id as string | undefined;
+    const site_id = req.query.site_id as string | undefined;
+    const source_report_id = req.query.source_report_id as string | undefined;
+    const source_pattern_id = req.query.source_pattern_id as string | undefined;
+    const overdue_only = req.query.overdue_only === 'true';
+    const verification_required_only = req.query.verification_required_only === 'true';
+    const search = req.query.search as string | undefined;
+    const sort_by = (req.query.sort_by as any) || 'created_at';
+    const sort_direction = (req.query.sort_direction as any) || 'desc';
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const page_size = parseInt(req.query.page_size as string, 10) || 20;
+
+    const result = actionStore.getActions({
+      organization_id: orgId,
+      status,
+      priority,
+      action_type,
+      owner_id,
+      site_id,
+      source_report_id,
+      source_pattern_id,
+      overdue_only,
+      verification_required_only,
+      search,
+      sort_by,
+      sort_direction,
+      page,
+      page_size,
+    });
+
+    res.json(result);
+  });
+
+  // 5. Create Action (Human-controlled CAPA creation)
+  app.post('/api/v1/actions', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { title, description, action_type, priority, due_at } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: 'Action title is required' });
+    }
+    if (!description || !description.trim()) {
+      return res.status(400).json({ error: 'Action remediation description is required' });
+    }
+    if (!due_at) {
+      return res.status(400).json({ error: 'Due date is required' });
+    }
+
+    try {
+      const created = actionStore.createAction(
+        {
+          ...req.body,
+          organization_id: orgId,
+        },
+        actor
+      );
+      res.status(201).json(created);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 6. Get Action Detail by ID
+  app.get('/api/v1/actions/:id', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const action = actionStore.getActionById(req.params.id, orgId);
+    if (!action) {
+      return res.status(404).json({ error: `Action ${req.params.id} not found` });
+    }
+    res.json(action);
+  });
+
+  // 7. Update Action Core Fields
+  app.patch('/api/v1/actions/:id', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+
+    try {
+      const updated = actionStore.updateAction(req.params.id, orgId, req.body, actor);
+      res.json(updated);
+    } catch (err: any) {
+      if (err.message && err.message.startsWith('Conflict:')) {
+        return res.status(409).json({ error: err.message, conflict: true });
+      }
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 8. Assign Action
+  app.post('/api/v1/actions/:id/assign', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { assignee_id, team_name } = req.body;
+
+    if (!assignee_id && !team_name) {
+      return res.status(400).json({ error: 'assignee_id or team_name is required' });
+    }
+
+    try {
+      const updated = actionStore.assignAction(req.params.id, orgId, assignee_id, team_name, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 9. Start Action Execution
+  app.post('/api/v1/actions/:id/start', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+
+    try {
+      const updated = actionStore.startAction(req.params.id, orgId, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 10. Complete Action Remediation
+  app.post('/api/v1/actions/:id/complete', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { completion_summary } = req.body;
+
+    if (!completion_summary || !completion_summary.trim()) {
+      return res.status(400).json({ error: 'completion_summary is required' });
+    }
+
+    try {
+      const updated = actionStore.completeAction(req.params.id, orgId, completion_summary, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 11. Verify Action (Independent HSE Verification)
+  app.post('/api/v1/actions/:id/verify', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { verified, notes } = req.body;
+
+    if (typeof verified !== 'boolean') {
+      return res.status(400).json({ error: 'verified boolean flag is required' });
+    }
+    if (!notes || !notes.trim()) {
+      return res.status(400).json({ error: 'verification notes are required' });
+    }
+
+    try {
+      const updated = actionStore.verifyAction(req.params.id, orgId, verified, notes, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 12. Close Action (Final sign-off closure)
+  app.post('/api/v1/actions/:id/close', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { closure_summary } = req.body;
+
+    try {
+      const updated = actionStore.closeAction(req.params.id, orgId, closure_summary || '', actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 13. Reopen Action
+  app.post('/api/v1/actions/:id/reopen', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { reason } = req.body;
+
+    if (!reason || !reason.trim()) {
+      return res.status(400).json({ error: 'reason is required to reopen an action' });
+    }
+
+    try {
+      const updated = actionStore.reopenAction(req.params.id, orgId, reason, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 14. Cancel Action
+  app.post('/api/v1/actions/:id/cancel', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { reason } = req.body;
+
+    if (!reason || !reason.trim()) {
+      return res.status(400).json({ error: 'reason is required to cancel an action' });
+    }
+
+    try {
+      const updated = actionStore.cancelAction(req.params.id, orgId, reason, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 15. Add Comment
+  app.post('/api/v1/actions/:id/comments', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { content } = req.body;
+
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: 'Comment content cannot be empty' });
+    }
+
+    try {
+      const comment = actionStore.addComment(req.params.id, orgId, content, actor);
+      res.status(201).json(comment);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 16. Attach Evidence Metadata
+  app.post('/api/v1/actions/:id/evidence', (req: Request, res: Response) => {
+    const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+    const actor = getRequestActor(req);
+    const { file_name, media_type, file_size, evidence_type, description } = req.body;
+
+    if (!file_name || !description) {
+      return res.status(400).json({ error: 'file_name and description are required' });
+    }
+
+    try {
+      const evidence = actionStore.addEvidence(
+        req.params.id,
+        orgId,
+        {
+          file_name: file_name.trim(),
+          media_type: media_type || 'application/pdf',
+          file_size: file_size || 102400,
+          evidence_type: evidence_type || 'IMPLEMENTATION',
+          description: description.trim(),
+        },
+        actor
+      );
+      res.status(201).json(evidence);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // 17. Action Audit History
+  app.get('/api/v1/actions/:id/history', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const history = actionStore.getHistory(req.params.id, orgId);
+    res.json(history);
+  });
+
+  // 18. Report Linked Actions
+  app.get('/api/v1/reports/:id/actions', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const actions = actionStore.getActionsByReportId(req.params.id, orgId);
+    res.json(actions);
+  });
+
+  // 19. Review Linked Actions
+  app.get('/api/v1/reviews/:id/actions', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const actions = actionStore.getActionsByReviewId(req.params.id, orgId);
+    res.json(actions);
+  });
+
+  // 20. Pattern Linked Actions
+  app.get('/api/v1/patterns/:id/actions', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const actions = actionStore.getActionsByPatternId(req.params.id, orgId);
+    res.json(actions);
+  });
+
+  // ==========================================
+  // PHASE 11: ALERTS, ESCALATION & NOTIFICATIONS
+  // ==========================================
+
+  // 1. List alerts with filtering, sorting, pagination
+  app.get('/api/v1/alerts', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const severity = req.query.severity as any;
+      const status = req.query.status as any;
+      const category = req.query.category as any;
+      const event_type = req.query.event_type as any;
+      const source_type = req.query.source_type as any;
+      const site_id = req.query.site_id as string;
+      const target_user_id = req.query.target_user_id as string;
+      const unread_only = req.query.unread_only === 'true';
+      const search = req.query.search as string;
+      const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+      const page_size = req.query.page_size ? parseInt(req.query.page_size as string, 10) : 15;
+      const sort_by = req.query.sort_by as any;
+      const sort_dir = req.query.sort_dir as any;
+
+      const result = alertStore.listAlerts({
+        organization_id: orgId,
+        severity,
+        status,
+        category,
+        event_type,
+        source_type,
+        site_id,
+        target_user_id,
+        unread_only,
+        search,
+        page,
+        page_size,
+        sort_by,
+        sort_dir,
+      });
+
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ detail: `Failed to list alerts: ${err.message}` });
+    }
+  });
+
+  // 2. Alert Metrics & Dashboard KPIs
+  app.get('/api/v1/alerts/metrics', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const metrics = alertStore.getMetrics(orgId);
+      res.json(metrics);
+    } catch (err: any) {
+      res.status(500).json({ detail: `Failed to get alert metrics: ${err.message}` });
+    }
+  });
+
+  // 3. Trigger Evaluation Cycle (Deterministic scan across actions, reports, patterns)
+  app.post('/api/v1/alerts/evaluate-cycle', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || (req.query.organization_id as string) || 'oil-india-demo';
+      const result = alertEngine.runEvaluationCycle(orgId);
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ detail: `Failed to run alert evaluation cycle: ${err.message}` });
+    }
+  });
+
+  // 4. Alert Rules list
+  app.get('/api/v1/alerts/rules', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const rules = alertStore.listRules(orgId);
+      res.json(rules);
+    } catch (err: any) {
+      res.status(500).json({ detail: `Failed to list alert rules: ${err.message}` });
+    }
+  });
+
+  // 5. Update Alert Rule
+  app.put('/api/v1/alerts/rules/:id', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || req.body.organization_id || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'admin', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const updated = alertStore.updateRule(req.params.id, orgId, req.body.updates || req.body, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 6. User Notification Preferences
+  app.get('/api/v1/alerts/preferences', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const userId = (req.query.user_id as string) || 'user-current';
+      const prefs = alertStore.getUserPreferences(userId, orgId);
+      res.json(prefs);
+    } catch (err: any) {
+      res.status(500).json({ detail: err.message });
+    }
+  });
+
+  app.put('/api/v1/alerts/preferences', (req: Request, res: Response) => {
+    try {
+      const orgId = req.body.organization_id || 'oil-india-demo';
+      const userId = req.body.user_id || 'user-current';
+      const updated = alertStore.updateUserPreferences(userId, orgId, req.body.preferences || req.body);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 7. Organization Alert Policy
+  app.get('/api/v1/alerts/policy', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const policy = alertStore.getOrgPolicy(orgId);
+      res.json(policy);
+    } catch (err: any) {
+      res.status(500).json({ detail: err.message });
+    }
+  });
+
+  app.put('/api/v1/alerts/policy', (req: Request, res: Response) => {
+    try {
+      const orgId = req.body.organization_id || 'oil-india-demo';
+      const updated = alertStore.updateOrgPolicy(orgId, req.body.policy || req.body);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 8. Outbox Health & Delivery Status
+  app.get('/api/v1/alerts/outbox', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+      const outbox = alertStore.getOutboxStats(orgId);
+      res.json(outbox);
+    } catch (err: any) {
+      res.status(500).json({ detail: err.message });
+    }
+  });
+
+  app.post('/api/v1/alerts/outbox/process', (_req: Request, res: Response) => {
+    try {
+      const result = alertStore.processPendingOutbox();
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ detail: err.message });
+    }
+  });
+
+  // 9. Single Alert Details
+  app.get('/api/v1/alerts/:id', (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || 'oil-india-demo';
+    const alert = alertStore.getAlert(req.params.id, orgId);
+    if (!alert) {
+      return res.status(404).json({ detail: `Alert ${req.params.id} not found` });
+    }
+    const auditHistory = alertStore.getAuditHistory(req.params.id, orgId);
+    res.json({ alert, audit_history: auditHistory });
+  });
+
+  // 10. Mark Alert Read
+  app.post('/api/v1/alerts/:id/read', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'user-01', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const updated = alertStore.markAsRead(req.params.id, orgId, actor);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 11. Acknowledge Alert
+  app.post('/api/v1/alerts/:id/acknowledge', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'user-01', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const note = req.body.note;
+      const updated = alertStore.acknowledgeAlert(req.params.id, orgId, actor, note);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 12. Dismiss Alert
+  app.post('/api/v1/alerts/:id/dismiss', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'user-01', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const reason = req.body.reason;
+      const updated = alertStore.dismissAlert(req.params.id, orgId, actor, reason);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 13. Resolve Alert
+  app.post('/api/v1/alerts/:id/resolve', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'user-01', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const resolutionNote = req.body.resolution_note || req.body.note || 'Resolved';
+      const updated = alertStore.resolveAlert(req.params.id, orgId, actor, resolutionNote);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
+  });
+
+  // 14. Escalate Alert
+  app.post('/api/v1/alerts/:id/escalate', (req: Request, res: Response) => {
+    try {
+      const orgId = (req.body.organization_id as string) || 'oil-india-demo';
+      const actor = req.body.actor || { id: 'user-01', name: 'Dr. Alok Baruah', role: 'OrgAdmin' };
+      const reason = req.body.reason || 'Escalated by user';
+      const targetRole = req.body.target_role;
+      const updated = alertStore.escalateAlert(req.params.id, orgId, actor, reason, targetRole);
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ detail: err.message });
+    }
   });
 
   // Ask SUCHAK Copilot endpoint

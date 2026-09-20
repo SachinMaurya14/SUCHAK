@@ -34,6 +34,7 @@ import { ReviewStatusBadge } from './ReviewStatusBadge.tsx';
 interface ReviewWorkspaceModalProps {
   reviewId: string;
   isOpen: boolean;
+  initialTab?: 'review' | 'audit' | 'history';
   onClose: () => void;
   onReviewUpdated?: () => void;
 }
@@ -63,6 +64,7 @@ const IOGP_OPTIONS = [
 export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
   reviewId,
   isOpen,
+  initialTab = 'review',
   onClose,
   onReviewUpdated,
 }) => {
@@ -90,10 +92,11 @@ export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
   const [actionReasonError, setActionReasonError] = useState<string | null>(null);
 
   // Active view tab
-  const [activeTab, setActiveTab] = useState<'review' | 'audit' | 'history'>('review');
+  const [activeTab, setActiveTab] = useState<'review' | 'audit' | 'history'>(initialTab);
 
   useEffect(() => {
     if (isOpen && reviewId) {
+      if (initialTab) setActiveTab(initialTab);
       loadWorkspace();
       loadReviewers();
     } else {

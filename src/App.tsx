@@ -113,7 +113,13 @@ export default function App() {
     }
 
     if (currentPath === '/actions') {
-      return <ActionCenterPage onNavigate={handleNavigate} />;
+      return (
+        <ActionCenterPage
+          onNavigate={handleNavigate}
+          onNavigateToReport={(reportId) => handleNavigate(`/reports/${reportId}`)}
+          onNavigateToPattern={(patternId) => handleNavigate('/patterns')}
+        />
+      );
     }
 
     if (currentPath === '/history') {

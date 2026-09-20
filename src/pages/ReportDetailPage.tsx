@@ -25,6 +25,8 @@ import { Tabs } from '../components/ui/Tabs.tsx';
 import { SafetyAnalysisView } from '../components/analysis/SafetyAnalysisView.tsx';
 import { RiskIntelligenceView } from '../components/safety/RiskIntelligenceView.tsx';
 import { SimilarReportsView } from '../components/safety/SimilarReportsView.tsx';
+import { HumanReviewCard } from '../components/review/HumanReviewCard.tsx';
+import { ReportActionsCard } from '../components/actions/ReportActionsCard.tsx';
 import { reportService } from '../services/reportService.ts';
 import { SafetyReport, BackendAnalysisResponse, RiskAssessmentResponse } from '../types/index.ts';
 
@@ -232,8 +234,10 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
         onChange={setActiveTab}
         tabs={[
           { id: 'overview', label: 'Report Overview' },
-          { id: 'similar', label: 'Similar Reports', badge: 'Phase 7' },
+          { id: 'review', label: 'Human HSE Review', badge: 'Phase 9' },
+          { id: 'actions', label: 'HSE Action Center (CAPA)', badge: 'Phase 10' },
           { id: 'risk', label: 'SIF Risk Prioritization', badge: 'Phase 6' },
+          { id: 'similar', label: 'Similar Reports', badge: 'Phase 7' },
           {
             id: 'analysis',
             label: 'Safety NLP Engine',
@@ -254,10 +258,11 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
       {/* Tab Contents */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          {/* 1. Original Report Narrative & Immediate Actions */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle>Field Observation Narrative</CardTitle>
+                <CardTitle>Field Observation Narrative (Original Report)</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-xs text-foreground leading-relaxed">
                 <div className="p-4 rounded-xl bg-surface-muted/60 border border-border leading-relaxed font-normal text-foreground text-[13px]">
@@ -320,7 +325,23 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
             </Card>
           </div>
 
-          {/* Phase 6: SIF Risk Intelligence View */}
+          {/* 2. AI Safety Intelligence NLP Engine */}
+          <SafetyAnalysisView
+            report={effectiveReport}
+            onAnalysisUpdated={handleAnalysisUpdated}
+          />
+
+          {/* 3. Phase 9: Human HSE Review Status & Verification */}
+          <HumanReviewCard
+            reportId={effectiveReport.id}
+            onReviewUpdated={() => {
+              reportService.getReportById(reportId).then((data) => {
+                if (data) setReport(data);
+              });
+            }}
+          />
+
+          {/* 4. Phase 6: SIF Risk Intelligence View */}
           <RiskIntelligenceView
             report={effectiveReport}
             onRiskUpdated={(newRisk) => {
@@ -328,10 +349,32 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
             }}
           />
 
-          {/* Embedded Safety NLP Engine on Overview Tab */}
-          <SafetyAnalysisView
+          {/* 5. Phase 10: HSE Action Center (CAPA) */}
+          <ReportActionsCard
             report={effectiveReport}
-            onAnalysisUpdated={handleAnalysisUpdated}
+            onNavigateToPattern={() => onNavigate('/patterns')}
+          />
+        </div>
+      )}
+
+      {activeTab === 'review' && (
+        <div className="space-y-6">
+          <HumanReviewCard
+            reportId={effectiveReport.id}
+            onReviewUpdated={() => {
+              reportService.getReportById(reportId).then((data) => {
+                if (data) setReport(data);
+              });
+            }}
+          />
+        </div>
+      )}
+
+      {activeTab === 'actions' && (
+        <div className="space-y-6">
+          <ReportActionsCard
+            report={effectiveReport}
+            onNavigateToPattern={() => onNavigate('/patterns')}
           />
         </div>
       )}

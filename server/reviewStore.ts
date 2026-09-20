@@ -455,6 +455,84 @@ export class ReviewStore {
   }
 
   /**
+   * Explicitly registers a report into the review queue.
+   */
+  public createReview(
+    report: ReportRecord,
+    organizationId: string,
+    reason: ReviewEligibilityReason = 'MANUAL_REVIEW_REQUESTED',
+    reviewerId?: string,
+    actor?: { id: string; name: string; role: string }
+  ): ReviewRecord {
+    if (report.organization_id && report.organization_id !== organizationId) {
+      throw new Error(`Report ${report.id} does not belong to organization ${organizationId}.`);
+    }
+
+    const existingReviewId = this.reportToReviewMap.get(report.id);
+    if (existingReviewId) {
+      const existing = this.reviews.get(existingReviewId);
+      if (existing && existing.organization_id === organizationId) {
+        if (!existing.eligibility_reasons.includes(reason)) {
+          existing.eligibility_reasons.push(reason);
+          existing.updated_at = new Date().toISOString();
+          this.saveToDisk();
+        }
+        return existing;
+      }
+    }
+
+    const reviewId = `rev-${report.report_number.toLowerCase()}-${Date.now().toString(36)}`;
+    const snapshot = ReviewEligibilityService.buildSourceSnapshots(report);
+    let assignedReviewer: ReviewerProfile | null = null;
+    if (reviewerId) {
+      assignedReviewer = REVIEWERS.find((r) => r.id === reviewerId) || null;
+    }
+
+    const review: ReviewRecord = {
+      id: reviewId,
+      organization_id: organizationId,
+      report_id: report.id,
+      report_number: report.report_number,
+      reviewer_id: assignedReviewer ? assignedReviewer.id : null,
+      reviewer_name: assignedReviewer ? assignedReviewer.name : null,
+      reviewer_role: assignedReviewer ? assignedReviewer.role : null,
+      status: assignedReviewer ? 'ASSIGNED' : 'QUEUED',
+      decision: null,
+      eligibility_reasons: [reason],
+      reviewer_comment: null,
+      reviewer_summary: null,
+      corrections: [],
+      comments: [],
+      assigned_at: assignedReviewer ? new Date().toISOString() : null,
+      started_at: null,
+      completed_at: null,
+      lock_token: null,
+      lock_acquired_at: null,
+      review_version: 'REVIEW_V1',
+      source_snapshots: snapshot,
+      is_stale: false,
+      stale_reason: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    this.reviews.set(review.id, review);
+    this.reportToReviewMap.set(report.id, review.id);
+
+    this.recordAuditEvent(
+      review.id,
+      report.id,
+      organizationId,
+      actor || { id: 'system', name: 'SUCHAK Review Engine', role: 'System' },
+      'REVIEW_CREATED',
+      { reason, reviewer_id: reviewerId }
+    );
+
+    this.saveToDisk();
+    return review;
+  }
+
+  /**
    * Assigns a report review to an authorized reviewer.
    */
   public assignReview(
@@ -584,6 +662,10 @@ export class ReviewStore {
       throw new Error(`Review ${reviewId} not found or tenant mismatch.`);
     }
 
+    if (review.status === 'REVIEW_CONFIRMED' || review.status === 'REVIEW_CORRECTED') {
+      throw new Error(`Conflict: Review ${reviewId} has already been finalized by another reviewer.`);
+    }
+
     if (!ALLOWED_CORRECTION_FIELDS.includes(field)) {
       throw new Error(`Field '${field}' is not in the allowed correction fields list.`);
     }
@@ -658,7 +740,7 @@ export class ReviewStore {
     }
 
     if (review.status === 'REVIEW_CONFIRMED' || review.status === 'REVIEW_CORRECTED') {
-      throw new Error(`Review ${reviewId} has already been finalized.`);
+      throw new Error(`Conflict: Review ${reviewId} has already been finalized by another reviewer.`);
     }
 
     // Preserve previous review version in history if applicable
@@ -742,7 +824,7 @@ export class ReviewStore {
     }
 
     if (review.status === 'REVIEW_CONFIRMED' || review.status === 'REVIEW_CORRECTED') {
-      throw new Error(`Review ${reviewId} has already been finalized.`);
+      throw new Error(`Conflict: Review ${reviewId} has already been finalized by another reviewer.`);
     }
 
     // Preserve previous review version in history if applicable

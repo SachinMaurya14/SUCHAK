@@ -18,6 +18,8 @@ import {
 import { useTheme } from '../../lib/theme.tsx';
 import { authService } from '../../services/authService.ts';
 import { healthService } from '../../services/healthService.ts';
+import { alertService } from '../../services/alertService.ts';
+import { Alert } from '../../types/alert.ts';
 import { UserRole } from '../../types/index.ts';
 import { IconButton } from '../ui/IconButton.tsx';
 import { Badge } from '../ui/Badge.tsx';
@@ -42,12 +44,14 @@ export const Topbar: React.FC<TopbarProps> = ({
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [unreadAlerts, setUnreadAlerts] = useState<Alert[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const notifMenuRef = useRef<HTMLDivElement>(null);
 
-  // Check health check status from backend
+  // Check health check status from backend & fetch unread alerts
   useEffect(() => {
     let isMounted = true;
     healthService
@@ -58,8 +62,25 @@ export const Topbar: React.FC<TopbarProps> = ({
       .catch(() => {
         if (isMounted) setHealthStatus('unreachable');
       });
+
+    const loadAlerts = () => {
+      alertService
+        .getAlerts({ unread_only: true, page_size: 4 })
+        .then((res) => {
+          if (isMounted) {
+            setUnreadAlerts(res.items);
+            setUnreadCount(res.total);
+          }
+        })
+        .catch(() => {});
+    };
+
+    loadAlerts();
+    const interval = setInterval(loadAlerts, 30000);
+
     return () => {
       isMounted = false;
+      clearInterval(interval);
     };
   }, []);
 
@@ -249,30 +270,55 @@ export const Topbar: React.FC<TopbarProps> = ({
             className="relative transition-all duration-200 ease-in-out"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-danger ring-2 ring-surface" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-danger text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-surface">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </IconButton>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 rounded-xl border border-border bg-surface shadow-[0px_10px_25px_-5px_rgba(0,0,0,0.1),0px_8px_10px_-6px_rgba(0,0,0,0.1)] z-50 p-4 animate-card-enter">
+            <div className="absolute right-0 mt-2 w-84 rounded-xl border border-border bg-surface shadow-[0px_10px_25px_-5px_rgba(0,0,0,0.1),0px_8px_10px_-6px_rgba(0,0,0,0.1)] z-50 p-4 animate-card-enter">
               <div className="flex items-center justify-between pb-3 border-b border-border-subtle">
-                <h4 className="text-xs font-bold text-foreground">Safety Alerts & Notifications</h4>
-                <Badge variant="danger" size="sm">3 Active</Badge>
+                <h4 className="text-xs font-bold text-foreground">Workflow Alerts</h4>
+                {unreadCount > 0 ? (
+                  <Badge variant="danger" size="sm">{unreadCount} Unread</Badge>
+                ) : (
+                  <Badge variant="secondary" size="sm">0 Unread</Badge>
+                )}
               </div>
-              <div className="py-2 space-y-2 text-xs divide-y divide-border-subtle">
-                <div className="pt-2">
-                  <p className="font-semibold text-foreground">Line of Fire Precursor Detected</p>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">
-                    Repeated pressurized line failure reports at Digboi Rig #4.
-                  </p>
-                  <span className="text-[10px] text-primary mt-1 inline-block font-medium">10m ago</span>
-                </div>
-                <div className="pt-2">
-                  <p className="font-semibold text-foreground">Pending SIF Review Required</p>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">
-                    Near-miss confined space entry without gas test logged.
-                  </p>
-                  <span className="text-[10px] text-primary mt-1 inline-block font-medium">1h ago</span>
-                </div>
+              <div className="py-2 space-y-2 text-xs divide-y divide-border-subtle max-h-72 overflow-y-auto">
+                {unreadAlerts.length === 0 ? (
+                  <div className="py-4 text-center text-muted-foreground text-xs">
+                    No unread workflow notifications.
+                  </div>
+                ) : (
+                  unreadAlerts.map((alt) => (
+                    <div
+                      key={alt.id}
+                      onClick={() => {
+                        setShowNotifications(false);
+                        onNavigate('/alerts');
+                      }}
+                      className="pt-2 cursor-pointer hover:bg-surface-muted p-1.5 rounded-lg transition-colors"
+                    >
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="font-semibold text-foreground truncate max-w-[190px]">
+                          {alt.title}
+                        </span>
+                        <span className="text-[9px] font-mono px-1 py-0.5 rounded bg-muted text-muted-foreground">
+                          {alt.severity}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">
+                        {alt.message}
+                      </p>
+                      <span className="text-[10px] text-primary mt-1 inline-block font-medium">
+                        {alt.source_number} • {new Date(alt.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                  ))
+                )}
               </div>
               <div className="pt-2 border-t border-border-subtle">
                 <button
@@ -283,7 +329,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                   }}
                   className="w-full text-center text-xs font-medium text-primary hover:underline transition-all duration-200 ease-in-out cursor-pointer py-1"
                 >
-                  View all alerts & workflow items
+                  View all alerts & workflow items →
                 </button>
               </div>
             </div>

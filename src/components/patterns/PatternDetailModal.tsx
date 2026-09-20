@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Calendar,
@@ -14,12 +14,20 @@ import {
   Layers,
   Sparkles,
   AlertTriangle,
+  Shield,
+  Plus,
+  ArrowUpRight,
 } from 'lucide-react';
 import { PrecursorPattern } from '../../types/index.ts';
 import { PatternStatusBadge } from './PatternStatusBadge.tsx';
 import { PatternStrengthIndicator } from './PatternStrengthIndicator.tsx';
 import { Button } from '../ui/Button.tsx';
 import { Badge } from '../ui/Badge.tsx';
+import { ActionStatusBadge, ActionPriorityBadge, ActionTypeBadge } from '../actions/ActionStatusBadge.tsx';
+import { CreateActionModal } from '../actions/CreateActionModal.tsx';
+import { ActionDetailModal } from '../actions/ActionDetailModal.tsx';
+import { actionService } from '../../services/actionService.ts';
+import { ActionRecord, CreateActionPayload } from '../../types/action.ts';
 
 interface PatternDetailModalProps {
   pattern: PrecursorPattern | null;
@@ -34,7 +42,38 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
   onClose,
   onNavigateReport,
 }) => {
-  const [activeTab, setActiveTab] = useState<'evidence' | 'members' | 'distribution' | 'trend'>('evidence');
+  const [activeTab, setActiveTab] = useState<'evidence' | 'members' | 'distribution' | 'trend' | 'actions'>('evidence');
+  const [actions, setActions] = useState<ActionRecord[]>([]);
+  const [loadingActions, setLoadingActions] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedActionId, setSelectedActionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen && pattern?.id) {
+      loadActions();
+    }
+  }, [isOpen, pattern?.id]);
+
+  const loadActions = async () => {
+    if (!pattern?.id) return;
+    try {
+      setLoadingActions(true);
+      const data = await actionService.getActionsByPatternId(pattern.id);
+      setActions(data);
+    } catch (err) {
+      console.warn('Failed to load actions for pattern:', err);
+    } finally {
+      setLoadingActions(false);
+    }
+  };
+
+  const handleActionCreated = (newAction: ActionRecord) => {
+    setActions((prev) => [newAction, ...prev]);
+  };
+
+  const handleActionUpdated = (updated: ActionRecord) => {
+    setActions((prev) => prev.map((a) => (a.id === updated.id ? updated : a)));
+  };
 
   if (!isOpen || !pattern) return null;
 
@@ -154,6 +193,17 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
           >
             <TrendingUp className="w-3.5 h-3.5" />
             Temporal Trend
+          </button>
+          <button
+            onClick={() => setActiveTab('actions')}
+            className={`py-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'actions'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Shield className="w-3.5 h-3.5" />
+            Preventive CAPA ({actions.length})
           </button>
         </div>
 
@@ -411,6 +461,90 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
             </div>
           )}
 
+          {/* Tab 5: Preventive Actions (Phase 10) */}
+          {activeTab === 'actions' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">
+                    Phase 10: Systemic Preventive Actions (CAPA)
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    Remedial and barrier-strengthening actions addressing recurring precursor pattern {pattern.pattern_number}.
+                  </p>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setIsCreateModalOpen(true)}
+                  className="flex items-center gap-1.5 text-xs"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Create Preventive Action</span>
+                </Button>
+              </div>
+
+              {loadingActions ? (
+                <div className="py-8 text-center text-xs text-muted-foreground">
+                  Loading linked preventive actions...
+                </div>
+              ) : actions.length === 0 ? (
+                <div className="p-8 text-center rounded-xl border border-dashed border-border bg-muted/10 space-y-2">
+                  <Shield className="w-8 h-8 mx-auto text-primary opacity-40" />
+                  <p className="text-xs font-medium text-foreground">
+                    No preventive actions linked to this pattern yet.
+                  </p>
+                  <p className="text-[11px] text-muted-foreground max-w-md mx-auto">
+                    Initiate a cross-site preventive CAPA to address systemic barrier degradation across all affected drilling/production locations.
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="text-xs mt-1"
+                  >
+                    <Plus className="w-3.5 h-3.5 mr-1" />
+                    Initiate Preventive Action
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-2.5">
+                  {actions.map((act) => (
+                    <div
+                      key={act.id}
+                      onClick={() => setSelectedActionId(act.id)}
+                      className="p-3.5 rounded-xl border border-border bg-card hover:border-primary/50 cursor-pointer transition-all space-y-2"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-primary">
+                            {act.action_number}
+                          </span>
+                          <ActionTypeBadge type={act.action_type} />
+                          <ActionPriorityBadge priority={act.priority} />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <ActionStatusBadge status={act.status} isOverdue={act.is_overdue} />
+                          <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground" />
+                        </div>
+                      </div>
+
+                      <h4 className="text-xs font-semibold text-foreground line-clamp-1">
+                        {act.title}
+                      </h4>
+
+                      <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1 border-t border-border/40">
+                        <span>Assigned: <strong>{act.owner_user_name || 'Unassigned'}</strong> ({act.owner_team_name || 'HSE'})</span>
+                        <span>Due: {new Date(act.due_at).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Domain & Methodology Disclaimer */}
           <div className="rounded-lg border border-border-subtle bg-muted/20 p-3 text-[11px] text-muted-foreground flex items-start gap-2">
             <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -431,6 +565,32 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
           </Button>
         </div>
       </div>
+
+      {/* Create Preventive Action Modal */}
+      <CreateActionModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onActionCreated={handleActionCreated}
+        initialData={{
+          action_type: 'PREVENTIVE',
+          source_pattern_id: pattern.id,
+          source_pattern_number: pattern.pattern_number,
+          source_finding_type: 'PATTERN',
+          source_finding_summary: pattern.summary,
+          priority: 'HIGH',
+          title: `Systemic Precursor Mitigation: ${pattern.title}`,
+          description: `Action initiated to resolve systemic precursor pattern ${pattern.pattern_number} (${pattern.title}). Implement cross-site inspections and barrier controls across affected operational sites.`,
+        }}
+      />
+
+      {/* Action Detail & Workflow Modal */}
+      <ActionDetailModal
+        actionId={selectedActionId}
+        isOpen={!!selectedActionId}
+        onClose={() => setSelectedActionId(null)}
+        onActionUpdated={handleActionUpdated}
+        onNavigateToReport={onNavigateReport}
+      />
     </div>
   );
 };
