@@ -1,6 +1,6 @@
 {
   "active_version_id": "PATTERN_DISCOVERY_V1",
-  "saved_at": "2026-09-20T11:47:22.224Z",
+  "saved_at": "2026-09-20T18:14:45.864Z",
   "patterns": [
     {
       "id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -175,7 +175,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during High Pressure Line Testing operations.",
           "description_snippet": "During hydrostatic pressure testing at 5,000 PSI on manifold #4, a junior technician stepped across the barricaded zone directly in front of the pressurized swi...",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         },
         {
           "pattern_id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -195,7 +195,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during Drilling & Well Operations operations.",
           "description_snippet": "Mud circulation line valve seal failed during high-rate pumping operation....",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         },
         {
           "pattern_id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -215,7 +215,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during Drilling & Well Operations operations.",
           "description_snippet": "High pressure manifold flanged joint showed micro-fracture during hydrostatic pressure test....",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         }
       ],
       "centroid_vector": [
@@ -348,10 +348,10 @@
         0.06388582106737818,
         0.0639259155699085
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.222Z",
-      "updated_at": "2026-09-20T11:47:22.222Z",
+      "created_at": "2026-09-20T18:14:45.861Z",
+      "updated_at": "2026-09-20T18:14:45.861Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -527,7 +527,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during High Pressure Line Testing operations.",
           "description_snippet": "During hydrostatic pressure testing at 5,000 PSI on manifold #4, a junior technician stepped across the barricaded zone directly in front of the pressurized swi...",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         },
         {
           "pattern_id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -547,7 +547,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during Drilling & Well Operations operations.",
           "description_snippet": "Mud circulation line valve seal failed during high-rate pumping operation....",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         },
         {
           "pattern_id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -567,7 +567,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during Drilling & Well Operations operations.",
           "description_snippet": "High pressure manifold flanged joint showed micro-fracture during hydrostatic pressure test....",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.860Z"
         }
       ],
       "centroid_vector": [
@@ -700,10 +700,10 @@
         0.06388582106737818,
         0.0639259155699085
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.222Z",
-      "updated_at": "2026-09-20T11:47:22.222Z",
+      "created_at": "2026-09-20T18:14:45.861Z",
+      "updated_at": "2026-09-20T18:14:45.861Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -845,7 +845,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Confined Space Atmospheric Testing Lapse precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Gas separator skid emergency exhaust valve was discovered jammed at 40% travel. Lower level confined space entry was underway 12 meters downwind without portabl...",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.861Z"
         }
       ],
       "centroid_vector": [
@@ -978,10 +978,10 @@
         0.10102423351719439,
         0.13478227907190446
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.861Z",
+      "updated_at": "2026-09-20T18:14:45.861Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1123,7 +1123,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Confined Space Atmospheric Testing Lapse precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Gas separator skid emergency exhaust valve was discovered jammed at 40% travel. Lower level confined space entry was underway 12 meters downwind without portabl...",
-          "created_at": "2026-09-20T11:47:22.222Z"
+          "created_at": "2026-09-20T18:14:45.861Z"
         }
       ],
       "centroid_vector": [
@@ -1256,10 +1256,10 @@
         0.10102423351719439,
         0.13478227907190446
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.861Z",
+      "updated_at": "2026-09-20T18:14:45.861Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1410,7 +1410,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolders working at elevation (8.5 meters) unclipped dual lanyard safety harnesses simultaneously while traversing across tank roof catwalk without a static ...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-working-at-height-fall-protection-disconnect-3",
@@ -1430,7 +1430,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolding tie-off compromised during structural platform modification at elevation....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -1563,10 +1563,10 @@
         0.09448083457484738,
         0.0708429716185473
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1717,7 +1717,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolders working at elevation (8.5 meters) unclipped dual lanyard safety harnesses simultaneously while traversing across tank roof catwalk without a static ...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-working-at-height-fall-protection-disconnect-3",
@@ -1737,7 +1737,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolding tie-off compromised during structural platform modification at elevation....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -1870,10 +1870,10 @@
         0.09448083457484738,
         0.0708429716185473
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2024,7 +2024,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "During dual-crane tandem lift of 12-ton drill collar basket, the secondary synthetic webbing sling sustained a severe tear upon contact with unpadded sharp stru...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-line-of-fire-suspended-load-exposure-4",
@@ -2044,7 +2044,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Worker stood below suspended load....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -2177,10 +2177,10 @@
         0.12055736671510969,
         0.10625771468281246
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2331,7 +2331,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "During dual-crane tandem lift of 12-ton drill collar basket, the secondary synthetic webbing sling sustained a severe tear upon contact with unpadded sharp stru...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-line-of-fire-suspended-load-exposure-4",
@@ -2351,7 +2351,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Worker stood below suspended load....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -2484,10 +2484,10 @@
         0.12055736671510969,
         0.10625771468281246
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2614,7 +2614,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Workshop assistant utilized handheld angle grinder without wearing prescribed leather wrist gauntlets and protective eye shield while deburring standard structu...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-unspecified-safety-deficiency-5",
@@ -2634,7 +2634,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Office paperwork mismatch and contractor access badge form typographical error....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -2767,10 +2767,10 @@
         0.06982018556518939,
         0.026853917525072837
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2897,7 +2897,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Workshop assistant utilized handheld angle grinder without wearing prescribed leather wrist gauntlets and protective eye shield while deburring standard structu...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         },
         {
           "pattern_id": "pat-unspecified-safety-deficiency-5",
@@ -2917,7 +2917,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Office paperwork mismatch and contractor access badge form typographical error....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.862Z"
         }
       ],
       "centroid_vector": [
@@ -3050,10 +3050,10 @@
         0.06982018556518939,
         0.026853917525072837
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.862Z",
+      "updated_at": "2026-09-20T18:14:45.862Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -3243,7 +3243,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Main motor control switchgear panel breaker #3 padlock had been clipped with bolt cutters without LOTO clearance log entries, while maintenance crew was perform...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3263,7 +3263,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance on primary mud pump #2, equipment remained energized while electrical technician was exposed to live machinery terminals inside drive cabinet...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3283,7 +3283,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Substation transformer scheduled maintenance proceeded while feeder breaker remained live; mechanical technician was exposed to energized busbar enclosure....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3303,7 +3303,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Emergency shutdown valve actuator overhaul was undertaken without positive physical energy isolation; instrument technician exposed to pressurized hydraulic con...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3323,7 +3323,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Compressor cylinder valve maintenance continued while suction piping remained under residual fuel gas pressure; crew exposed to hazardous energy release....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3343,7 +3343,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance, worker was exposed to energized machinery....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3363,7 +3363,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Maintenance continued while equipment remained live....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3383,7 +3383,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Electrical isolation interlock switch malfunction on mud agitator panel....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         }
       ],
       "centroid_vector": [
@@ -3516,10 +3516,10 @@
         0.04143090333226862,
         0.0676327604720752
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.863Z",
+      "updated_at": "2026-09-20T18:14:45.863Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -3709,7 +3709,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Main motor control switchgear panel breaker #3 padlock had been clipped with bolt cutters without LOTO clearance log entries, while maintenance crew was perform...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3729,7 +3729,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance on primary mud pump #2, equipment remained energized while electrical technician was exposed to live machinery terminals inside drive cabinet...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3749,7 +3749,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Substation transformer scheduled maintenance proceeded while feeder breaker remained live; mechanical technician was exposed to energized busbar enclosure....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3769,7 +3769,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Emergency shutdown valve actuator overhaul was undertaken without positive physical energy isolation; instrument technician exposed to pressurized hydraulic con...",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3789,7 +3789,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Compressor cylinder valve maintenance continued while suction piping remained under residual fuel gas pressure; crew exposed to hazardous energy release....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3809,7 +3809,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance, worker was exposed to energized machinery....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3829,7 +3829,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Maintenance continued while equipment remained live....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3849,7 +3849,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Electrical isolation interlock switch malfunction on mud agitator panel....",
-          "created_at": "2026-09-20T11:47:22.223Z"
+          "created_at": "2026-09-20T18:14:45.863Z"
         }
       ],
       "centroid_vector": [
@@ -3982,15 +3982,395 @@
         0.04143090333226862,
         0.0676327604720752
       ],
-      "discovery_run_id": "run-w5fetb2",
+      "discovery_run_id": "run-yr1ubyr",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T11:47:22.223Z",
-      "updated_at": "2026-09-20T11:47:22.223Z",
+      "created_at": "2026-09-20T18:14:45.863Z",
+      "updated_at": "2026-09-20T18:14:45.863Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     }
   ],
   "discovery_runs": [
     {
+      "run_id": "run-yr1ubyr",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:14:45.857Z",
+      "end_time": "2026-09-20T18:14:45.864Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-yr1ubyr",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:14:45.857Z",
+      "end_time": "2026-09-20T18:14:45.864Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-j37mwcx",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:08:41.918Z",
+      "end_time": "2026-09-20T18:08:41.924Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-j37mwcx",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:08:41.918Z",
+      "end_time": "2026-09-20T18:08:41.924Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-zj0mb2v",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:04:34.383Z",
+      "end_time": "2026-09-20T18:04:34.390Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-zj0mb2v",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:04:34.383Z",
+      "end_time": "2026-09-20T18:04:34.390Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-t6jq6c9",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:02:49.605Z",
+      "end_time": "2026-09-20T18:02:49.611Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-t6jq6c9",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:02:49.605Z",
+      "end_time": "2026-09-20T18:02:49.611Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-7n30coa",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:02:32.926Z",
+      "end_time": "2026-09-20T18:02:32.932Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-7n30coa",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:02:32.926Z",
+      "end_time": "2026-09-20T18:02:32.932Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-8y5vu0r",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:01:05.655Z",
+      "end_time": "2026-09-20T18:01:05.661Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-8y5vu0r",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T18:01:05.655Z",
+      "end_time": "2026-09-20T18:01:05.661Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-2lu7bf4",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:52:36.376Z",
+      "end_time": "2026-09-20T17:52:36.382Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-2lu7bf4",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:52:36.376Z",
+      "end_time": "2026-09-20T17:52:36.382Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-wo2mh2a",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:52:29.438Z",
+      "end_time": "2026-09-20T17:52:29.445Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-wo2mh2a",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:52:29.438Z",
+      "end_time": "2026-09-20T17:52:29.445Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 7
+    },
+    {
+      "run_id": "run-i910uye",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:51:45.788Z",
+      "end_time": "2026-09-20T17:51:45.837Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 49
+    },
+    {
+      "run_id": "run-i910uye",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:51:45.788Z",
+      "end_time": "2026-09-20T17:51:45.837Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 49
+    },
+    {
+      "run_id": "run-qmard4r",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:51:42.709Z",
+      "end_time": "2026-09-20T17:51:42.715Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
+      "run_id": "run-qmard4r",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T17:51:42.709Z",
+      "end_time": "2026-09-20T17:51:42.715Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 36,
+      "eligible_reports_count": 18,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 6
+    },
+    {
       "run_id": "run-w5fetb2",
       "organization_id": "oil-india-demo",
       "start_time": "2026-09-20T11:47:22.219Z",
@@ -4559,386 +4939,6 @@
       "patterns_discovered": 6,
       "status": "COMPLETED",
       "duration_ms": 10
-    },
-    {
-      "run_id": "run-bw1wxbu",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:12:41.984Z",
-      "end_time": "2026-09-20T11:12:41.991Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-bw1wxbu",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:12:41.984Z",
-      "end_time": "2026-09-20T11:12:41.991Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-rcyhfn2",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:10:32.805Z",
-      "end_time": "2026-09-20T11:10:32.812Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-rcyhfn2",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:10:32.805Z",
-      "end_time": "2026-09-20T11:10:32.812Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-rbk39me",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:09:20.605Z",
-      "end_time": "2026-09-20T11:09:20.611Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-rbk39me",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:09:20.605Z",
-      "end_time": "2026-09-20T11:09:20.611Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-kers14c",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:52.073Z",
-      "end_time": "2026-09-20T11:08:52.080Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-kers14c",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:52.073Z",
-      "end_time": "2026-09-20T11:08:52.080Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 7
-    },
-    {
-      "run_id": "run-pih3qtz",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:35.390Z",
-      "end_time": "2026-09-20T11:08:35.403Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 13
-    },
-    {
-      "run_id": "run-pih3qtz",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:35.390Z",
-      "end_time": "2026-09-20T11:08:35.403Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 13
-    },
-    {
-      "run_id": "run-ocscbfy",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:12.450Z",
-      "end_time": "2026-09-20T11:08:12.458Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 8
-    },
-    {
-      "run_id": "run-ocscbfy",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:08:12.450Z",
-      "end_time": "2026-09-20T11:08:12.458Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 8
-    },
-    {
-      "run_id": "run-zosejg2",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:07:18.976Z",
-      "end_time": "2026-09-20T11:07:18.982Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-zosejg2",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:07:18.976Z",
-      "end_time": "2026-09-20T11:07:18.982Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-3xwcfc0",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:07:03.780Z",
-      "end_time": "2026-09-20T11:07:03.794Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 14
-    },
-    {
-      "run_id": "run-3xwcfc0",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:07:03.780Z",
-      "end_time": "2026-09-20T11:07:03.794Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 14
-    },
-    {
-      "run_id": "run-l2qjka4",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:06:50.787Z",
-      "end_time": "2026-09-20T11:06:50.793Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-l2qjka4",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:06:50.787Z",
-      "end_time": "2026-09-20T11:06:50.793Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 6
-    },
-    {
-      "run_id": "run-lwryp2m",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:06:35.662Z",
-      "end_time": "2026-09-20T11:06:35.675Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 13
-    },
-    {
-      "run_id": "run-lwryp2m",
-      "organization_id": "oil-india-demo",
-      "start_time": "2026-09-20T11:06:35.662Z",
-      "end_time": "2026-09-20T11:06:35.675Z",
-      "algorithm_version": "PATTERN_DISCOVERY_V1",
-      "configuration": {
-        "min_support": 3,
-        "min_unique_dates": 2,
-        "semantic_similarity_threshold": 0.65,
-        "time_window_preset": "all",
-        "algorithm_version": "PATTERN_DISCOVERY_V1"
-      },
-      "input_reports_count": 28,
-      "eligible_reports_count": 14,
-      "patterns_discovered": 6,
-      "status": "COMPLETED",
-      "duration_ms": 13
     }
   ]
 }

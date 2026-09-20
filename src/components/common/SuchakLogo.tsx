@@ -20,6 +20,8 @@ export const SuchakLogo: React.FC<SuchakLogoProps> = ({
   className = '',
   showSubtitle = false,
 }) => {
+  const [imgError, setImgError] = React.useState(false);
+
   // Height sizing
   const heightMap = {
     sm: 'h-8',
@@ -32,6 +34,24 @@ export const SuchakLogo: React.FC<SuchakLogoProps> = ({
     md: 40,
     lg: 48,
   }[size];
+
+  // Render supplied official SUCHAK logo image for full brand header
+  if (!imgError && variant === 'full') {
+    return (
+      <div
+        className={`inline-flex items-center select-none ${className}`}
+        role="img"
+        aria-label="SUCHAK HSE Intelligence"
+      >
+        <img
+          src="/suchak-logo.jpg"
+          alt="SUCHAK HSE Intelligence"
+          className={`${heightMap[size]} max-w-[180px] w-auto object-contain rounded-xs`}
+          onError={() => setImgError(true)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div

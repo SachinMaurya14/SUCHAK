@@ -190,7 +190,7 @@ export const AdminSecurityPage: React.FC = () => {
                     Security & Operations Command Center
                   </h1>
                   <Badge variant="outline" size="sm" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 font-mono text-[11px]">
-                    PHASE 14 COMPLIANT
+                    ENTERPRISE SECURITY ACTIVE
                   </Badge>
                 </div>
                 <p className="text-xs text-slate-400">

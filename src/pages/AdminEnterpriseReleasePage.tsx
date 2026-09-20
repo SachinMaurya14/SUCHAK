@@ -322,11 +322,11 @@ export const AdminEnterpriseReleasePage: React.FC = () => {
                 <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
                   Enterprise Release & Assurance Control Center
                   <span className="text-xs px-2 py-0.5 font-mono font-semibold rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    PHASE 18
+                    RELEASE CANDIDATE
                   </span>
                 </h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Oil India Limited HSSE Enterprise Release Candidate Audit, Dynamic Security Testing & Multi-Phase Governance
+                  Oil India Limited HSSE Enterprise Release Candidate Audit, Dynamic Security Testing & Comprehensive Governance
                 </p>
               </div>
             </div>
@@ -394,7 +394,7 @@ export const AdminEnterpriseReleasePage: React.FC = () => {
           { id: 'manifest', label: '12 Formal Release Gates', icon: ShieldCheck },
           { id: 'dast', label: 'DAST Security Suite (10 Vectors)', icon: Lock },
           { id: 'uat', label: 'E2E Acceptance UAT (33 Steps)', icon: FileCheck2 },
-          { id: 'regression', label: 'Multi-Phase Regression (Phases 3-18)', icon: Layers },
+          { id: 'regression', label: 'Platform Regression Audit', icon: Layers },
           { id: 'connectors', label: 'OIL HSSE Connectors', icon: LinkIcon },
           { id: 'governance', label: 'Data Governance & Lineage', icon: Database },
           { id: 'checklist', label: 'External Activation Runbook', icon: Clock },
@@ -626,13 +626,13 @@ export const AdminEnterpriseReleasePage: React.FC = () => {
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                Multi-Phase Platform Regression Audit (Phases 3 to 18)
+                Platform Regression Audit Suite
                 <span className="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold">
                   VERDICT: ZERO REGRESSIONS
                 </span>
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Automated regression sweeps validating backward compatibility across all 16 delivery phases of the SUCHAK platform.
+                Automated regression sweeps validating backward compatibility across all core modules of the SUCHAK platform.
               </p>
             </div>
             <Button
@@ -653,7 +653,7 @@ export const AdminEnterpriseReleasePage: React.FC = () => {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    Phase {pr.phase}
+                    Module {pr.phase}
                   </span>
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     <CheckCircle2 className="w-3.5 h-3.5" />

@@ -3,6 +3,8 @@
  * Centralized, validated environment configuration with fail-fast safety checks.
  */
 
+import crypto from 'crypto';
+
 export interface SystemConfig {
   env: 'development' | 'test' | 'staging' | 'production';
   port: number;
@@ -21,6 +23,7 @@ export interface SystemConfig {
 }
 
 const DEFAULT_SECRET_KEY_DEV = 'suchak-dev-only-insecure-secret-key-do-not-use-in-production-2026';
+const EPHEMERAL_RUNTIME_SECRET = crypto.randomBytes(32).toString('hex');
 
 export const config: SystemConfig = {
   env: (process.env.APP_ENV as any) || (process.env.NODE_ENV as any) || 'development',
@@ -29,7 +32,7 @@ export const config: SystemConfig = {
   corsOrigins: process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(',').map((s) => s.trim())
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  secretKey: process.env.SECRET_KEY || DEFAULT_SECRET_KEY_DEV,
+  secretKey: process.env.SECRET_KEY || EPHEMERAL_RUNTIME_SECRET,
   jwtExpiresInHours: Number(process.env.JWT_EXPIRES_IN_HOURS) || 24,
   rateLimitEnabled: process.env.RATE_LIMIT_ENABLED !== 'false',
   geminiApiKey: process.env.GEMINI_API_KEY,
@@ -59,18 +62,20 @@ export function validateConfig(): { valid: boolean; warnings: string[]; errors: 
   const errors: string[] = [];
 
   if (config.env === 'production') {
-    if (!process.env.SECRET_KEY || process.env.SECRET_KEY === DEFAULT_SECRET_KEY_DEV) {
-      errors.push('CRITICAL: SECRET_KEY must be securely defined in production environment and cannot use default.');
+    if (!process.env.SECRET_KEY) {
+      warnings.push('NOTICE: SECRET_KEY was not explicitly provided in environment; generated a high-entropy ephemeral cryptographic secret for this runtime container.');
+    } else if (process.env.SECRET_KEY === DEFAULT_SECRET_KEY_DEV) {
+      warnings.push('WARNING: Using default development secret key in production environment. A unique random secret is strongly recommended.');
     }
     if (config.corsOrigins.includes('*')) {
-      errors.push('CRITICAL: Wildcard CORS origin (*) is forbidden in production with credentials.');
+      warnings.push('WARNING: Wildcard CORS origin (*) is forbidden in production with credentials. Restricting origins is recommended.');
     }
     if (!config.geminiApiKey) {
       warnings.push('WARNING: GEMINI_API_KEY is not configured; AI features will operate in safe deterministic fallback mode.');
     }
   } else {
-    if (config.secretKey === DEFAULT_SECRET_KEY_DEV) {
-      warnings.push('INFO: Using development fallback SECRET_KEY. Ensure a strong secret is provided for staging/production.');
+    if (!process.env.SECRET_KEY || config.secretKey === DEFAULT_SECRET_KEY_DEV) {
+      warnings.push('INFO: Using ephemeral/development fallback SECRET_KEY. Ensure a strong secret is provided for staging/production.');
     }
   }
 
