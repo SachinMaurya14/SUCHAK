@@ -157,8 +157,8 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
       {/* Page Header */}
       <PageHeader
         title="Recurring Precursor Patterns"
-        subtitle="Phase 8 Precursor Pattern Discovery & Systemic Safety Barrier Intelligence across field operations."
-        badge={<Badge variant="primary" size="sm">Phase 8 Pattern Engine</Badge>}
+        subtitle="Precursor Pattern Discovery & Systemic Safety Barrier Intelligence across field operations."
+        badge={<Badge variant="primary" size="sm">Pattern Discovery Engine</Badge>}
         actions={
           <div className="flex items-center gap-2 flex-wrap">
             <Button
@@ -195,7 +195,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
         <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div className="space-y-1 leading-relaxed">
           <span className="font-semibold block text-primary">
-            Phase 8 Methodology Notice: Pattern Discovery ≠ SIF Risk Prioritization ≠ Similarity Search
+            Methodology Notice: Precursor Pattern Discovery ≠ SIF Risk Prioritization ≠ Similarity Search
           </span>
           <p className="text-muted-foreground text-[11px]">
             Pattern discovery identifies <strong>multi-observation systemic precursor patterns</strong> supported by multiple field reports over time.

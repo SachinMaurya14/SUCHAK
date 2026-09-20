@@ -63,7 +63,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Executive Safety Intelligence Dashboard"
         subtitle="Operational overview of SIF precursors, IOGP safety rule mapping, and multi-site risk prioritization."
-        badge={<Badge variant="primary" size="sm">Phase 1 Foundation</Badge>}
+        badge={<Badge variant="primary" size="sm">Operational Intelligence</Badge>}
         actions={
           <div className="flex items-center gap-2">
             <Button
@@ -84,12 +84,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
         }
       />
 
-      {/* Phase 1 Integrity Boundary Banner */}
+      {/* Dataset & Integrity Boundary Banner */}
       <div className="p-3.5 rounded-xl border border-primary/20 bg-primary/5 flex items-start gap-3 text-xs text-muted-foreground">
         <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div>
-          <span className="font-semibold text-foreground">Phase 1 Architecture Foundation Shell:</span>{' '}
-          All baseline telemetry and reports displayed in this shell are structured static mock data for interface validation. Full AI/NLP SIF classification and live database connectivity will be activated in Phase 2+. No live OIL network integration is implied.
+          <span className="font-semibold text-foreground">Demonstration Dataset & Offline Operational Mode:</span>{' '}
+          All baseline telemetry and incident reports currently displayed are structured sample records for system validation and demonstration. Real-time enterprise feeds require connected API endpoints and valid enterprise credentials.
         </div>
       </div>
 

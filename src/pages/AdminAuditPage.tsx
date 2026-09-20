@@ -23,7 +23,7 @@ export const AdminAuditPage: React.FC<AdminAuditPageProps> = ({ onNavigate }) =>
       <PageHeader
         title="Security & System Audit Logs"
         subtitle="Immutable compliance audit log for HSE actions, security policies, and permission changes."
-        badge={<Badge variant="primary" size="sm">Phase 1 Security Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Audit Log</Badge>}
         actions={
           <Button variant="outline" size="sm" icon={<Download className="w-3.5 h-3.5" />}>
             Export Audit Trail

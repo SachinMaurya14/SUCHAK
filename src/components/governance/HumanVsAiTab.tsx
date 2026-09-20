@@ -25,7 +25,7 @@ export const HumanVsAiTab: React.FC<HumanVsAiTabProps> = ({ summary, onNavigateT
           <div className="text-2xl font-bold font-mono text-foreground mt-1">
             {summary.total_reviewed_reports}
           </div>
-          <div className="text-[11px] text-muted-foreground mt-0.5">Phase 9 HITL reviews</div>
+          <div className="text-[11px] text-muted-foreground mt-0.5">Certified HITL reviews</div>
         </div>
 
         <div className="p-4 rounded-xl border border-border-subtle bg-surface">

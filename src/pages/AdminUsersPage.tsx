@@ -23,7 +23,7 @@ export const AdminUsersPage: React.FC<AdminUsersPageProps> = ({ onNavigate }) =>
       <PageHeader
         title="Users & Access Control (RBAC)"
         subtitle="Manage organizational users, role privileges, and site authorization assignments."
-        badge={<Badge variant="primary" size="sm">Phase 1 Admin Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Access Control</Badge>}
         actions={
           <Button
             variant="primary"

@@ -22,7 +22,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Platform Preferences"
         subtitle="Configure individual display preferences, alert thresholds, and system notifications."
-        badge={<Badge variant="primary" size="sm">Phase 1 Settings</Badge>}
+        badge={<Badge variant="primary" size="sm">User Preferences</Badge>}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

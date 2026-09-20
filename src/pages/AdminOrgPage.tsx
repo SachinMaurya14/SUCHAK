@@ -16,7 +16,7 @@ export const AdminOrgPage: React.FC<AdminOrgPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Organization Settings"
         subtitle="Manage enterprise tenant profile, safety reporting standards, and compliance presets."
-        badge={<Badge variant="primary" size="sm">Phase 1 Admin Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Organization Hierarchy</Badge>}
       />
 
       <Card>

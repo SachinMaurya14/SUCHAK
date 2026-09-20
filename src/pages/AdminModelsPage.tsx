@@ -219,7 +219,7 @@ export const AdminModelsPage: React.FC<AdminModelsPageProps> = ({ onNavigate }) 
         <PageHeader
           title="AI Evaluation, Quality & Safety Governance"
           subtitle="Model registry, authoritative golden benchmarks, quality gates, and false-negative safety auditing."
-          badge={<Badge variant="primary" size="sm">Phase 13 Governance Core</Badge>}
+          badge={<Badge variant="primary" size="sm">Model Governance Core</Badge>}
         />
         <div className="flex flex-wrap items-center gap-2">
           <button
@@ -360,7 +360,7 @@ export const AdminModelsPage: React.FC<AdminModelsPageProps> = ({ onNavigate }) 
                   Validated without manual override across real reports.
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  HSE experts review and adjust SIF classifications, precursors, and barrier degradation in Phase 9.
+                  Certified HSE experts review and adjust SIF classifications, precursors, and barrier degradation in the Human Review Queue.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between text-xs">
@@ -854,7 +854,7 @@ export const AdminModelsPage: React.FC<AdminModelsPageProps> = ({ onNavigate }) 
           <div>
             <h3 className="text-sm font-bold text-foreground">Human-in-the-Loop (HITL) vs AI Comparison</h3>
             <p className="text-xs text-muted-foreground">
-              Live telemetry comparing AI initial classifications against Phase 9 certified HSE reviewer decisions.
+              Live telemetry comparing AI initial classifications against certified Human HSE reviewer decisions.
             </p>
           </div>
 

@@ -245,11 +245,15 @@ export class ReviewStore {
 
     // 1. Status Filter
     if (options.status && options.status !== 'ALL') {
-      if (options.status === 'PENDING_ACTIONS') {
+      if (options.status === 'PENDING_ACTIONS' || options.status === 'PENDING_ALL') {
         list = list.filter((r) =>
           ['QUEUED', 'ASSIGNED', 'IN_REVIEW', 'NEEDS_MORE_REVIEW', 'STALE', 'RE_REVIEW_REQUIRED'].includes(
             r.status
           )
+        );
+      } else if (options.status === 'COMPLETED') {
+        list = list.filter((r) =>
+          ['REVIEW_CONFIRMED', 'REVIEW_CORRECTED', 'REVIEW_REJECTED'].includes(r.status)
         );
       } else {
         list = list.filter((r) => r.status === options.status);

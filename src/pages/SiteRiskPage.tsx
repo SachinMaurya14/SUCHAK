@@ -36,8 +36,8 @@ export const SiteRiskPage: React.FC<SiteRiskPageProps> = ({ onNavigate }) => {
     <div className="space-y-6 animate-in fade-in duration-150">
       <PageHeader
         title="Site SIF Precursor Prioritization"
-        subtitle="Comparative precursor concentration and operational site risk indexing (Phase 6 Foundation)."
-        badge={<Badge variant="primary" size="sm">Phase 6 Active Policy v1.0</Badge>}
+        subtitle="Comparative precursor concentration and operational site risk indexing across operating assets."
+        badge={<Badge variant="primary" size="sm">Active Policy v1.0</Badge>}
         actions={
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 bg-surface border border-border rounded-lg p-1 text-xs">

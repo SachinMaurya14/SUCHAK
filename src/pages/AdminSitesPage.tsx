@@ -23,7 +23,7 @@ export const AdminSitesPage: React.FC<AdminSitesPageProps> = ({ onNavigate }) =>
       <PageHeader
         title="Sites & Assets Configuration"
         subtitle="Operational sites, drilling rigs, gathering stations, and pipeline networks."
-        badge={<Badge variant="primary" size="sm">Phase 1 Admin Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Asset Operations</Badge>}
         actions={
           <Button variant="primary" size="sm" icon={<Plus className="w-3.5 h-3.5" />}>
             Add Operational Asset

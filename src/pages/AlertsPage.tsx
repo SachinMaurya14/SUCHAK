@@ -126,7 +126,7 @@ export const AlertsPage: React.FC<AlertsPageProps> = ({ onNavigate }) => {
     <div className="space-y-6 animate-in fade-in duration-150">
       {/* Page Header */}
       <PageHeader
-        title="Phase 11: Alerts & Escalation Center"
+        title="Alerts & Escalation Center"
         subtitle="Operational workflow notifications, escalation policies, and audit trails across safety domains."
         badge={
           metrics?.unread_count ? (
@@ -183,7 +183,7 @@ export const AlertsPage: React.FC<AlertsPageProps> = ({ onNavigate }) => {
           </div>
           <p className="text-muted-foreground">
             <strong>SIF Classification ≠ Risk Priority ≠ Pattern Strength ≠ Alert Severity ≠ Safety Outcome.</strong>{' '}
-            Alerts in Phase 11 function strictly as informational/workflow signals to notify authorized users and guide operational remediation. They do not mutate underlying incident classifications, risk scores, or action barrier ratings.
+            Safety alerts function strictly as informational/workflow signals to notify authorized users and guide operational remediation. They do not mutate underlying incident classifications, risk scores, or action barrier ratings.
           </p>
         </div>
       </div>

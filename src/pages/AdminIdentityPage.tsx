@@ -42,6 +42,7 @@ import {
   ComplianceControlItem,
   IdentityTelemetry,
 } from '../services/identityService.ts';
+import { authService } from '../services/authService.ts';
 
 export const AdminIdentityPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -113,6 +114,7 @@ export const AdminIdentityPage: React.FC = () => {
 
   // Status message
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState(() => authService.getCurrentUser());
 
   useEffect(() => {
     loadAllData();
@@ -120,8 +122,9 @@ export const AdminIdentityPage: React.FC = () => {
 
   const loadAllData = async () => {
     setLoading(true);
+    setStatusMessage(null);
     try {
-      const [provList, mapList, linkList, govReport, compMatrix, telem] = await Promise.all([
+      const results = await Promise.allSettled([
         clientIdentityService.getAdminProviders(),
         clientIdentityService.getGroupMappings(),
         clientIdentityService.getIdentityLinks(),
@@ -130,12 +133,32 @@ export const AdminIdentityPage: React.FC = () => {
         clientIdentityService.getTelemetry(),
       ]);
 
-      setProviders(provList);
-      setMappings(mapList);
-      setLinks(linkList);
-      setGovernance(govReport);
-      setComplianceMatrix(compMatrix);
-      setTelemetry(telem);
+      if (results[0].status === 'fulfilled') {
+        setProviders(results[0].value || []);
+      }
+      if (results[1].status === 'fulfilled') {
+        setMappings(results[1].value || []);
+      }
+      if (results[2].status === 'fulfilled') {
+        setLinks(results[2].value || []);
+      }
+      if (results[3].status === 'fulfilled') {
+        setGovernance(results[3].value);
+      }
+      if (results[4].status === 'fulfilled') {
+        setComplianceMatrix(results[4].value || []);
+      }
+      if (results[5].status === 'fulfilled') {
+        setTelemetry(results[5].value);
+      }
+
+      const allRejected = results.every((r) => r.status === 'rejected');
+      if (allRejected) {
+        setStatusMessage({
+          type: 'error',
+          text: 'Administrative authorization (OrgAdmin role) is required to access federated identity endpoints.',
+        });
+      }
     } catch (err: any) {
       console.error('Error loading identity data:', err);
       setStatusMessage({ type: 'error', text: err.message || 'Failed to load identity configurations.' });
@@ -325,7 +348,7 @@ export const AdminIdentityPage: React.FC = () => {
               Enterprise Identity & Access Governance
             </h1>
             <Badge variant="outline" className="text-xs bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800">
-              Phase 17
+              Enterprise IAM
             </Badge>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
@@ -356,6 +379,29 @@ export const AdminIdentityPage: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      {/* Role State Banner */}
+      {currentUser.role !== 'OrgAdmin' && (
+        <div className="p-3.5 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/80 dark:bg-amber-950/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2.5">
+            <Shield className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span className="text-amber-900 dark:text-amber-200">
+              Viewing as <strong className="font-semibold">{currentUser.role}</strong> ({currentUser.name}). Enterprise identity federation requires the <strong className="font-semibold">OrgAdmin</strong> role to manage directories.
+            </span>
+          </div>
+          <Button
+            size="sm"
+            onClick={async () => {
+              await authService.switchPreviewRole('OrgAdmin');
+              setCurrentUser(authService.getCurrentUser());
+              loadAllData();
+            }}
+            className="shrink-0 bg-amber-600 hover:bg-amber-700 text-white text-xs h-7 px-3 font-semibold"
+          >
+            Elevate to OrgAdmin
+          </Button>
+        </div>
+      )}
 
       {/* Architectural Separation Callout Banner */}
       <div className="p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-gradient-to-r from-indigo-50/70 via-slate-50 to-sky-50/70 dark:from-indigo-950/30 dark:via-slate-900/30 dark:to-sky-950/30 space-y-2">
@@ -556,99 +602,123 @@ export const AdminIdentityPage: React.FC = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            {providers.map((p) => {
-              const isActive = p.status === 'ACTIVE';
-              return (
-                <Card key={p.id} className="overflow-hidden border border-slate-200 dark:border-slate-800">
-                  <div className="p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                    <div className="space-y-2 max-w-2xl">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-bold text-base text-slate-900 dark:text-white">
-                          {p.display_name}
-                        </span>
-                        <Badge
-                          variant={isActive ? 'default' : 'outline'}
-                          className={
-                            isActive
-                              ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                              : 'text-slate-500 dark:text-slate-400'
-                          }
-                        >
-                          {p.status}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {p.provider_type}
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className="text-xs bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
-                        >
-                          Policy: {p.sso_policy}
-                        </Badge>
-                      </div>
-
-                      <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-                        <div>
-                          <span className="font-semibold text-slate-700 dark:text-slate-200">Organization Tenant:</span>{' '}
-                          {p.organization_name} <code className="text-[11px] px-1 bg-slate-100 dark:bg-slate-800 rounded">({p.organization_id})</code>
-                        </div>
-                        <div>
-                          <span className="font-semibold text-slate-700 dark:text-slate-200">Issuer URI:</span>{' '}
-                          <code className="text-[11px] break-all">{p.issuer}</code>
-                        </div>
-                        <div>
-                          <span className="font-semibold text-slate-700 dark:text-slate-200">Client ID:</span>{' '}
-                          <code className="text-[11px]">{p.client_id}</code>
-                          <span className="ml-3 font-semibold text-slate-700 dark:text-slate-200">Vault Secret:</span>{' '}
-                          <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">
-                            [ENCRYPTED VAULT REF CONFIGURED]
+          {providers.length === 0 ? (
+            <Card className="p-8 text-center border-dashed border-slate-300 dark:border-slate-800">
+              <div className="flex flex-col items-center max-w-md mx-auto space-y-3">
+                <div className="p-3 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                  No Identity Providers Configured
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Enterprise federated single sign-on (OIDC or SAML 2.0) has not been activated for this tenant. Register Microsoft Entra ID (Azure AD), Okta, or generic SAML to enable enterprise SSO.
+                </p>
+                <Button
+                  size="sm"
+                  onClick={() => setShowAddProviderModal(true)}
+                  className="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  Configure First Provider
+                </Button>
+              </div>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {providers.map((p) => {
+                const isActive = p.status === 'ACTIVE';
+                return (
+                  <Card key={p.id} className="overflow-hidden border border-slate-200 dark:border-slate-800">
+                    <div className="p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                      <div className="space-y-2 max-w-2xl">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-bold text-base text-slate-900 dark:text-white">
+                            {p.display_name}
                           </span>
+                          <Badge
+                            variant={isActive ? 'default' : 'outline'}
+                            className={
+                              isActive
+                                ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                                : 'text-slate-500 dark:text-slate-400'
+                            }
+                          >
+                            {p.status}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {p.provider_type}
+                          </Badge>
+                          <Badge
+                            variant="outline"
+                            className="text-xs bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                          >
+                            Policy: {p.sso_policy}
+                          </Badge>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2 pt-1">
-                          <span className="font-semibold text-slate-700 dark:text-slate-200">Allowed Domains:</span>
-                          {p.allowed_domains.map((d) => (
-                            <span
-                              key={d}
-                              className="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800"
-                            >
-                              @{d}
+
+                        <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
+                          <div>
+                            <span className="font-semibold text-slate-700 dark:text-slate-200">Organization Tenant:</span>{' '}
+                            {p.organization_name} <code className="text-[11px] px-1 bg-slate-100 dark:bg-slate-800 rounded">({p.organization_id})</code>
+                          </div>
+                          <div>
+                            <span className="font-semibold text-slate-700 dark:text-slate-200">Issuer URI:</span>{' '}
+                            <code className="text-[11px] break-all">{p.issuer}</code>
+                          </div>
+                          <div>
+                            <span className="font-semibold text-slate-700 dark:text-slate-200">Client ID:</span>{' '}
+                            <code className="text-[11px]">{p.client_id}</code>
+                            <span className="ml-3 font-semibold text-slate-700 dark:text-slate-200">Vault Secret:</span>{' '}
+                            <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">
+                              [ENCRYPTED VAULT REF CONFIGURED]
                             </span>
-                          ))}
-                          <span className="ml-2 font-semibold text-slate-700 dark:text-slate-200">PKCE:</span>{' '}
-                          <span>{p.enforce_pkce ? 'Enforced (S256)' : 'Disabled'}</span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2 pt-1">
+                            <span className="font-semibold text-slate-700 dark:text-slate-200">Allowed Domains:</span>
+                            {p.allowed_domains.map((d) => (
+                              <span
+                                key={d}
+                                className="text-[11px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800"
+                              >
+                                @{d}
+                              </span>
+                            ))}
+                            <span className="ml-2 font-semibold text-slate-700 dark:text-slate-200">PKCE:</span>{' '}
+                            <span>{p.enforce_pkce ? 'Enforced (S256)' : 'Disabled'}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-wrap items-center gap-2 lg:self-center">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleValidateProvider(p)}
-                        className="flex items-center gap-1.5 text-xs"
-                      >
-                        <Activity className="w-3.5 h-3.5 text-sky-600" />
-                        Run Diagnostics
-                      </Button>
+                      <div className="flex flex-wrap items-center gap-2 lg:self-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleValidateProvider(p)}
+                          className="flex items-center gap-1.5 text-xs"
+                        >
+                          <Activity className="w-3.5 h-3.5 text-sky-600" />
+                          Run Diagnostics
+                        </Button>
 
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleToggleProviderStatus(p)}
-                        className={`flex items-center gap-1.5 text-xs ${
-                          isActive ? 'text-amber-600 hover:text-amber-700' : 'text-emerald-600 hover:text-emerald-700'
-                        }`}
-                      >
-                        {isActive ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
-                        {isActive ? 'Disable Provider' : 'Activate Provider'}
-                      </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleToggleProviderStatus(p)}
+                          className={`flex items-center gap-1.5 text-xs ${
+                            isActive ? 'text-amber-600 hover:text-amber-700' : 'text-emerald-600 hover:text-emerald-700'
+                          }`}
+                        >
+                          {isActive ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+                          {isActive ? 'Disable Provider' : 'Activate Provider'}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
 
           {/* Diagnostic Modal Drawer */}
           {selectedProvider && (

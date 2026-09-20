@@ -467,7 +467,7 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">
-                    Phase 10: Systemic Preventive Actions (CAPA)
+                    Systemic Preventive Actions (CAPA)
                   </h3>
                   <p className="text-xs text-muted-foreground">
                     Remedial and barrier-strengthening actions addressing recurring precursor pattern {pattern.pattern_number}.

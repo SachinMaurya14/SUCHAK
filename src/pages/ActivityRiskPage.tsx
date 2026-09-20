@@ -36,8 +36,8 @@ export const ActivityRiskPage: React.FC<ActivityRiskPageProps> = ({ onNavigate }
     <div className="space-y-6 animate-in fade-in duration-150">
       <PageHeader
         title="Activity SIF Precursor Prioritization"
-        subtitle="Ranking operational tasks and maintenance activities by SIF precursor density (Phase 6 Foundation)."
-        badge={<Badge variant="primary" size="sm">Phase 6 Active Policy v1.0</Badge>}
+        subtitle="Ranking operational tasks and maintenance activities by SIF precursor density across assets."
+        badge={<Badge variant="primary" size="sm">Active Policy v1.0</Badge>}
         actions={
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 bg-surface border border-border rounded-lg p-1 text-xs">

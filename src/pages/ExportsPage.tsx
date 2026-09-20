@@ -21,7 +21,7 @@ export const ExportsPage: React.FC<ExportsPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Compliance & Export Reports"
         subtitle="Generate formatted executive briefs, audit dossiers, and tabular safety exports."
-        badge={<Badge variant="primary" size="sm">Phase 1 Export Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Export Center</Badge>}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -144,7 +144,7 @@ export const SemanticSearchPage: React.FC<SemanticSearchPageProps> = ({ onNaviga
   return (
     <div id="semantic-search-page" className="space-y-6 animate-in fade-in duration-200">
       <PageHeader
-        title="Phase 7: Vector Semantic Search & Similarity Engine"
+        title="Vector Semantic Search & Similarity Engine"
         subtitle="High-dimensional FAISS embedding retrieval across historical HSE incident repository"
         breadcrumbs={[{ label: 'Intelligence' }, { label: 'Vector Similarity' }]}
         badge={
@@ -227,51 +227,55 @@ export const SemanticSearchPage: React.FC<SemanticSearchPageProps> = ({ onNaviga
           </div>
 
           {/* Filters Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-border-subtle">
-            <div className="flex flex-wrap items-center gap-3 text-xs">
-              <div className="flex items-center gap-1.5 bg-surface-muted/60 px-3 py-1.5 rounded-lg border border-border">
-                <Sliders className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="text-muted-foreground font-medium">Top Results:</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-border-subtle">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs">
+              <div className="flex items-center gap-2 bg-surface-muted/60 px-3 py-2 rounded-lg border border-border">
+                <Sliders className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                <span className="text-muted-foreground font-medium whitespace-nowrap">Top Matches:</span>
                 <select
                   id="search-top-k"
                   value={topK}
                   onChange={(e) => setTopK(Number(e.target.value))}
-                  className="bg-transparent font-semibold text-foreground focus:outline-none cursor-pointer"
+                  className="bg-transparent font-semibold text-foreground focus:outline-none cursor-pointer pr-1"
                 >
-                  <option value={3}>3 matches</option>
-                  <option value={5}>5 matches</option>
-                  <option value={10}>10 matches</option>
-                  <option value={20}>20 matches</option>
+                  <option value={3} className="bg-surface text-foreground">3 records</option>
+                  <option value={5} className="bg-surface text-foreground">5 records</option>
+                  <option value={10} className="bg-surface text-foreground">10 records</option>
+                  <option value={20} className="bg-surface text-foreground">20 records</option>
                 </select>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-surface-muted/60 px-3 py-1.5 rounded-lg border border-border">
-                <span className="text-muted-foreground font-medium">Site Filter:</span>
+              <div className="flex items-center gap-2 bg-surface-muted/60 px-3 py-2 rounded-lg border border-border">
+                <Filter className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                <span className="text-muted-foreground font-medium whitespace-nowrap">Site Filter:</span>
                 <select
                   id="search-site-filter"
                   value={selectedSite}
                   onChange={(e) => setSelectedSite(e.target.value)}
-                  className="bg-transparent font-semibold text-foreground focus:outline-none cursor-pointer"
+                  className="bg-transparent font-semibold text-foreground focus:outline-none cursor-pointer pr-1"
                 >
-                  <option value="">All Sites</option>
-                  <option value="site-digboi">Digboi Central Asset</option>
-                  <option value="site-moran-02">Moran Rig B</option>
-                  <option value="site-naharkatiya-01">Naharkatiya Well</option>
-                  <option value="site-duliajan-ref">Duliajan Gas Plant</option>
+                  <option value="" className="bg-surface text-foreground">All Sites</option>
+                  <option value="site-digboi" className="bg-surface text-foreground">Digboi Central Asset</option>
+                  <option value="site-moran-02" className="bg-surface text-foreground">Moran Rig B</option>
+                  <option value="site-naharkatiya-01" className="bg-surface text-foreground">Naharkatiya Well</option>
+                  <option value="site-duliajan-ref" className="bg-surface text-foreground">Duliajan Gas Plant</option>
                 </select>
               </div>
             </div>
 
-            <Button
-              id="execute-semantic-search-btn"
-              variant="primary"
-              size="sm"
-              icon={<Sparkles className="w-3.5 h-3.5" />}
-              onClick={handleSearch}
-              disabled={isLoading || !query.trim()}
-            >
-              {isLoading ? 'Vector Searching...' : 'Run Semantic Search'}
-            </Button>
+            <div className="flex items-center sm:self-center">
+              <Button
+                id="execute-semantic-search-btn"
+                variant="primary"
+                size="md"
+                icon={<Sparkles className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />}
+                onClick={handleSearch}
+                disabled={isLoading || !query.trim()}
+                className="w-full sm:w-auto px-5 py-2 h-9 text-xs font-semibold justify-center shadow-sm"
+              >
+                {isLoading ? 'Vector Searching...' : 'Run Semantic Search'}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -484,7 +488,7 @@ export const SemanticSearchPage: React.FC<SemanticSearchPageProps> = ({ onNaviga
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
                 <Layers className="w-4 h-4 text-primary" />
-                <span>Phase 7 Architecture</span>
+                <span>Vector Retrieval Architecture</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-xs text-muted-foreground leading-relaxed">

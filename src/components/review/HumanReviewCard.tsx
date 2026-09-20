@@ -81,7 +81,7 @@ export const HumanReviewCard: React.FC<HumanReviewCardProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold tracking-tight text-foreground">
-                  Phase 9: Human HSE Review & Validation
+                  Human HSE Review & Validation
                 </h3>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-muted text-muted-foreground border border-border">
                   {reviewStatus?.review_version || 'REVIEW_V1'}

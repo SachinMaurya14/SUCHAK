@@ -1,7 +1,7 @@
 import { SafetyAnalysisResult } from './safetyEngine.ts';
-import {
+import { DEFAULT_RISK_POLICY } from './riskPolicy.ts';
+import type {
   RiskPolicy,
-  DEFAULT_RISK_POLICY,
   PriorityBand,
   FactorEvidenceStatus,
   EvidenceStrength,

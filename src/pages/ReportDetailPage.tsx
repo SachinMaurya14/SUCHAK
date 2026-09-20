@@ -234,10 +234,10 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
         onChange={setActiveTab}
         tabs={[
           { id: 'overview', label: 'Report Overview' },
-          { id: 'review', label: 'Human HSE Review', badge: 'Phase 9' },
-          { id: 'actions', label: 'HSE Action Center (CAPA)', badge: 'Phase 10' },
-          { id: 'risk', label: 'SIF Risk Prioritization', badge: 'Phase 6' },
-          { id: 'similar', label: 'Similar Reports', badge: 'Phase 7' },
+          { id: 'review', label: 'Human HSE Review' },
+          { id: 'actions', label: 'HSE Action Center (CAPA)' },
+          { id: 'risk', label: 'SIF Risk Prioritization' },
+          { id: 'similar', label: 'Similar Reports' },
           {
             id: 'analysis',
             label: 'Safety NLP Engine',

@@ -48,7 +48,7 @@ const ELIGIBILITY_REASON_LABELS: Record<string, string> = {
   NEEDS_REVIEW_CLASSIFICATION: 'Flagged Needs Review',
   IOGP_MAPPING_UNCERTAIN: 'IOGP Rule Uncertain',
   SAFETY_INTELLIGENCE_UNKNOWN: 'Taxonomy Ambiguity',
-  RISK_FLAGGED_FOR_REVIEW: 'High Risk Priority (Phase 6)',
+  RISK_FLAGGED_FOR_REVIEW: 'High Risk Priority',
   PATTERN_ASSOCIATION_UNCERTAIN: 'Recurring Pattern Check',
   MANUAL_REVIEW_REQUESTED: 'Manual HSE Triage',
   SOURCE_DATA_CHANGED: 'Underlying Report Edited',
@@ -113,7 +113,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({ onNavigate }) 
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Header */}
       <PageHeader
-        title="Phase 9: Human HSE Review & Verification Queue"
+        title="Human HSE Review & Verification Queue"
         subtitle="Operational human-in-the-loop validation: review AI-proposed SIF classifications, verify barrier controls, and authorize enterprise safety intelligence."
         badge={
           <Badge variant={summary && summary.pending > 0 ? 'warning' : 'success'} size="sm">
@@ -131,7 +131,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({ onNavigate }) 
               Refresh Queue
             </Button>
             <Button variant="outline" size="sm" onClick={() => onNavigate('/patterns')}>
-              Phase 8 Patterns
+              Safety Patterns
             </Button>
             <Button variant="primary" size="sm" onClick={() => onNavigate('/reports')}>
               All Incident Records
@@ -374,9 +374,9 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({ onNavigate }) 
               <TableHeaderCell>Asset / Site</TableHeaderCell>
               <TableHeaderCell>Precursor Narrative Excerpt</TableHeaderCell>
               <TableHeaderCell>Review Trigger Reasons</TableHeaderCell>
-              <TableHeaderCell>AI SIF (Phase 4)</TableHeaderCell>
-              <TableHeaderCell>Risk (Phase 6)</TableHeaderCell>
-              <TableHeaderCell>Pattern (Phase 8)</TableHeaderCell>
+              <TableHeaderCell>AI SIF Potential</TableHeaderCell>
+              <TableHeaderCell>Risk Priority</TableHeaderCell>
+              <TableHeaderCell>Associated Pattern</TableHeaderCell>
               <TableHeaderCell>Review Age</TableHeaderCell>
               <TableHeaderCell>Review Status</TableHeaderCell>
               <TableHeaderCell className="text-right">Action</TableHeaderCell>

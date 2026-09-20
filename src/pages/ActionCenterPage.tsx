@@ -180,10 +180,10 @@ export const ActionCenterPage: React.FC<ActionCenterPageProps> = ({
         <div>
           <div className="flex items-center gap-2.5">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              HSE Action Center (Phase 10 CAPA)
+              HSE Action Center (CAPA)
             </h1>
             <Badge variant="primary" size="sm">
-              Operational Phase 10
+              Operational CAPA
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground mt-1">
@@ -221,25 +221,25 @@ export const ActionCenterPage: React.FC<ActionCenterPageProps> = ({
           Pipeline Flow:
         </span>
         <div className="flex items-center gap-1.5 whitespace-nowrap text-[11px]">
-          <span className="text-muted-foreground">Report</span>
+          <span className="text-muted-foreground">Report Ingestion</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 4 SIF</span>
+          <span className="text-muted-foreground">SIF Classification</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 5 Intel</span>
+          <span className="text-muted-foreground">Safety Intel</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 6 Risk</span>
+          <span className="text-muted-foreground">Risk Scoring</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 7 Sim</span>
+          <span className="text-muted-foreground">Similarity Engine</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 8 Patterns</span>
+          <span className="text-muted-foreground">Precursor Patterns</span>
           <span>→</span>
-          <span className="text-muted-foreground">Phase 9 Human Review</span>
+          <span className="text-muted-foreground">Human Review</span>
           <span>→</span>
           <span className="font-bold text-primary px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
-            Phase 10 Action Center
+            CAPA Remediation
           </span>
           <span>→</span>
-          <span className="text-foreground font-medium">Create Action → Assign → In Progress → Completed → Verification → Closed</span>
+          <span className="text-foreground font-medium">Assign → In Progress → Verification → Closed</span>
         </div>
       </div>
 

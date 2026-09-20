@@ -40,7 +40,7 @@ interface ReviewWorkspaceModalProps {
 }
 
 const FIELD_LABELS: Record<AllowedCorrectionField, string> = {
-  sif_classification: 'SIF Classification (Phase 4)',
+  sif_classification: 'SIF Classification',
   primary_hazard: 'Primary Hazard',
   primary_precursor: 'Primary Precursor',
   barrier_failure: 'Barrier Failure',
@@ -520,13 +520,13 @@ export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
                         )}
                       </div>
 
-                      {/* Section 2: AI Safety Analysis (Phase 4 Proposed) */}
+                      {/* Section 2: AI Safety Analysis (Proposed) */}
                       <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Zap className="w-4 h-4 text-amber-400" />
                             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                              Phase 4: Proposed SIF Classification
+                              Proposed SIF Classification
                             </h3>
                           </div>
                           <span className="text-[11px] font-mono text-amber-400/90 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
@@ -630,13 +630,13 @@ export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
                         </div>
                       </div>
 
-                      {/* Section 3: Safety Intelligence (Phase 5) Field-Level Controls */}
+                      {/* Section 3: Safety Intelligence Field-Level Controls */}
                       <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5 space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Shield className="w-4 h-4 text-teal-400" />
                             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                              Phase 5: Safety Intelligence Taxonomy
+                              Safety Intelligence Taxonomy
                             </h3>
                           </div>
                           <span className="text-[11px] text-slate-400">
@@ -817,12 +817,12 @@ export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
 
                     {/* Right Column (5 cols): Risk Context, Pattern Linkage, Comments */}
                     <div className="lg:col-span-5 space-y-6">
-                      {/* Section 4: Phase 6 Risk Context */}
+                      {/* Section 4: Risk Context */}
                       <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5 space-y-3">
                         <div className="flex items-center justify-between">
                           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
                             <TrendingUp className="w-4 h-4 text-amber-400" />
-                            Phase 6 Risk Priority Context
+                            Risk Priority Context
                           </h3>
                           <span className="text-[11px] font-mono text-slate-500">
                             (Analytical Context Only)
@@ -872,12 +872,12 @@ export const ReviewWorkspaceModal: React.FC<ReviewWorkspaceModalProps> = ({
                         )}
                       </div>
 
-                      {/* Section 5: Phase 8 Recurring Precursor Pattern Context */}
+                      {/* Section 5: Recurring Precursor Pattern Context */}
                       <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5 space-y-3">
                         <div className="flex items-center justify-between">
                           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
                             <Flame className="w-4 h-4 text-rose-400" />
-                            Phase 8 Recurring Precursor Pattern
+                            Recurring Precursor Pattern
                           </h3>
                         </div>
 

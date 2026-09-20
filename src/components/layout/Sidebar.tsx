@@ -31,17 +31,18 @@ import {
 } from 'lucide-react';
 import { NavigationItem } from '../../types/index.ts';
 import { Tooltip } from '../ui/Tooltip.tsx';
+import { SuchakLogo } from '../common/SuchakLogo.tsx';
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   // PRIMARY
   { id: 'dashboard', label: 'Dashboard', path: '/dashboard', iconName: 'LayoutDashboard', section: 'PRIMARY' },
   { id: 'evaluate', label: 'Evaluate Report', path: '/evaluate', iconName: 'FileSearch', section: 'PRIMARY' },
   { id: 'reports', label: 'Reports', path: '/reports', iconName: 'FileText', badge: '142', section: 'PRIMARY' },
-  { id: 'review', label: 'Review Queue', path: '/review', iconName: 'CheckSquare', badge: '8', section: 'PRIMARY' },
+  { id: 'review', label: 'Review Queue', path: '/review', iconName: 'CheckSquare', badge: '14', section: 'PRIMARY' },
 
   // INTELLIGENCE
   { id: 'rules', label: 'Safety Rule Guide', path: '/rules', iconName: 'BookOpen', section: 'INTELLIGENCE' },
-  { id: 'similarity', label: 'Vector Search', path: '/similarity', iconName: 'Sparkles', badge: 'Phase 7', section: 'INTELLIGENCE' },
+  { id: 'similarity', label: 'Vector Search', path: '/similarity', iconName: 'Sparkles', section: 'INTELLIGENCE' },
   { id: 'ask', label: 'Ask SUCHAK', path: '/ask', iconName: 'Sparkles', badge: 'AI', section: 'INTELLIGENCE' },
   { id: 'patterns', label: 'Patterns', path: '/patterns', iconName: 'Share2', section: 'INTELLIGENCE' },
   { id: 'sites', label: 'Site Risk', path: '/sites', iconName: 'MapPin', section: 'INTELLIGENCE' },
@@ -67,7 +68,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'admin-deployments', label: 'Cloud & Deploy', path: '/admin/deployments', iconName: 'Cloud', section: 'ADMIN', badge: 'OPS', rolesAllowed: ['OrgAdmin'] },
   { id: 'admin-sre', label: 'SRE & Reliability', path: '/admin/sre', iconName: 'Gauge', section: 'ADMIN', badge: 'SRE', rolesAllowed: ['OrgAdmin'] },
   { id: 'admin-identity', label: 'Identity & SSO', path: '/admin/identity', iconName: 'KeyRound', section: 'ADMIN', badge: 'IAM', rolesAllowed: ['OrgAdmin'] },
-  { id: 'admin-enterprise-release', label: 'Enterprise Release', path: '/admin/release', iconName: 'ShieldCheck', section: 'ADMIN', badge: 'RC-18', rolesAllowed: ['OrgAdmin'] },
+  { id: 'admin-enterprise-release', label: 'Enterprise Release', path: '/admin/release', iconName: 'ShieldCheck', section: 'ADMIN', rolesAllowed: ['OrgAdmin'] },
   { id: 'settings', label: 'Settings', path: '/settings', iconName: 'Settings', section: 'ADMIN' },
 ];
 
@@ -162,24 +163,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }`}
     >
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-border bg-surface">
+      <div className="h-16 flex items-center justify-between px-3.5 border-b border-border bg-surface">
         <div
           onClick={() => onNavigate('/dashboard')}
-          className="flex items-center gap-2.5 cursor-pointer overflow-hidden group"
+          className="flex items-center cursor-pointer overflow-hidden group py-1"
+          title="SUCHAK HSE Intelligence"
         >
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-xs shrink-0 transition-transform duration-200 group-hover:scale-105">
-            <Shield className="w-5 h-5 text-white" />
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col truncate">
-              <span className="text-base font-bold tracking-tight text-foreground font-display">
-                SUCHAK
-              </span>
-              <span className="text-[10px] uppercase font-semibold tracking-wider text-muted-foreground -mt-0.5">
-                HSE Intelligence
-              </span>
-            </div>
-          )}
+          <SuchakLogo
+            variant={collapsed ? 'compact' : 'full'}
+            size={collapsed ? 'sm' : 'md'}
+            showSubtitle={true}
+          />
         </div>
 
         {/* Desktop Collapse Toggle */}

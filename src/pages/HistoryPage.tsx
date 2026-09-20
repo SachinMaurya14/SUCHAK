@@ -21,7 +21,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Audit & Execution History"
         subtitle="Chronological audit log of evaluations, triage overrides, and barrier updates."
-        badge={<Badge variant="primary" size="sm">Phase 1 Audit Shell</Badge>}
+        badge={<Badge variant="primary" size="sm">Audit History</Badge>}
       />
 
       <Card>

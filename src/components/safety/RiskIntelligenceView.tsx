@@ -167,7 +167,7 @@ export const RiskIntelligenceView: React.FC<RiskIntelligenceViewProps> = ({
         <CardContent className="space-y-3 text-xs">
           <p className="text-foreground leading-relaxed">
             {assessment?.explanation ||
-              'This observation has not yet been processed by Phase 4/5 Safety Intelligence. Risk priority scoring requires substantiated NLP classification and energy vector extraction.'}
+              'This observation has not yet been processed by Safety Intelligence. Risk priority scoring requires substantiated NLP classification and energy vector extraction.'}
           </p>
           <p className="text-muted-foreground text-[11px]">
             Please execute safety analysis on the observation narrative first to enable transparent SIF risk scoring.
@@ -184,7 +184,7 @@ export const RiskIntelligenceView: React.FC<RiskIntelligenceViewProps> = ({
           <div className="flex items-center gap-2">
             <Scale className="w-4 h-4 text-primary" />
             <CardTitle className="text-sm font-semibold text-foreground">
-              Phase 6: SIF Risk Intelligence & Prioritization
+              SIF Risk Intelligence & Prioritization
             </CardTitle>
             <Badge variant="outline" size="sm" className="font-mono text-[11px]">
               Policy v{assessment.policy_version}

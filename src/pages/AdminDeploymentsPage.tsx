@@ -515,7 +515,7 @@ export const AdminDeploymentsPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-primary" />
-                  <h3 className="font-semibold text-sm text-foreground">Target Production Architecture (Phase 15)</h3>
+                  <h3 className="font-semibold text-sm text-foreground">Target Production Architecture</h3>
                 </div>
                 <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300">
                   Active Topology

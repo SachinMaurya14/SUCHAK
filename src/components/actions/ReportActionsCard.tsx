@@ -85,7 +85,7 @@ export const ReportActionsCard: React.FC<ReportActionsCardProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-base font-bold text-foreground">
-                Phase 10: HSE Corrective Actions (CAPA)
+                HSE Corrective Actions (CAPA)
               </h3>
               <Badge variant="outline" size="sm">
                 {actions.length} Linked Action{actions.length === 1 ? '' : 's'}

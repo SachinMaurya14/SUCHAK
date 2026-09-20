@@ -185,7 +185,7 @@ export const CreateActionModal: React.FC<CreateActionModalProps> = ({
                 {actionType === 'PREVENTIVE' ? 'Create Preventive Action' : 'Create Corrective Action (CAPA)'}
               </h2>
               <p className="text-xs text-muted-foreground">
-                Phase 10 Human-controlled HSE remediation workflow
+                Human-controlled HSE remediation workflow
               </p>
             </div>
           </div>
@@ -284,7 +284,7 @@ export const CreateActionModal: React.FC<CreateActionModalProps> = ({
                 <option value="LOW">LOW (Housekeeping / Minor)</option>
               </select>
               <p className="text-[10px] text-muted-foreground mt-1">
-                Workflow priority tracks task urgency and does not modify Phase 6 risk score.
+                Workflow priority tracks task urgency and does not modify the baseline SIF risk score.
               </p>
             </div>
           </div>

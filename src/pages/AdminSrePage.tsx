@@ -408,7 +408,7 @@ export const AdminSrePage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
-              Phase 16 SRE & Observability
+              SRE & Observability
             </span>
             <span className="text-xs font-medium text-muted-foreground flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -1286,7 +1286,7 @@ export const AdminSrePage: React.FC = () => {
                 </p>
               </div>
               <Badge variant="outline" className="text-xs">
-                Phase 14 Re-verification
+                Security Verification
               </Badge>
             </CardHeader>
             <CardContent className="p-4">

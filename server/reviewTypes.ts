@@ -175,7 +175,7 @@ export interface ReviewSummaryKPIs {
 
 export interface ReviewQueueFilterOptions {
   organization_id: string;
-  status?: ReviewStatus | 'ALL' | 'PENDING_ACTIONS';
+  status?: ReviewStatus | 'ALL' | 'PENDING_ACTIONS' | 'PENDING_ALL' | 'COMPLETED';
   assigned_to?: string | 'UNASSIGNED' | 'ME' | 'ALL';
   current_user_id?: string;
   site_id?: string;

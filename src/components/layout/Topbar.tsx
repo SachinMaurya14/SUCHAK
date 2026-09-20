@@ -37,7 +37,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [currentUser, setCurrentUser] = useState(() => authService.getCurrentUser());
-  const [healthStatus, setHealthStatus] = useState<'checking' | 'healthy' | 'unreachable'>('checking');
+  const [healthStatus, setHealthStatus] = useState<'checking' | 'healthy' | 'degraded' | 'unreachable'>('checking');
   
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -62,14 +62,36 @@ export const Topbar: React.FC<TopbarProps> = ({
       }
     });
 
-    healthService
-      .checkRootHealth()
-      .then((res) => {
-        if (isMounted && res.status === 'ok') setHealthStatus('healthy');
-      })
-      .catch(() => {
-        if (isMounted) setHealthStatus('unreachable');
-      });
+    const checkBackendHealth = () => {
+      Promise.allSettled([
+        healthService.checkRootHealth(),
+        healthService.checkDbHealth(),
+      ])
+        .then(([rootRes, dbRes]) => {
+          if (!isMounted) return;
+          if (rootRes.status === 'fulfilled' && rootRes.value.status === 'ok') {
+            if (dbRes.status === 'fulfilled') {
+              const engine = dbRes.value.engine;
+              if (engine === 'postgresql') {
+                setHealthStatus('healthy');
+              } else {
+                // Backend is responsive, but running in local in-memory mode without external PostgreSQL
+                setHealthStatus('degraded');
+              }
+            } else {
+              setHealthStatus('degraded');
+            }
+          } else {
+            setHealthStatus('unreachable');
+          }
+        })
+        .catch(() => {
+          if (isMounted) setHealthStatus('unreachable');
+        });
+    };
+
+    checkBackendHealth();
+    const healthInterval = setInterval(checkBackendHealth, 30000);
 
     const loadAlerts = () => {
       alertService
@@ -89,6 +111,7 @@ export const Topbar: React.FC<TopbarProps> = ({
     return () => {
       isMounted = false;
       unsub();
+      clearInterval(healthInterval);
       clearInterval(interval);
     };
   }, []);
@@ -138,6 +161,8 @@ export const Topbar: React.FC<TopbarProps> = ({
       crumbs.push({ label: 'Reports' });
     } else if (path.startsWith('/review')) {
       crumbs.push({ label: 'Review Queue' });
+    } else if (path.startsWith('/similarity')) {
+      crumbs.push({ label: 'Vector Search' });
     } else if (path.startsWith('/rules/')) {
       crumbs.push({ label: 'Safety Rules', path: '/rules' });
       crumbs.push({ label: 'Rule Details' });
@@ -177,7 +202,22 @@ export const Topbar: React.FC<TopbarProps> = ({
       crumbs.push({ label: 'Audit Logs' });
     } else if (path.startsWith('/admin/models')) {
       crumbs.push({ label: 'Admin', path: '/admin/models' });
-      crumbs.push({ label: 'Model Registry' });
+      crumbs.push({ label: 'Model Governance' });
+    } else if (path.startsWith('/admin/security')) {
+      crumbs.push({ label: 'Admin', path: '/admin/security' });
+      crumbs.push({ label: 'Security & Operations' });
+    } else if (path.startsWith('/admin/deployments')) {
+      crumbs.push({ label: 'Admin', path: '/admin/deployments' });
+      crumbs.push({ label: 'Cloud & Deploy' });
+    } else if (path.startsWith('/admin/sre')) {
+      crumbs.push({ label: 'Admin', path: '/admin/sre' });
+      crumbs.push({ label: 'SRE & Reliability' });
+    } else if (path.startsWith('/admin/identity')) {
+      crumbs.push({ label: 'Admin', path: '/admin/identity' });
+      crumbs.push({ label: 'Identity & SSO' });
+    } else if (path.startsWith('/admin/release')) {
+      crumbs.push({ label: 'Admin', path: '/admin/release' });
+      crumbs.push({ label: 'Enterprise Release' });
     } else if (path.startsWith('/settings')) {
       crumbs.push({ label: 'Settings' });
     } else {
@@ -258,22 +298,38 @@ export const Topbar: React.FC<TopbarProps> = ({
 
       {/* Right: Actions, Health, Theme, User */}
       <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Backend Health Badge */}
+        {/* Truthful Backend & Database Health Badge */}
         <div
-          title={`Backend status: ${healthStatus} (GET /health)`}
-          className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border border-border bg-surface-muted/40"
+          title={
+            healthStatus === 'healthy'
+              ? 'Backend API and PostgreSQL database are connected and operational.'
+              : healthStatus === 'degraded'
+              ? 'Backend API is active in local in-memory mode. PostgreSQL is not configured (DATABASE_URL unset).'
+              : healthStatus === 'unreachable'
+              ? 'Backend API is unreachable. Check network or server process.'
+              : 'Checking API and database connectivity...'
+          }
+          className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] border border-border bg-surface-muted/40 cursor-default"
         >
           <span
             className={`w-2 h-2 rounded-full ${
               healthStatus === 'healthy'
-                ? 'bg-success animate-pulse'
+                ? 'bg-emerald-500 animate-pulse'
+                : healthStatus === 'degraded'
+                ? 'bg-amber-500'
                 : healthStatus === 'checking'
-                ? 'bg-warning animate-spin'
-                : 'bg-danger'
+                ? 'bg-sky-400 animate-pulse'
+                : 'bg-rose-500'
             }`}
           />
           <span className="text-muted-foreground font-medium">
-            API: {healthStatus === 'healthy' ? 'Active' : healthStatus}
+            {healthStatus === 'healthy'
+              ? 'API: Active (PostgreSQL)'
+              : healthStatus === 'degraded'
+              ? 'API: In-Memory Mode'
+              : healthStatus === 'checking'
+              ? 'API: Checking...'
+              : 'API: Unreachable'}
           </span>
         </div>
 
@@ -453,7 +509,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                 </Badge>
               </div>
 
-              {/* RBAC Role Switcher Preview for Phase 1 verification */}
+              {/* RBAC Role Switcher */}
               <div className="py-2">
                 <div className="px-2 py-1 text-[10px] uppercase font-bold text-muted-foreground">
                   Switch Preview Role (RBAC)

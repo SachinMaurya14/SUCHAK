@@ -224,7 +224,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
       <PageHeader
         title="Executive Safety Intelligence & HSE Analytics"
         subtitle="Authoritative decision support synthesizing SIF precursors, barrier degradation, and risk posture across operational assets."
-        badge={<Badge variant="primary" size="sm">Phase 12 Executive Analytics</Badge>}
+        badge={<Badge variant="primary" size="sm">Executive Analytics</Badge>}
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Button
@@ -296,7 +296,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
                   {filters.reviewed_state_policy === 'LATEST_REVIEWED' ? 'Reviewed State' : 'Original AI'}
                 </span>
                 <span className="text-[10px] text-muted-foreground font-mono">
-                  ({filters.reviewed_state_policy === 'LATEST_REVIEWED' ? 'Phase 9 Source' : 'Phase 4 Source'})
+                  ({filters.reviewed_state_policy === 'LATEST_REVIEWED' ? 'Human Verified' : 'AI Initial'})
                 </span>
               </button>
             </div>
@@ -645,7 +645,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
                 <div>
                   <CardTitle>Authoritative Risk Priority Distribution</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Phase 6 validated risk bands across all evaluated reports
+                    Prioritized risk bands across all evaluated reports
                   </p>
                 </div>
                 <span className="text-xs font-mono font-semibold text-foreground">
@@ -1112,7 +1112,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
                 <div>
                   <CardTitle>CAPA Resolution Velocity</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Phase 10 corrective & preventive action queue
+                    Corrective & preventive action queue health
                   </p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => onNavigate('/actions')}>
@@ -1172,7 +1172,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
                 <div>
                   <CardTitle>Human Review Backlog</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Phase 9 Safety Reviewer triage queue health
+                    Certified Safety Reviewer triage queue health
                   </p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => onNavigate('/review')}>
@@ -1218,7 +1218,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onNavigate }) => {
                 <div>
                   <CardTitle>Operational Alerts</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Phase 11 real-time early warning notifications
+                    Real-time early warning notifications
                   </p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => onNavigate('/alerts')}>

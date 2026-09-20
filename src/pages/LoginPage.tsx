@@ -16,6 +16,7 @@ import {
 import { Card, CardContent } from '../components/ui/Card.tsx';
 import { Button } from '../components/ui/Button.tsx';
 import { Badge } from '../components/ui/Badge.tsx';
+import { SuchakLogo } from '../components/common/SuchakLogo.tsx';
 import { authService } from '../services/authService.ts';
 import { clientIdentityService, IdentityProvider } from '../services/identityService.ts';
 
@@ -202,16 +203,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4">
       <div className="w-full max-w-xl space-y-6">
         {/* Header Branding */}
-        <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 font-bold mx-auto shadow-lg shadow-amber-500/10">
-            <Shield className="w-8 h-8 text-amber-400" />
+        <div className="text-center space-y-3">
+          <div className="flex justify-center">
+            <SuchakLogo variant="compact" size="lg" />
           </div>
-          <h1 className="text-3xl font-black tracking-tight text-white font-display">
-            SUCHAK
-          </h1>
-          <p className="text-xs text-amber-400 font-semibold tracking-widest uppercase">
-            Enterprise HSE Safety Intelligence Platform
-          </p>
+          <div>
+            <h1 className="text-3xl font-black tracking-tight text-white font-display">
+              SUCHAK
+            </h1>
+            <p className="text-xs text-amber-400 font-semibold tracking-widest uppercase mt-1">
+              Enterprise HSE Safety Intelligence Platform
+            </p>
+          </div>
           <p className="text-xs text-slate-400 max-w-md mx-auto">
             Zero-Harm Incident Prevention • SIF Precursor Detection • OIDC Federated Identity Control
           </p>
@@ -252,7 +255,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                 size="sm"
                 className="border-indigo-500/40 text-indigo-400 bg-indigo-500/10 font-mono text-[10px]"
               >
-                Phase 17 IAM
+                Enterprise IAM
               </Badge>
             </div>
 
