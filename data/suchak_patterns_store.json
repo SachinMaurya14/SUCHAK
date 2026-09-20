@@ -1,6 +1,6 @@
 {
   "active_version_id": "PATTERN_DISCOVERY_V1",
-  "saved_at": "2026-09-20T04:40:02.674Z",
+  "saved_at": "2026-09-20T07:08:09.597Z",
   "patterns": [
     {
       "id": "pat-pressurized-line-containment-whip-check-compromise-1",
@@ -147,7 +147,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during High Pressure Line Testing operations.",
           "description_snippet": "During hydrostatic pressure testing at 5,000 PSI on manifold #4, a junior technician stepped across the barricaded zone directly in front of the pressurized swi...",
-          "created_at": "2026-09-20T04:40:02.669Z"
+          "created_at": "2026-09-20T07:08:09.587Z"
         }
       ],
       "centroid_vector": [
@@ -280,10 +280,10 @@
         0.11930010357954311,
         0.12779735988394023
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.669Z",
-      "updated_at": "2026-09-20T04:40:02.669Z",
+      "created_at": "2026-09-20T07:08:09.590Z",
+      "updated_at": "2026-09-20T07:08:09.590Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -431,7 +431,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Pressurized Line Containment & Whip-Check Compromise precursor during High Pressure Line Testing operations.",
           "description_snippet": "During hydrostatic pressure testing at 5,000 PSI on manifold #4, a junior technician stepped across the barricaded zone directly in front of the pressurized swi...",
-          "created_at": "2026-09-20T04:40:02.669Z"
+          "created_at": "2026-09-20T07:08:09.587Z"
         }
       ],
       "centroid_vector": [
@@ -564,10 +564,10 @@
         0.11930010357954311,
         0.12779735988394023
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.669Z",
-      "updated_at": "2026-09-20T04:40:02.669Z",
+      "created_at": "2026-09-20T07:08:09.590Z",
+      "updated_at": "2026-09-20T07:08:09.590Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -709,7 +709,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Confined Space Atmospheric Testing Lapse precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Gas separator skid emergency exhaust valve was discovered jammed at 40% travel. Lower level confined space entry was underway 12 meters downwind without portabl...",
-          "created_at": "2026-09-20T04:40:02.670Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -842,10 +842,10 @@
         0.10102423351719439,
         0.13478227907190446
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.670Z",
-      "updated_at": "2026-09-20T04:40:02.670Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -987,7 +987,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Confined Space Atmospheric Testing Lapse precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Gas separator skid emergency exhaust valve was discovered jammed at 40% travel. Lower level confined space entry was underway 12 meters downwind without portabl...",
-          "created_at": "2026-09-20T04:40:02.670Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -1120,10 +1120,10 @@
         0.10102423351719439,
         0.13478227907190446
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.670Z",
-      "updated_at": "2026-09-20T04:40:02.670Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1260,7 +1260,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolders working at elevation (8.5 meters) unclipped dual lanyard safety harnesses simultaneously while traversing across tank roof catwalk without a static ...",
-          "created_at": "2026-09-20T04:40:02.670Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -1393,10 +1393,10 @@
         0.13054003750387144,
         0.11741021280824994
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1533,7 +1533,7 @@
           "membership_score": 0.95,
           "membership_reason": "Consistent Working at Height Fall Protection Disconnect precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Scaffolders working at elevation (8.5 meters) unclipped dual lanyard safety harnesses simultaneously while traversing across tank roof catwalk without a static ...",
-          "created_at": "2026-09-20T04:40:02.670Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -1666,10 +1666,10 @@
         0.13054003750387144,
         0.11741021280824994
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -1820,7 +1820,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "During dual-crane tandem lift of 12-ton drill collar basket, the secondary synthetic webbing sling sustained a severe tear upon contact with unpadded sharp stru...",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         },
         {
           "pattern_id": "pat-line-of-fire-suspended-load-exposure-4",
@@ -1840,7 +1840,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Worker stood below suspended load....",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -1973,10 +1973,10 @@
         0.12055736671510969,
         0.10625771468281246
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2127,7 +2127,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "During dual-crane tandem lift of 12-ton drill collar basket, the secondary synthetic webbing sling sustained a severe tear upon contact with unpadded sharp stru...",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         },
         {
           "pattern_id": "pat-line-of-fire-suspended-load-exposure-4",
@@ -2147,7 +2147,7 @@
           "membership_score": 0.9,
           "membership_reason": "Consistent Line-of-Fire Suspended Load Exposure precursor during Heavy Lifting & Rigging operations.",
           "description_snippet": "Worker stood below suspended load....",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -2280,10 +2280,10 @@
         0.12055736671510969,
         0.10625771468281246
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2410,7 +2410,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Workshop assistant utilized handheld angle grinder without wearing prescribed leather wrist gauntlets and protective eye shield while deburring standard structu...",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         },
         {
           "pattern_id": "pat-unspecified-safety-deficiency-5",
@@ -2430,7 +2430,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Office paperwork mismatch and contractor access badge form typographical error....",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -2563,10 +2563,10 @@
         0.06982018556518939,
         0.026853917525072837
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -2693,7 +2693,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Workshop assistant utilized handheld angle grinder without wearing prescribed leather wrist gauntlets and protective eye shield while deburring standard structu...",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         },
         {
           "pattern_id": "pat-unspecified-safety-deficiency-5",
@@ -2713,7 +2713,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent UNSPECIFIED_SAFETY_DEFICIENCY precursor during Hot Work & Welding operations.",
           "description_snippet": "Office paperwork mismatch and contractor access badge form typographical error....",
-          "created_at": "2026-09-20T04:40:02.671Z"
+          "created_at": "2026-09-20T07:08:09.591Z"
         }
       ],
       "centroid_vector": [
@@ -2846,10 +2846,10 @@
         0.06982018556518939,
         0.026853917525072837
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.671Z",
-      "updated_at": "2026-09-20T04:40:02.671Z",
+      "created_at": "2026-09-20T07:08:09.591Z",
+      "updated_at": "2026-09-20T07:08:09.591Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -3039,7 +3039,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Main motor control switchgear panel breaker #3 padlock had been clipped with bolt cutters without LOTO clearance log entries, while maintenance crew was perform...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3059,7 +3059,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance on primary mud pump #2, equipment remained energized while electrical technician was exposed to live machinery terminals inside drive cabinet...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3079,7 +3079,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Substation transformer scheduled maintenance proceeded while feeder breaker remained live; mechanical technician was exposed to energized busbar enclosure....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3099,7 +3099,7 @@
           "membership_score": 0.93,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Emergency shutdown valve actuator overhaul was undertaken without positive physical energy isolation; instrument technician exposed to pressurized hydraulic con...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3119,7 +3119,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Compressor cylinder valve maintenance continued while suction piping remained under residual fuel gas pressure; crew exposed to hazardous energy release....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3139,7 +3139,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance, worker was exposed to energized machinery....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3159,7 +3159,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Maintenance continued while equipment remained live....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         }
       ],
       "centroid_vector": [
@@ -3292,10 +3292,10 @@
         0.0349772817238406,
         0.05998222719784017
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.672Z",
-      "updated_at": "2026-09-20T04:40:02.672Z",
+      "created_at": "2026-09-20T07:08:09.594Z",
+      "updated_at": "2026-09-20T07:08:09.594Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     },
     {
@@ -3485,7 +3485,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Main motor control switchgear panel breaker #3 padlock had been clipped with bolt cutters without LOTO clearance log entries, while maintenance crew was perform...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3505,7 +3505,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance on primary mud pump #2, equipment remained energized while electrical technician was exposed to live machinery terminals inside drive cabinet...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3525,7 +3525,7 @@
           "membership_score": 0.94,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Substation transformer scheduled maintenance proceeded while feeder breaker remained live; mechanical technician was exposed to energized busbar enclosure....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3545,7 +3545,7 @@
           "membership_score": 0.93,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Emergency shutdown valve actuator overhaul was undertaken without positive physical energy isolation; instrument technician exposed to pressurized hydraulic con...",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3565,7 +3565,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Compressor cylinder valve maintenance continued while suction piping remained under residual fuel gas pressure; crew exposed to hazardous energy release....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3585,7 +3585,7 @@
           "membership_score": 0.92,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "During maintenance, worker was exposed to energized machinery....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         },
         {
           "pattern_id": "pat-hazardous-energy-isolation-deficiency-6",
@@ -3605,7 +3605,7 @@
           "membership_score": 0.91,
           "membership_reason": "Consistent Hazardous Energy Isolation Deficiency precursor during Confined Space & Flange Work operations.",
           "description_snippet": "Maintenance continued while equipment remained live....",
-          "created_at": "2026-09-20T04:40:02.672Z"
+          "created_at": "2026-09-20T07:08:09.592Z"
         }
       ],
       "centroid_vector": [
@@ -3738,14 +3738,128 @@
         0.0349772817238406,
         0.05998222719784017
       ],
-      "discovery_run_id": "run-yg3qmop",
+      "discovery_run_id": "run-4ecak4a",
       "discovery_version": "PATTERN_DISCOVERY_V1",
-      "created_at": "2026-09-20T04:40:02.672Z",
-      "updated_at": "2026-09-20T04:40:02.672Z",
+      "created_at": "2026-09-20T07:08:09.594Z",
+      "updated_at": "2026-09-20T07:08:09.594Z",
       "methodology_disclaimer": "Pattern strength is a measure of evidence support and cross-report concordance. It does NOT represent risk score, probability of incident, or SIF classification."
     }
   ],
   "discovery_runs": [
+    {
+      "run_id": "run-4ecak4a",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:08:09.558Z",
+      "end_time": "2026-09-20T07:08:09.596Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 38
+    },
+    {
+      "run_id": "run-4ecak4a",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:08:09.558Z",
+      "end_time": "2026-09-20T07:08:09.596Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 38
+    },
+    {
+      "run_id": "run-dbh9etv",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:06:31.824Z",
+      "end_time": "2026-09-20T07:06:31.833Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 9
+    },
+    {
+      "run_id": "run-dbh9etv",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:06:31.824Z",
+      "end_time": "2026-09-20T07:06:31.833Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 9
+    },
+    {
+      "run_id": "run-t5e9u2f",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:05:04.334Z",
+      "end_time": "2026-09-20T07:05:04.342Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 8
+    },
+    {
+      "run_id": "run-t5e9u2f",
+      "organization_id": "oil-india-demo",
+      "start_time": "2026-09-20T07:05:04.334Z",
+      "end_time": "2026-09-20T07:05:04.342Z",
+      "algorithm_version": "PATTERN_DISCOVERY_V1",
+      "configuration": {
+        "min_support": 3,
+        "min_unique_dates": 2,
+        "semantic_similarity_threshold": 0.65,
+        "time_window_preset": "all",
+        "algorithm_version": "PATTERN_DISCOVERY_V1"
+      },
+      "input_reports_count": 28,
+      "eligible_reports_count": 14,
+      "patterns_discovered": 6,
+      "status": "COMPLETED",
+      "duration_ms": 8
+    },
     {
       "run_id": "run-yg3qmop",
       "organization_id": "oil-india-demo",

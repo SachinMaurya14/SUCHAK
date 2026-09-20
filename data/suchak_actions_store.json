@@ -1,0 +1,303 @@
+{
+  "actions": [
+    {
+      "id": "act-seed-301",
+      "action_number": "ACT-2026-000301",
+      "organization_id": "oil-india-demo",
+      "action_type": "CORRECTIVE",
+      "title": "Procure & Install Certified Safety Whip Checks on Rig #4 High-Pressure Mud Line",
+      "description": "Install API-16D certified whip check wire assemblies across all 3-inch high-pressure vibrating mud hoses at Rig #4 drill floor manifold.",
+      "source_report_id": "REP-2026-0891",
+      "source_report_number": "REP-2026-0891",
+      "source_finding_type": "BARRIER_FAILURE",
+      "source_finding_summary": "Hardware Barrier Degradation: Missing safety restraint cable on high-pressure pulsating line.",
+      "site_id": "site-digboi-01",
+      "site_name": "Digboi Central Rig #4 [SYNTHETIC DEMO]",
+      "location_name": "Drill Floor / Standpipe Manifold",
+      "activity_name": "Drilling & Well Operations",
+      "owner_user_id": "user-priyanka-02",
+      "owner_user_name": "Priyanka Saikia",
+      "owner_user_role": "HSEOfficer",
+      "owner_team_name": "Rig #4 Rigging & Mechanical Maintenance",
+      "priority": "CRITICAL",
+      "status": "IN_PROGRESS",
+      "progress_pct": 60,
+      "verification_required": true,
+      "verification_status": "PENDING",
+      "due_at": "2026-09-23T07:05:04.357Z",
+      "started_at": "2026-09-18T07:05:04.357Z",
+      "created_by": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "OrgAdmin"
+      },
+      "created_at": "2026-09-17T07:05:04.357Z",
+      "updated_at": "2026-09-19T07:05:04.357Z",
+      "comments": [
+        {
+          "id": "cmt-seed-1",
+          "action_id": "act-seed-301",
+          "author_id": "user-alok-01",
+          "author_name": "Dr. Alok Baruah",
+          "author_role": "OrgAdmin",
+          "content": "Approved for urgent mechanical procurement under CAPA line-of-fire mitigation.",
+          "created_at": "2026-09-17T07:05:04.357Z"
+        },
+        {
+          "id": "cmt-seed-2",
+          "action_id": "act-seed-301",
+          "author_id": "user-priyanka-02",
+          "author_name": "Priyanka Saikia",
+          "author_role": "HSEOfficer",
+          "content": "Whip check kits dispatched from Duliajan Central Stores. Installation planned for night shift shutdown window.",
+          "created_at": "2026-09-19T07:05:04.357Z"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "evi-seed-1",
+          "action_id": "act-seed-301",
+          "file_name": "PO_WhipCheck_Certified_Kits.pdf",
+          "media_type": "application/pdf",
+          "file_size": 420000,
+          "evidence_type": "IMPLEMENTATION",
+          "description": "Stores issue slip and OEM certificate for rated safety whip restraints.",
+          "storage_ref": "secure://oil-hsse/actions/ACT-2026-000301/PO_WhipCheck_Certified_Kits.pdf",
+          "uploaded_by": "Priyanka Saikia",
+          "uploaded_at": "2026-09-19T07:05:04.357Z"
+        }
+      ],
+      "is_overdue": false,
+      "days_overdue": 0
+    },
+    {
+      "id": "act-seed-302",
+      "action_number": "ACT-2026-000302",
+      "organization_id": "oil-india-demo",
+      "action_type": "CORRECTIVE",
+      "title": "Recalibrate Port Multi-Gas H2S & LEL Sensors (Skid 2B Compressor)",
+      "description": "Conduct bump testing and multi-point calibration for 4 fixed optical H2S and catalytic bead LEL detectors around Moran compressor manifold.",
+      "source_report_id": "REP-2026-0892",
+      "source_report_number": "REP-2026-0892",
+      "source_finding_type": "BARRIER_FAILURE",
+      "source_finding_summary": "Sensor drift observed during weekly functional check; zero point calibration shifted.",
+      "site_id": "site-moran-02",
+      "site_name": "Moran Drilling Site A [SYNTHETIC DEMO]",
+      "location_name": "Compressor Skid 2B",
+      "activity_name": "Facility Maintenance & Turnaround",
+      "owner_user_id": "user-debajit-03",
+      "owner_user_name": "Debajit Bora",
+      "owner_user_role": "SafetyReviewer",
+      "owner_team_name": "Moran Instrumentation Team",
+      "priority": "HIGH",
+      "status": "VERIFICATION_REQUIRED",
+      "progress_pct": 100,
+      "verification_required": true,
+      "verification_status": "PENDING",
+      "due_at": "2026-09-21T07:05:04.357Z",
+      "started_at": "2026-09-17T07:05:04.357Z",
+      "completed_at": "2026-09-20T03:05:04.357Z",
+      "completion_summary": "All 4 sensors recalibrated using certified 25 ppm H2S calibration gas cylinder. Zero and span readings within 1.5% tolerance.",
+      "created_by": {
+        "id": "user-manish-04",
+        "name": "Manish Chhetri",
+        "role": "SiteManager"
+      },
+      "created_at": "2026-09-16T07:05:04.357Z",
+      "updated_at": "2026-09-20T03:05:04.357Z",
+      "comments": [
+        {
+          "id": "cmt-seed-3",
+          "action_id": "act-seed-302",
+          "author_id": "user-debajit-03",
+          "author_name": "Debajit Bora",
+          "author_role": "SafetyReviewer",
+          "content": "Field calibration completed. Independent QA/QC sign-off required from Asset Electrical Engineer.",
+          "created_at": "2026-09-20T03:05:04.357Z"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "evi-seed-2",
+          "action_id": "act-seed-302",
+          "file_name": "Calibration_Certificate_Skid2B.pdf",
+          "media_type": "application/pdf",
+          "file_size": 210000,
+          "evidence_type": "VERIFICATION",
+          "description": "Instrument technician calibration datasheet with serial numbers and gas expiry dates.",
+          "storage_ref": "secure://oil-hsse/actions/ACT-2026-000302/Calibration_Certificate_Skid2B.pdf",
+          "uploaded_by": "Debajit Bora",
+          "uploaded_at": "2026-09-20T03:05:04.357Z"
+        }
+      ],
+      "is_overdue": false,
+      "days_overdue": 0
+    },
+    {
+      "id": "act-seed-303",
+      "action_number": "ACT-2026-000303",
+      "organization_id": "oil-india-demo",
+      "action_type": "PREVENTIVE",
+      "title": "Establish Standard Exclusion Zone & Physical Barriers for Overhead Crane Hoisting",
+      "description": "Systemic intervention addressing recurring Line-of-Fire precursor events: Procure modular magnetic chain barricades and implement mandatory floor marshalling during crane operations.",
+      "source_pattern_id": "pat-cluster-001",
+      "source_pattern_number": "PAT-2026-001",
+      "source_finding_type": "PATTERN",
+      "source_finding_summary": "Pattern PAT-2026-001: 5 reports showing repeated personnel positioning under unbarricaded suspended loads across Digboi & Moran.",
+      "site_id": "site-digboi-01",
+      "site_name": "Digboi Central Rig #4 [SYNTHETIC DEMO]",
+      "location_name": "Pipe Rack / Rig Substructure",
+      "activity_name": "Heavy Lifting & Rigging",
+      "owner_user_id": "user-alok-01",
+      "owner_user_name": "Dr. Alok Baruah",
+      "owner_user_role": "OrgAdmin",
+      "owner_team_name": "Enterprise Rigging Safety Committee",
+      "priority": "HIGH",
+      "status": "ASSIGNED",
+      "progress_pct": 10,
+      "verification_required": true,
+      "verification_status": "PENDING",
+      "due_at": "2026-09-30T07:05:04.357Z",
+      "created_by": {
+        "id": "user-priyanka-02",
+        "name": "Priyanka Saikia",
+        "role": "HSEOfficer"
+      },
+      "created_at": "2026-09-18T07:05:04.357Z",
+      "updated_at": "2026-09-18T07:05:04.357Z",
+      "comments": [
+        {
+          "id": "cmt-seed-4",
+          "action_id": "act-seed-303",
+          "author_id": "user-priyanka-02",
+          "author_name": "Priyanka Saikia",
+          "author_role": "HSEOfficer",
+          "content": "Created directly from Recurring Precursor Pattern PAT-2026-001 to prevent systemic dropped object exposures.",
+          "created_at": "2026-09-18T07:05:04.357Z"
+        }
+      ],
+      "evidence": [],
+      "is_overdue": false,
+      "days_overdue": 0
+    },
+    {
+      "id": "act-seed-304",
+      "action_number": "ACT-2026-000304",
+      "organization_id": "oil-india-demo",
+      "action_type": "CORRECTIVE",
+      "title": "Replace Corroded Pipe Flange Isolation Gasket on Low-Pressure Flare Line",
+      "description": "Depressurize and replace degraded spiral-wound metallic gasket on Moran separator outlet line identified with trace methane micro-leakage.",
+      "source_report_id": "REP-2026-0894",
+      "source_report_number": "REP-2026-0894",
+      "source_finding_type": "BARRIER_FAILURE",
+      "source_finding_summary": "Physical containment boundary barrier degraded due to atmospheric corrosion.",
+      "site_id": "site-moran-02",
+      "site_name": "Moran Drilling Site A [SYNTHETIC DEMO]",
+      "location_name": "Separator Line 4A",
+      "activity_name": "Production Operations & Pumping",
+      "owner_user_id": "user-manish-04",
+      "owner_user_name": "Manish Chhetri",
+      "owner_user_role": "SiteManager",
+      "owner_team_name": "Moran Mechanical Maintenance",
+      "priority": "CRITICAL",
+      "status": "ASSIGNED",
+      "progress_pct": 0,
+      "verification_required": true,
+      "verification_status": "PENDING",
+      "due_at": "2026-09-19T07:05:04.357Z",
+      "created_by": {
+        "id": "user-debajit-03",
+        "name": "Debajit Bora",
+        "role": "SafetyReviewer"
+      },
+      "created_at": "2026-09-15T07:05:04.357Z",
+      "updated_at": "2026-09-18T07:05:04.357Z",
+      "comments": [
+        {
+          "id": "cmt-seed-5",
+          "action_id": "act-seed-304",
+          "author_id": "user-debajit-03",
+          "author_name": "Debajit Bora",
+          "author_role": "SafetyReviewer",
+          "content": "Past due date. Expediting mechanical maintenance crew for replacement during daylight maintenance window.",
+          "created_at": "2026-09-19T19:05:04.357Z"
+        }
+      ],
+      "evidence": [],
+      "is_overdue": true,
+      "days_overdue": 1
+    },
+    {
+      "id": "act-seed-305",
+      "action_number": "ACT-2026-000305",
+      "organization_id": "oil-india-demo",
+      "action_type": "CORRECTIVE",
+      "title": "Re-audit Scaffolding Tag Verification & Toe-board Anchorage on Duliajan GGS",
+      "description": "Physical inspection and re-tagging of all working platforms erected on Duliajan compressor deck following unpinned toe-board observation.",
+      "source_report_id": "REP-2026-0893",
+      "source_report_number": "REP-2026-0893",
+      "source_finding_type": "BARRIER_FAILURE",
+      "source_finding_summary": "Administrative & physical barrier failure: Scaffolding tag inspection exceeded valid 7-day window.",
+      "site_id": "site-duliajan-03",
+      "site_name": "Duliajan Gas Gathering Station [SYNTHETIC DEMO]",
+      "location_name": "Main Compressor Deck",
+      "activity_name": "Working at Height",
+      "owner_user_id": "user-debajit-03",
+      "owner_user_name": "Debajit Bora",
+      "owner_user_role": "SafetyReviewer",
+      "owner_team_name": "Duliajan Civil & Rigging Safety",
+      "priority": "MEDIUM",
+      "status": "CLOSED",
+      "progress_pct": 100,
+      "verification_required": true,
+      "verification_status": "VERIFIED",
+      "due_at": "2026-09-17T07:05:04.357Z",
+      "started_at": "2026-09-14T07:05:04.357Z",
+      "completed_at": "2026-09-16T07:05:04.357Z",
+      "completion_summary": "All 8 scaffolding bays thoroughly inspected by Certified Scaffolding Inspector. Toe-boards re-anchored with clamp locks and green inspection tags issued.",
+      "verifier_user_id": "user-alok-01",
+      "verifier_user_name": "Dr. Alok Baruah",
+      "verification_notes": "Physical field audit verified. Green tags updated with signatures. Fall protection and dropped object barriers fully intact.",
+      "verified_at": "2026-09-17T07:05:04.357Z",
+      "closed_at": "2026-09-17T07:05:04.357Z",
+      "closed_by": "Dr. Alok Baruah",
+      "closure_summary": "Remediation completed and verified in compliance with Working at Height Life-Saving Rule.",
+      "created_by": {
+        "id": "user-debajit-03",
+        "name": "Debajit Bora",
+        "role": "SafetyReviewer"
+      },
+      "created_at": "2026-09-13T07:05:04.357Z",
+      "updated_at": "2026-09-17T07:05:04.357Z",
+      "comments": [
+        {
+          "id": "cmt-seed-6",
+          "action_id": "act-seed-305",
+          "author_id": "user-alok-01",
+          "author_name": "Dr. Alok Baruah",
+          "author_role": "OrgAdmin",
+          "content": "Independent field verification completed successfully. Scaffolding safe for work.",
+          "created_at": "2026-09-17T07:05:04.357Z"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "evi-seed-3",
+          "action_id": "act-seed-305",
+          "file_name": "Scaffold_GreenTag_Audit_Signoff.pdf",
+          "media_type": "application/pdf",
+          "file_size": 340000,
+          "evidence_type": "VERIFICATION",
+          "description": "Signed Scaffold Safety Inspection Checklist with green tag photos.",
+          "storage_ref": "secure://oil-hsse/actions/ACT-2026-000305/Scaffold_GreenTag_Audit_Signoff.pdf",
+          "uploaded_by": "Dr. Alok Baruah",
+          "uploaded_at": "2026-09-17T07:05:04.357Z"
+        }
+      ],
+      "is_overdue": false,
+      "days_overdue": 0
+    }
+  ],
+  "auditEvents": [],
+  "actionCounter": 306
+}

@@ -1,0 +1,348 @@
+{
+  "models": [
+    {
+      "model_id": "model-deterministic-rules-v1",
+      "provider": "SUCHAK Embedded",
+      "model_name": "suchak_deterministic_nlp_engine",
+      "model_version": "v1.0.0-rules",
+      "model_family": "Deterministic Rule Heuristic",
+      "tasks": [
+        "SIF_CLASSIFICATION",
+        "SAFETY_INTELLIGENCE",
+        "HAZARD_EXTRACTION",
+        "BARRIER_EVALUATION"
+      ],
+      "status": "APPROVED",
+      "created_at": "2026-01-10T00:00:00Z",
+      "created_by": "SUCHAK System Core",
+      "configuration": {
+        "engine": "deterministic_regex_iogp",
+        "energy_threshold_psi": 5000,
+        "height_threshold_m": 1.8,
+        "fallback_behavior": "NEEDS_REVIEW"
+      },
+      "supported_schema_version": "SUCHAK_SAFETY_CONTRACT_V1",
+      "notes": "Primary authoritative deterministic fallback engine grounded in IOGP Life-Saving Rules and high-energy hazard indicators.",
+      "is_production_active": true,
+      "latest_quality_gate_status": "FAIL",
+      "release_readiness": "REVIEW_REQUIRED",
+      "latest_evaluation_id": "eval-1789887904360-vjkf2",
+      "latest_evaluation_status": "COMPLETED"
+    },
+    {
+      "model_id": "model-gemini-2.5-flash",
+      "provider": "Google Gemini",
+      "model_name": "gemini-2.5-flash",
+      "model_version": "v2.5",
+      "model_family": "Gemini Flash Multimodal LLM",
+      "tasks": [
+        "SIF_CLASSIFICATION",
+        "SAFETY_INTELLIGENCE",
+        "HAZARD_EXTRACTION",
+        "BARRIER_EVALUATION",
+        "IOGP_CONCORDANCE",
+        "MULTI_TASK"
+      ],
+      "status": "APPROVED",
+      "created_at": "2026-03-01T00:00:00Z",
+      "created_by": "Dr. Alok Baruah (Chief Safety Officer)",
+      "configuration": {
+        "temperature": 0.1,
+        "response_mime_type": "application/json",
+        "max_output_tokens": 1024,
+        "safety_settings": "HARM_BLOCK_STRICT"
+      },
+      "supported_schema_version": "SUCHAK_SAFETY_CONTRACT_V1",
+      "notes": "Production cloud LLM providing semantic nuance, high-energy classification, and structured safety intelligence extraction.",
+      "is_production_active": true,
+      "latest_quality_gate_status": "FAIL",
+      "release_readiness": "REVIEW_REQUIRED",
+      "latest_evaluation_id": "eval-1789887905005-sngh7",
+      "latest_evaluation_status": "COMPLETED"
+    },
+    {
+      "model_id": "model-domain-transformer-candidate",
+      "provider": "SUCHAK Applied AI Lab",
+      "model_name": "suchak-domain-transformer-o&g",
+      "model_version": "v1.2.0-beta",
+      "model_family": "Domain-Specialized Encoder-Decoder",
+      "tasks": [
+        "SIF_CLASSIFICATION",
+        "HAZARD_EXTRACTION",
+        "IOGP_CONCORDANCE"
+      ],
+      "status": "EVALUATING",
+      "created_at": "2026-08-15T09:30:00Z",
+      "created_by": "AI Engineering Team",
+      "configuration": {
+        "quantization": "int8",
+        "context_length": 2048,
+        "tokenizer": "o&g-hse-vocab-32k"
+      },
+      "supported_schema_version": "SUCHAK_SAFETY_CONTRACT_V1",
+      "notes": "Candidate domain model evaluated for low-latency on-premise refinery edge deployments.",
+      "is_production_active": false,
+      "latest_quality_gate_status": "FAIL",
+      "release_readiness": "REVIEW_REQUIRED",
+      "latest_evaluation_id": "eval-1789887905011-scof0",
+      "latest_evaluation_status": "COMPLETED"
+    },
+    {
+      "model_id": "model-legacy-keyword-v0",
+      "provider": "Legacy HSE Systems",
+      "model_name": "suchak_keyword_matcher_v0",
+      "model_version": "v0.9.1-legacy",
+      "model_family": "Unweighted Substring Matcher",
+      "tasks": [
+        "SIF_CLASSIFICATION"
+      ],
+      "status": "RETIRED",
+      "created_at": "2025-05-01T00:00:00Z",
+      "created_by": "Legacy Safety Database",
+      "configuration": {
+        "match_mode": "case_insensitive_any"
+      },
+      "supported_schema_version": "LEGACY_V0",
+      "notes": "Historical keyword script retired due to unacceptable false positive rates on trivial near-misses. Historical evaluation records preserved.",
+      "is_production_active": false,
+      "retired_at": "2026-02-15T00:00:00Z",
+      "retired_by": "Dr. Alok Baruah",
+      "latest_quality_gate_status": "FAIL",
+      "release_readiness": "NOT_READY"
+    }
+  ],
+  "prompts": [
+    {
+      "prompt_id": "prompt-suchak-sif-v1",
+      "prompt_name": "SUCHAK_SIF_ANALYSIS_V1",
+      "prompt_version": "1.0.0",
+      "task": "SIF_CLASSIFICATION",
+      "effective_at": "2026-03-01T00:00:00Z",
+      "status": "ACTIVE",
+      "hash": "h_sif_v1_f87e2b",
+      "prompt_template": "You are SUCHAK, an Enterprise HSE Safety Intelligence AI system for oil & gas drilling and refinery operations.\nAnalyze the following safety observation narrative and classify if it represents a Serious Injury or Fatality (SIF) Precursor.\n\nReport Narrative:\n\"{{description}}\"\nActual Outcome:\n\"{{actualOutcome}}\"\n\nReturn ONLY a valid JSON object matching this exact schema:\n{\n  \"classification\": \"SIF_POTENTIAL\" | \"NON_SIF_POTENTIAL\" | \"NEEDS_REVIEW\",\n  \"priority\": \"CRITICAL\" | \"HIGH\" | \"MEDIUM\" | \"LOW\",\n  \"confidence_estimate\": number,\n  \"confidence_band\": \"HIGH\" | \"MEDIUM\" | \"LOW\",\n  \"hazards\": string[],\n  \"safety_indicators\": string[],\n  \"precursor_summary\": string,\n  \"evidence\": string[],\n  \"potential_consequence\": string,\n  \"explanation\": string\n}",
+      "supported_models": [
+        "model-gemini-2.5-flash",
+        "model-domain-transformer-candidate"
+      ],
+      "created_by": "Priyanka Saikia (HSE Officer)",
+      "notes": "Authoritative operational prompt running in Phase 4 safety intelligence engine."
+    },
+    {
+      "prompt_id": "prompt-suchak-sif-v2-grounded",
+      "prompt_name": "SUCHAK_SIF_ANALYSIS_V2_GROUNDED",
+      "prompt_version": "2.0.0",
+      "task": "SIF_CLASSIFICATION",
+      "effective_at": "2026-08-20T00:00:00Z",
+      "status": "DRAFT",
+      "hash": "h_sif_v2_9a1c4d",
+      "prompt_template": "You are SUCHAK, an Enterprise HSE Safety Intelligence AI system.\nStrict Evidence-Grounding Rule: Only cite facts directly stated in the report narrative. Do NOT extrapolate unmentioned conditions.\n\nReport Narrative:\n\"{{description}}\"\nActual Outcome:\n\"{{actualOutcome}}\"\n\nExtract verified physical energy presence, barrier status (FAILED, BYPASSED, INADEQUATE, UNKNOWN), and IOGP Life-Saving Rules concordance.",
+      "supported_models": [
+        "model-gemini-2.5-flash"
+      ],
+      "created_by": "AI Engineering Team",
+      "notes": "Candidate prompt enforcing strict non-extrapolation and explicit barrier status categorization."
+    },
+    {
+      "prompt_id": "prompt-iogp-mapping-v1",
+      "prompt_name": "IOGP_RULE_CONCORDANCE_V1",
+      "prompt_version": "1.0.0",
+      "task": "IOGP_CONCORDANCE",
+      "effective_at": "2026-04-10T00:00:00Z",
+      "status": "ACTIVE",
+      "hash": "h_iogp_v1_c34b12",
+      "prompt_template": "Map safety observations strictly to the 9 IOGP Life-Saving Rules:\nBypassing Safety Controls, Confined Space, Driving, Energy Isolation, Hot Work, Line of Fire, Safe Mechanical Lifting, Work at Height, Toxic Gas Exposure.",
+      "supported_models": [
+        "model-gemini-2.5-flash"
+      ],
+      "created_by": "Dr. Alok Baruah",
+      "notes": "Standardized international oil & gas concordance prompt."
+    },
+    {
+      "prompt_id": "prompt-deterministic-rules-v1",
+      "prompt_name": "DETERMINISTIC_RULES_V1",
+      "prompt_version": "1.0.0",
+      "task": "MULTI_TASK",
+      "effective_at": "2026-01-10T00:00:00Z",
+      "status": "ACTIVE",
+      "hash": "h_rules_v1_000001",
+      "prompt_template": "Deterministic Regex & Keyword Heuristics Pattern Catalog (Embedded Coded Rules).",
+      "supported_models": [
+        "model-deterministic-rules-v1"
+      ],
+      "created_by": "SUCHAK System Core",
+      "notes": "Symbolic baseline ruleset for local deterministic inference."
+    }
+  ],
+  "qualityGateRules": [
+    {
+      "id": "gate-sif-recall",
+      "name": "SIF Classification Recall Floor",
+      "metric_key": "sif_metrics.recall",
+      "operator": ">=",
+      "threshold": 0.85,
+      "severity": "CRITICAL",
+      "rationale": "In high-hazard environments, missed SIF precursors pose immediate life-safety consequences. Recall must meet or exceed 85%.",
+      "is_prototype_preset": true
+    },
+    {
+      "id": "gate-zero-false-negatives-gold",
+      "name": "Critical Benchmark False Negatives",
+      "metric_key": "sif_metrics.false_negatives",
+      "operator": "<=",
+      "threshold": 1,
+      "severity": "CRITICAL",
+      "rationale": "False negatives (actual SIF misclassified as NON_SIF) on verified high-consequence cases cannot exceed configured safety limits.",
+      "is_prototype_preset": true
+    },
+    {
+      "id": "gate-schema-pass-rate",
+      "name": "Safety Schema Validation Pass Rate",
+      "metric_key": "schema_metrics.schema_pass_rate",
+      "operator": ">=",
+      "threshold": 0.95,
+      "severity": "CRITICAL",
+      "rationale": "AI responses must conform to the typed safety intelligence schema to prevent downstream ingestion failures.",
+      "is_prototype_preset": true
+    },
+    {
+      "id": "gate-multilabel-f1",
+      "name": "Precursor & Hazard Extraction F1",
+      "metric_key": "multi_label_metrics.precursor_f1",
+      "operator": ">=",
+      "threshold": 0.7,
+      "severity": "WARNING",
+      "rationale": "Adequate multi-label extraction balance between precision and recall across standardized precursor taxonomies.",
+      "is_prototype_preset": true
+    },
+    {
+      "id": "gate-explanation-grounding",
+      "name": "Explanation Evidence Grounding Rate",
+      "metric_key": "grounding_metrics.grounding_rate",
+      "operator": ">=",
+      "threshold": 0.8,
+      "severity": "WARNING",
+      "rationale": "Explanations must be backed by narrative evidence without fabricated unmentioned facts.",
+      "is_prototype_preset": true
+    }
+  ],
+  "auditEvents": [
+    {
+      "id": "gov-evt-1789887904361-gnzd5",
+      "event_type": "EVALUATION_STARTED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887904360-vjkf2",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-gold-upstream-v1",
+        "model_id": "model-deterministic-rules-v1",
+        "prompt_id": "prompt-deterministic-rules-v1",
+        "fingerprint": "57e42ee9ee3ef397"
+      },
+      "timestamp": "2026-09-20T07:05:04.361Z"
+    },
+    {
+      "id": "gov-evt-1789887904364-5ygev",
+      "event_type": "EVALUATION_COMPLETED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887904360-vjkf2",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-gold-upstream-v1",
+        "sif_recall": 1,
+        "false_negatives": 0,
+        "quality_gate_status": "FAIL",
+        "release_readiness": "REVIEW_REQUIRED"
+      },
+      "timestamp": "2026-09-20T07:05:04.364Z"
+    },
+    {
+      "id": "gov-evt-1789887905005-83tjq",
+      "event_type": "EVALUATION_STARTED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887905005-sngh7",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-gold-upstream-v1",
+        "model_id": "model-gemini-2.5-flash",
+        "prompt_id": "prompt-suchak-sif-v1",
+        "fingerprint": "df7a539278dd19c1"
+      },
+      "timestamp": "2026-09-20T07:05:05.005Z"
+    },
+    {
+      "id": "gov-evt-1789887905008-c7gzw",
+      "event_type": "EVALUATION_COMPLETED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887905005-sngh7",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-gold-upstream-v1",
+        "sif_recall": 1,
+        "false_negatives": 0,
+        "quality_gate_status": "FAIL",
+        "release_readiness": "REVIEW_REQUIRED"
+      },
+      "timestamp": "2026-09-20T07:05:05.008Z"
+    },
+    {
+      "id": "gov-evt-1789887905011-y3z6u",
+      "event_type": "EVALUATION_STARTED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887905011-scof0",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-regression-suite-v1",
+        "model_id": "model-domain-transformer-candidate",
+        "prompt_id": "prompt-suchak-sif-v1",
+        "fingerprint": "9e6e4c92c01c0483"
+      },
+      "timestamp": "2026-09-20T07:05:05.011Z"
+    },
+    {
+      "id": "gov-evt-1789887905014-2nof8",
+      "event_type": "EVALUATION_COMPLETED",
+      "organization_id": "oil-india-demo",
+      "actor": {
+        "id": "user-alok-01",
+        "name": "Dr. Alok Baruah",
+        "role": "Chief Safety Officer"
+      },
+      "entity_id": "eval-1789887905011-scof0",
+      "entity_type": "EVALUATION",
+      "details": {
+        "dataset_id": "ds-regression-suite-v1",
+        "sif_recall": 1,
+        "false_negatives": 0,
+        "quality_gate_status": "FAIL",
+        "release_readiness": "REVIEW_REQUIRED"
+      },
+      "timestamp": "2026-09-20T07:05:05.014Z"
+    }
+  ]
+}
