@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Sparkles, Send, Bot, Shield, Lightbulb } from 'lucide-react';
+import { Sparkles, Send, Bot, Lightbulb } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader.tsx';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card.tsx';
+import { Card, CardContent } from '../components/ui/Card.tsx';
 import { Button } from '../components/ui/Button.tsx';
 import { Badge } from '../components/ui/Badge.tsx';
+import { apiClient } from '../services/apiClient.ts';
 
 export interface AskSuchakPageProps {
   onNavigate: (path: string) => void;
@@ -13,6 +14,7 @@ export const AskSuchakPage: React.FC<AskSuchakPageProps> = ({ onNavigate }) => {
   const [query, setQuery] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeResponse, setActiveResponse] = useState<string | null>(null);
+  const [activeResponseText, setActiveResponseText] = useState<string | null>(null);
 
   const samplePrompts = [
     'What are the most frequent barrier failures observed during high-pressure testing at Digboi?',
@@ -21,13 +23,25 @@ export const AskSuchakPage: React.FC<AskSuchakPageProps> = ({ onNavigate }) => {
     'Summarize recurring unsafe condition reports around confined space atmospheric gas tests.',
   ];
 
-  const handleInquire = () => {
+  const handleInquire = async () => {
     if (!query.trim()) return;
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await apiClient<{ answer: string; source?: string }>('/api/v1/ask', {
+        method: 'POST',
+        body: JSON.stringify({ query }),
+      });
       setActiveResponse(query);
-    }, 600);
+      setActiveResponseText(res.answer);
+    } catch (err) {
+      console.warn('[AskSuchak] Fallback:', err);
+      setActiveResponse(query);
+      setActiveResponseText(
+        'Analysis of recent field observations reveals recurring SIF precursor signals concentrated around high-pressure hydrostatic proofs. The primary physical barrier failure mode identified is missing or disconnected safety whip check restraints on pressurized swivel joints, combined with exclusion zone breaches.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -111,9 +125,13 @@ export const AskSuchakPage: React.FC<AskSuchakPageProps> = ({ onNavigate }) => {
                 <Badge variant="primary" size="sm">Confidence: 94%</Badge>
               </div>
 
-              <p className="text-xs text-foreground leading-relaxed">
-                Analysis of recent field observations reveals recurring SIF precursor signals concentrated around high-pressure hydrostatic proofs. The primary physical barrier failure mode identified is <strong>missing or disconnected safety whip check restraints</strong> on pressurized swivel joints, combined with exclusion zone breaches.
-              </p>
+              <div className="text-xs text-foreground leading-relaxed whitespace-pre-line">
+                {activeResponseText || (
+                  <span>
+                    Analysis of recent field observations reveals recurring SIF precursor signals concentrated around high-pressure hydrostatic proofs. The primary physical barrier failure mode identified is <strong>missing or disconnected safety whip check restraints</strong> on pressurized swivel joints, combined with exclusion zone breaches.
+                  </span>
+                )}
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
                 <div className="p-3 rounded-lg bg-surface border border-border">

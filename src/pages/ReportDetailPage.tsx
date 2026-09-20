@@ -23,8 +23,10 @@ import { RiskBadge } from '../components/ui/RiskBadge.tsx';
 import { StatusBadge } from '../components/ui/StatusBadge.tsx';
 import { Tabs } from '../components/ui/Tabs.tsx';
 import { SafetyAnalysisView } from '../components/analysis/SafetyAnalysisView.tsx';
+import { RiskIntelligenceView } from '../components/safety/RiskIntelligenceView.tsx';
+import { SimilarReportsView } from '../components/safety/SimilarReportsView.tsx';
 import { reportService } from '../services/reportService.ts';
-import { SafetyReport, BackendAnalysisResponse } from '../types/index.ts';
+import { SafetyReport, BackendAnalysisResponse, RiskAssessmentResponse } from '../types/index.ts';
 
 export interface ReportDetailPageProps {
   reportId: string;
@@ -38,6 +40,18 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
   const [activeTab, setActiveTab] = useState('overview');
   const [report, setReport] = useState<SafetyReport | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [associatedPatterns, setAssociatedPatterns] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/v1/reports/${reportId}/patterns?organization_id=oil-india-demo`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setAssociatedPatterns(data);
+        }
+      })
+      .catch(() => {});
+  }, [reportId]);
 
   useEffect(() => {
     let active = true;
@@ -218,6 +232,8 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
         onChange={setActiveTab}
         tabs={[
           { id: 'overview', label: 'Report Overview' },
+          { id: 'similar', label: 'Similar Reports', badge: 'Phase 7' },
+          { id: 'risk', label: 'SIF Risk Prioritization', badge: 'Phase 6' },
           {
             id: 'analysis',
             label: 'Safety NLP Engine',
@@ -276,17 +292,41 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-border-subtle">
                   <span className="text-muted-foreground">Primary Rule:</span>
-                  <span className="font-semibold text-warning">Line of Fire</span>
+                  <span className="font-semibold text-warning">
+                    {effectiveReport.latestAnalysis?.safety_indicators?.[0] || 'Line of Fire'}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-1.5">
-                  <span className="text-muted-foreground">Recurring Cluster:</span>
-                  <span className="text-primary font-medium hover:underline cursor-pointer" onClick={() => onNavigate('/patterns')}>
-                    #PAT-04 (Pressurized Lines)
-                  </span>
+                  <span className="text-muted-foreground">Precursor Pattern:</span>
+                  {associatedPatterns.length > 0 ? (
+                    <span
+                      className="text-primary font-medium hover:underline cursor-pointer flex items-center gap-1"
+                      onClick={() => onNavigate('/patterns')}
+                      title={associatedPatterns[0].title}
+                    >
+                      <span className="font-mono font-bold text-xs">{associatedPatterns[0].pattern_number}</span>
+                      <span className="truncate max-w-[150px] text-xs">({associatedPatterns[0].title})</span>
+                    </span>
+                  ) : (
+                    <span
+                      className="text-muted-foreground text-xs hover:text-primary cursor-pointer hover:underline"
+                      onClick={() => onNavigate('/patterns')}
+                    >
+                      Inspect Patterns
+                    </span>
+                  )}
                 </div>
               </CardContent>
             </Card>
           </div>
+
+          {/* Phase 6: SIF Risk Intelligence View */}
+          <RiskIntelligenceView
+            report={effectiveReport}
+            onRiskUpdated={(newRisk) => {
+              setReport((prev) => (prev ? { ...prev, latestRiskAssessment: newRisk } : null));
+            }}
+          />
 
           {/* Embedded Safety NLP Engine on Overview Tab */}
           <SafetyAnalysisView
@@ -294,6 +334,23 @@ export const ReportDetailPage: React.FC<ReportDetailPageProps> = ({
             onAnalysisUpdated={handleAnalysisUpdated}
           />
         </div>
+      )}
+
+      {activeTab === 'similar' && (
+        <SimilarReportsView
+          reportId={effectiveReport.id}
+          reportNumber={effectiveReport.reportNumber || reportId}
+          onSelectReport={(selectedId) => onNavigate(`/reports/${selectedId}`)}
+        />
+      )}
+
+      {activeTab === 'risk' && (
+        <RiskIntelligenceView
+          report={effectiveReport}
+          onRiskUpdated={(newRisk) => {
+            setReport((prev) => (prev ? { ...prev, latestRiskAssessment: newRisk } : null));
+          }}
+        />
       )}
 
       {activeTab === 'analysis' && (

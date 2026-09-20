@@ -37,6 +37,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 
   // INTELLIGENCE
   { id: 'rules', label: 'Safety Rule Guide', path: '/rules', iconName: 'BookOpen', section: 'INTELLIGENCE' },
+  { id: 'similarity', label: 'Vector Search', path: '/similarity', iconName: 'Sparkles', badge: 'Phase 7', section: 'INTELLIGENCE' },
   { id: 'ask', label: 'Ask SUCHAK', path: '/ask', iconName: 'Sparkles', badge: 'AI', section: 'INTELLIGENCE' },
   { id: 'patterns', label: 'Patterns', path: '/patterns', iconName: 'Share2', section: 'INTELLIGENCE' },
   { id: 'sites', label: 'Site Risk', path: '/sites', iconName: 'MapPin', section: 'INTELLIGENCE' },

@@ -9,6 +9,7 @@ import { ReviewQueuePage } from './pages/ReviewQueuePage.tsx';
 import { SafetyRulesPage } from './pages/SafetyRulesPage.tsx';
 import { RuleDetailPage } from './pages/RuleDetailPage.tsx';
 import { AskSuchakPage } from './pages/AskSuchakPage.tsx';
+import { SemanticSearchPage } from './pages/SemanticSearchPage.tsx';
 import { PatternsPage } from './pages/PatternsPage.tsx';
 import { SiteRiskPage } from './pages/SiteRiskPage.tsx';
 import { ActivityRiskPage } from './pages/ActivityRiskPage.tsx';
@@ -81,6 +82,10 @@ export default function App() {
 
     if (currentPath === '/rules') {
       return <SafetyRulesPage onNavigate={handleNavigate} />;
+    }
+
+    if (currentPath === '/similarity') {
+      return <SemanticSearchPage onNavigate={handleNavigate} />;
     }
 
     if (currentPath === '/ask') {
