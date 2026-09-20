@@ -24,6 +24,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Shield,
+  Cloud,
+  Gauge,
+  KeyRound,
+  ShieldCheck,
 } from 'lucide-react';
 import { NavigationItem } from '../../types/index.ts';
 import { Tooltip } from '../ui/Tooltip.tsx';
@@ -60,11 +64,19 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'admin-audit', label: 'Audit Logs', path: '/admin/audit', iconName: 'ScrollText', section: 'ADMIN', rolesAllowed: ['OrgAdmin'] },
   { id: 'admin-models', label: 'AI Eval & Governance', path: '/admin/models', iconName: 'Cpu', section: 'ADMIN', badge: 'GOV' },
   { id: 'admin-security', label: 'Security & Operations', path: '/admin/security', iconName: 'Shield', section: 'ADMIN', badge: 'SEC' },
+  { id: 'admin-deployments', label: 'Cloud & Deploy', path: '/admin/deployments', iconName: 'Cloud', section: 'ADMIN', badge: 'OPS', rolesAllowed: ['OrgAdmin'] },
+  { id: 'admin-sre', label: 'SRE & Reliability', path: '/admin/sre', iconName: 'Gauge', section: 'ADMIN', badge: 'SRE', rolesAllowed: ['OrgAdmin'] },
+  { id: 'admin-identity', label: 'Identity & SSO', path: '/admin/identity', iconName: 'KeyRound', section: 'ADMIN', badge: 'IAM', rolesAllowed: ['OrgAdmin'] },
+  { id: 'admin-enterprise-release', label: 'Enterprise Release', path: '/admin/release', iconName: 'ShieldCheck', section: 'ADMIN', badge: 'RC-18', rolesAllowed: ['OrgAdmin'] },
   { id: 'settings', label: 'Settings', path: '/settings', iconName: 'Settings', section: 'ADMIN' },
 ];
 
 const getNavIcon = (name: string, className = 'w-4 h-4') => {
   switch (name) {
+    case 'ShieldCheck': return <ShieldCheck className={className} />;
+    case 'KeyRound': return <KeyRound className={className} />;
+    case 'Gauge': return <Gauge className={className} />;
+    case 'Cloud': return <Cloud className={className} />;
     case 'LayoutDashboard': return <LayoutDashboard className={className} />;
     case 'FileSearch': return <FileSearch className={className} />;
     case 'FileText': return <FileText className={className} />;

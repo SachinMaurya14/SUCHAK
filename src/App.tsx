@@ -25,6 +25,10 @@ import { AdminSitesPage } from './pages/AdminSitesPage.tsx';
 import { AdminAuditPage } from './pages/AdminAuditPage.tsx';
 import { AdminModelsPage } from './pages/AdminModelsPage.tsx';
 import { AdminSecurityPage } from './pages/AdminSecurityPage.tsx';
+import { AdminDeploymentsPage } from './pages/AdminDeploymentsPage.tsx';
+import { AdminSrePage } from './pages/AdminSrePage.tsx';
+import { AdminIdentityPage } from './pages/AdminIdentityPage.tsx';
+import { AdminEnterpriseReleasePage } from './pages/AdminEnterpriseReleasePage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
 import { LoginPage } from './pages/LoginPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
@@ -162,6 +166,42 @@ export default function App() {
 
     if (currentPath === '/admin/security' || currentPath === '/admin/operations') {
       return <AdminSecurityPage />;
+    }
+
+    if (
+      currentPath === '/admin/deployments' ||
+      currentPath === '/admin/cloud' ||
+      currentPath === '/deployments' ||
+      currentPath === '/cloud'
+    ) {
+      return <AdminDeploymentsPage />;
+    }
+
+    if (
+      currentPath === '/admin/sre' ||
+      currentPath === '/admin/observability' ||
+      currentPath === '/sre' ||
+      currentPath === '/observability'
+    ) {
+      return <AdminSrePage />;
+    }
+
+    if (
+      currentPath === '/admin/identity' ||
+      currentPath === '/admin/sso' ||
+      currentPath === '/identity' ||
+      currentPath === '/sso'
+    ) {
+      return <AdminIdentityPage />;
+    }
+
+    if (
+      currentPath === '/admin/release' ||
+      currentPath === '/admin/enterprise-release' ||
+      currentPath === '/admin/control-center' ||
+      currentPath === '/release'
+    ) {
+      return <AdminEnterpriseReleasePage />;
     }
 
     if (currentPath === '/settings') {

@@ -148,6 +148,34 @@ export class AuthStore {
       site_access: ['site-contractor-rig-9'],
       passwordPlain: 'Contractor2026!',
     });
+
+    // Deprovisioned / Suspended Enterprise user (demonstrates revocation preservation)
+    this.createUserInternal({
+      id: 'usr-suspended-05',
+      email: 'ex.auditor@oil-enterprise.com',
+      name: 'Sunil Gogoi (Former Auditor)',
+      role: 'SafetyReviewer',
+      organization_id: 'oil-india-demo',
+      organization_name: 'Oil India Limited (Enterprise HSE)',
+      site_access: ['site-digboi-01'],
+      passwordPlain: 'FormerAuditor2025!',
+      is_active: false,
+      last_login_at: '2026-06-01T10:00:00.000Z',
+    });
+
+    // Stale user account (demonstrates access review stale detection: last login > 90 days)
+    this.createUserInternal({
+      id: 'usr-stale-06',
+      email: 'legacy.consultant@oil-enterprise.com',
+      name: 'Hemanta Deka (Consultant)',
+      role: 'SiteManager',
+      organization_id: 'oil-india-demo',
+      organization_name: 'Oil India Limited (Enterprise HSE)',
+      site_access: ['site-moran-02'],
+      passwordPlain: 'LegacyConsultant2025!',
+      is_active: true,
+      last_login_at: '2026-05-10T08:30:00.000Z',
+    });
   }
 
   private createUserInternal(params: {
@@ -159,6 +187,8 @@ export class AuthStore {
     organization_name: string;
     site_access: string[];
     passwordPlain: string;
+    is_active?: boolean;
+    last_login_at?: string | null;
   }) {
     const salt = this.generateSalt();
     const password_hash = this.hashPassword(params.passwordPlain, salt);
@@ -173,11 +203,11 @@ export class AuthStore {
       site_access: params.site_access,
       password_hash,
       salt,
-      is_active: true,
+      is_active: params.is_active !== undefined ? params.is_active : true,
       failed_login_attempts: 0,
       locked_until: null,
       created_at: new Date().toISOString(),
-      last_login_at: null,
+      last_login_at: params.last_login_at || null,
     };
 
     this.users.set(user.email, user);

@@ -123,3 +123,124 @@ pg_restore -h <DB_HOST> -U suchak_admin -d suchak_db -v -c "/backups/suchak_db_t
    gcloud logging read 'resource.type="cloud_run_revision" AND severity>=ERROR' --limit=50
    ```
 3. Verify that database schema migrations maintain backward compatibility (expand-contract pattern) to prevent breaking previous application revisions.
+
+---
+
+## 6. Horizontal Scaling & Database Pool Math
+
+### 6.1 Sizing Equation & Connection Limits
+To ensure that horizontal scaling never exhausts the managed PostgreSQL server limit (`max_connections = 100`), SUCHAK mandates the following ceiling formula:
+
+$$\text{Total Allocated} = (N_{\text{api}} \times C_{\text{api}}) + (N_{\text{worker}} \times C_{\text{worker}}) + C_{\text{admin}}$$
+
+Where:
+- $N_{\text{api}} = 3$ active API replicas
+- $C_{\text{api}} = 15$ connections per API replica pool
+- $N_{\text{worker}} = 2$ active background worker replicas
+- $C_{\text{worker}} = 10$ connections per worker replica pool
+- $C_{\text{admin}} = 10$ reserved connections for migrations, maintenance, and ad-hoc queries
+
+$$\text{Total Allocated} = (3 \times 15) + (2 \times 10) + 10 = 45 + 20 + 10 = 75 \text{ connections}$$
+
+**Capacity Margin:**
+- Server Max: 100
+- Allocated: 75
+- Buffer: 25 connections (25% safety margin reserved for replication failover, pgBouncer spikes, and health monitors).
+
+---
+
+## 7. Background Worker & Queue Management
+
+### 7.1 Queue Architecture
+- In-process and distributed worker abstraction (`/server/queueService.ts`).
+- Worker concurrency capped at 3 simultaneous jobs to prevent CPU starvation.
+- Exponential backoff retry strategy with maximum 3 retry attempts before Dead-Letter Queue (DLQ) containment.
+- Idempotency keys prevent duplicate deliveries during worker failover.
+
+### 7.2 DLQ Operations & Triage
+```bash
+# Check queue status and dead-letter count
+curl -H "Authorization: Bearer <TOKEN>" http://localhost:3000/api/v1/admin/queue/status
+
+# Enqueue background evaluation task
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer <TOKEN>" \
+  -d '{"type": "REPORT_AI_EVALUATION", "priority": "HIGH", "payload": {"report_id": "REP-2026-001"}}' \
+  http://localhost:3000/api/v1/admin/queue/enqueue
+```
+
+---
+
+## 8. Object & File Storage Abstraction
+
+### 8.1 Provider Abstraction
+- Provider-agnostic storage service (`/server/storageService.ts`) supports GCS, S3, and local filesystem volumes.
+- Strict tenant isolation enforced at path root: `tenants/<organization_id>/<resource_type>/<date>/<resource_id>/<filename>`.
+- Signed upload and download URLs enforce 15-minute expiration windows.
+- Maximum file size ceiling: 15 MB.
+
+---
+
+## 9. External AI Provider & Circuit Breaker
+
+### 9.1 Protection Controls
+- Semaphore limits concurrent outbound requests to Gemini API (max 5 concurrent calls).
+- 10-second timeout guard prevents thread blocking on slow external API responses.
+- Automatic circuit breaker trips to OPEN state after 3 consecutive failures.
+- Zero downtime: While circuit is OPEN or in degraded mode, requests automatically route to the local deterministic HSE rule engine.
+
+---
+
+## 10. Post-Deployment Smoke Test Checklist (17 Vectors)
+
+Execute immediately following any staging or production container rollout:
+```bash
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" http://localhost:3000/api/v1/admin/deployments/smoke-tests
+```
+1. Application liveness & event loop
+2. Frontend asset bundle verification
+3. API subsystem health check
+4. PBKDF2 authentication & credential check
+5. Session token resolution
+6. RBAC privilege boundary check
+7. Multi-tenant scoping & leak check
+8. Report store read path
+9. Synthetic report ingestion write path
+10. AI analysis failure-safe fallback
+11. Semantic vector similarity search
+12. HSE review queue retrieval
+13. CAPA corrective actions retrieval
+14. Safety alert engine state
+15. Analytics aggregation engine
+16. Model evaluation quality gates
+17. Storage health & audit logging
+
+---
+
+## 11. Controlled Synthetic Load Testing Runbook
+
+Execute benchmark loads using synthetic telemetry:
+```bash
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer <ADMIN_TOKEN>" \
+  -d '{"scenario": "COMPREHENSIVE_MIX", "iterations": 60}' \
+  http://localhost:3000/api/v1/admin/deployments/load-test
+```
+Metrics recorded:
+- True requests per second (RPS)
+- Latencies: p50 (median), p95, p99
+- Memory consumption delta (RSS MB)
+
+---
+
+## 12. Disaster Recovery Validation Suite
+
+Execute non-destructive chaos test suite across 6 scenarios:
+```bash
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" http://localhost:3000/api/v1/admin/deployments/dr-test
+```
+Scenarios verified:
+- DR-SC-01: API Replica Crash & Ingress Re-routing
+- DR-SC-02: Background Worker Task Crash & Retry Backoff
+- DR-SC-03: AI Provider Outage & Circuit Breaker Trip
+- DR-SC-04: Vector Index Loss & Source-of-Truth Rebuild
+- DR-SC-05: Object Storage Outage & Pre-signed URL Resiliency
+- DR-SC-06: Emergency Release Rollback Validation

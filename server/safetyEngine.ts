@@ -61,28 +61,28 @@ export function evaluateSafetyNarrativeDeterministic(
 
   // Rule 1: High Pressure & Stored Fluid Energy
   if (
-    ['pressure', '5,000 psi', '5000 psi', 'psi', 'manifold', 'hydrostatic', 'swivel joint', 'whip check', 'blowout'].some(
+    ['pressure', '5,000 psi', '5000 psi', 'psi', 'manifold', 'hydrostatic', 'swivel joint', 'whip check', 'blowout', 'mud hose', 'tension'].some(
       (w) => descLower.includes(w)
     )
   ) {
     hazards.push('PRESSURE');
     if (
-      ['whip check', 'barricade', 'swivel', 'rupture', 'leak', 'line of fire', 'bleed-off', 'blewoff'].some((w) =>
+      ['whip check', 'barricade', 'swivel', 'rupture', 'leak', 'line of fire', 'bleed-off', 'blewoff', 'sheared', 'mud hose', 'hose', 'tension'].some((w) =>
         descLower.includes(w)
       )
     ) {
       isSif = true;
       priority = 'CRITICAL';
       classification = 'SIF_POTENTIAL';
-      indicators.push('High-pressure line testing with compromised or bypassed safety restraint');
-      evidence.push('Hydrostatic or pneumatic pressure testing detected in narrative');
+      indicators.push('High-pressure line or stored energy with compromised safety restraint or mechanical failure');
+      evidence.push('High-pressure line or pressurized mud hose release/whip detected in narrative');
       if (descLower.includes('whip check')) {
         evidence.push('Safety whip check restraint cable identified as compromised or disconnected');
       }
       potentialConsequence =
-        'Component rupture causing catastrophic line whip, severe projectile impact, or fatal trauma.';
+        'Component rupture or line whip causing severe projectile impact, crush trauma, or fatal injury.';
       explanation =
-        'WHY FLAGGED: Report documents high-pressure line operation with compromised barrier controls, representing a direct Line-of-Fire SIF precursor.';
+        'WHY FLAGGED: Report documents high-pressure line or hydraulic/pneumatic equipment failure in vicinity of personnel, representing an immediate SIF precursor.';
     }
   }
   // Rule 2: Working at Height & Gravitational Energy
@@ -282,3 +282,18 @@ Return ONLY a valid JSON object matching this exact schema:
 
   return fallback;
 }
+
+export const safetyEngine = {
+  evaluateSafetyNarrativeDeterministic,
+  analyzeReportSafety,
+  analyzeSafetyReport: async (params: { title?: string; description: string; activity?: string; site?: string }) => {
+    const res = await analyzeReportSafety('temp-smoke-id', `${params.title || ''} ${params.description}`, null);
+    return {
+      sif_potential: res.sif_potential,
+      risk_score: res.classification === 'SIF_POTENTIAL' ? 88 : 32,
+      classification: res.classification,
+      indicators: res.safety_indicators,
+      model_name: res.model_name,
+    };
+  },
+};

@@ -193,6 +193,13 @@ class AuthService {
     }
   }
 
+  public saveSession(session: AuthSessionData): void {
+    localStorage.setItem(TOKEN_KEY, session.token);
+    localStorage.setItem(SESSION_DATA_KEY, JSON.stringify(session));
+    localStorage.setItem(PREVIEW_ROLE_KEY, session.user.role);
+    this.notifyListeners(session);
+  }
+
   public async logout(): Promise<void> {
     const token = this.getToken();
     if (token) {

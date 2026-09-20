@@ -90,6 +90,18 @@ export interface ReportRecord {
   embedding_status?: IndexStatus;
   embedding_content_hash?: string;
   embedding_version?: string;
+  // Phase 18: Enterprise Integration & Data Governance Fields
+  source_system?: string;
+  source_record_id?: string;
+  source_schema_version?: string;
+  ingestion_timestamp?: string;
+  connector_id?: string;
+  data_classification?: 'PUBLIC' | 'INTERNAL' | 'CONFIDENTIAL' | 'RESTRICTED';
+  provenance_type?: 'SOURCE_DATA' | 'AI_GENERATED' | 'HUMAN_CORRECTED' | 'DERIVED' | 'SYSTEM_GENERATED';
+  legal_hold?: boolean;
+  legal_hold_id?: string | null;
+  archival_status?: 'ACTIVE' | 'ARCHIVED' | 'PURGED';
+  retention_expires_at?: string;
 }
 
 export interface AuditRecord {
@@ -479,6 +491,90 @@ const INITIAL_REPORTS: ReportRecord[] = [
     activity: ACTIVITIES[3],
     attachments_count: 0,
   },
+  {
+    id: 'rep-uuid-0892',
+    organization_id: 'oil-india-demo',
+    report_number: 'REP-2026-0892',
+    report_type: 'Unsafe Act',
+    site_id: 'site-digboi-01',
+    location_id: 'loc-02',
+    activity_id: 'act-02',
+    report_datetime: '2026-09-18T15:00:00.000Z',
+    description: 'Scaffolding tie-off compromised during structural platform modification at elevation.',
+    actual_outcome: 'Auditor stopped work; static lifeline installed before resuming.',
+    processing_status: 'ANALYZED',
+    review_status: 'Verified SIF',
+    source: 'PORTAL_WEB',
+    created_at: '2026-09-18T15:05:00.000Z',
+    updated_at: '2026-09-18T15:10:00.000Z',
+    site: SITES[0],
+    location: LOCATIONS[1],
+    activity: ACTIVITIES[1],
+    attachments_count: 1,
+  },
+  {
+    id: 'rep-uuid-0893',
+    organization_id: 'oil-india-demo',
+    report_number: 'REP-2026-0893',
+    report_type: 'Near-Miss',
+    site_id: 'site-moran-02',
+    location_id: 'loc-04',
+    activity_id: 'act-01',
+    report_datetime: '2026-09-18T16:00:00.000Z',
+    description: 'Mud circulation line valve seal failed during high-rate pumping operation.',
+    actual_outcome: 'Pressure dumped safely to reserve pit; no personnel in splash zone.',
+    processing_status: 'ANALYZED',
+    review_status: 'Verified SIF',
+    source: 'PORTAL_WEB',
+    created_at: '2026-09-18T16:05:00.000Z',
+    updated_at: '2026-09-18T16:10:00.000Z',
+    site: SITES[1],
+    location: LOCATIONS[3],
+    activity: ACTIVITIES[0],
+    attachments_count: 0,
+  },
+  {
+    id: 'rep-uuid-0894',
+    organization_id: 'oil-india-demo',
+    report_number: 'REP-2026-0894',
+    report_type: 'Unsafe Condition',
+    site_id: 'site-duliajan-03',
+    location_id: 'loc-07',
+    activity_id: 'act-03',
+    report_datetime: '2026-09-18T17:00:00.000Z',
+    description: 'Electrical isolation interlock switch malfunction on mud agitator panel.',
+    actual_outcome: 'Lockout tagout confirmed manually with circuit breaker padlock.',
+    processing_status: 'ANALYZED',
+    review_status: 'Action Assigned',
+    source: 'PORTAL_WEB',
+    created_at: '2026-09-18T17:05:00.000Z',
+    updated_at: '2026-09-18T17:10:00.000Z',
+    site: SITES[2],
+    location: LOCATIONS[6],
+    activity: ACTIVITIES[2],
+    attachments_count: 0,
+  },
+  {
+    id: 'rep-uuid-0895',
+    organization_id: 'oil-india-demo',
+    report_number: 'REP-2026-0895',
+    report_type: 'Near-Miss',
+    site_id: 'site-numaligarh-04',
+    location_id: 'loc-10',
+    activity_id: 'act-01',
+    report_datetime: '2026-09-18T18:00:00.000Z',
+    description: 'High pressure manifold flanged joint showed micro-fracture during hydrostatic pressure test.',
+    actual_outcome: 'Automated pressure relief opened; line depressurized immediately.',
+    processing_status: 'ANALYZED',
+    review_status: 'Under Review',
+    source: 'PORTAL_WEB',
+    created_at: '2026-09-18T18:05:00.000Z',
+    updated_at: '2026-09-18T18:10:00.000Z',
+    site: SITES[3],
+    location: LOCATIONS[9],
+    activity: ACTIVITIES[0],
+    attachments_count: 0,
+  },
 ];
 
 class SafetyDataStore {
@@ -716,6 +812,15 @@ class SafetyDataStore {
     activity_id?: string;
     report_datetime?: string;
     source?: string;
+    organization_id?: string;
+    source_system?: string;
+    source_record_id?: string;
+    source_schema_version?: string;
+    connector_id?: string;
+    data_classification?: 'PUBLIC' | 'INTERNAL' | 'CONFIDENTIAL' | 'RESTRICTED';
+    provenance_type?: 'SOURCE_DATA' | 'AI_GENERATED' | 'HUMAN_CORRECTED' | 'DERIVED' | 'SYSTEM_GENERATED';
+    legal_hold?: boolean;
+    retention_expires_at?: string;
   }): Promise<ReportRecord> {
     const seq = this.reportSeq++;
     const reportNumber = `REP-2026-${seq.toString().padStart(4, '0')}`;
@@ -735,7 +840,7 @@ class SafetyDataStore {
 
     const report: ReportRecord = {
       id,
-      organization_id: 'oil-india-demo',
+      organization_id: data.organization_id || 'oil-india-demo',
       report_number: reportNumber,
       report_type: data.report_type || 'Near-Miss',
       site_id: site.id,
@@ -753,6 +858,14 @@ class SafetyDataStore {
       location,
       activity,
       attachments_count: 0,
+      source_system: data.source_system,
+      source_record_id: data.source_record_id,
+      source_schema_version: data.source_schema_version,
+      connector_id: data.connector_id,
+      data_classification: data.data_classification || 'INTERNAL',
+      provenance_type: data.provenance_type || 'SOURCE_DATA',
+      legal_hold: data.legal_hold || false,
+      retention_expires_at: data.retention_expires_at,
     };
 
     // Run AI safety analysis

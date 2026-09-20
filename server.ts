@@ -28,6 +28,25 @@ import {
 } from './server/securityMiddleware.ts';
 import { runSecurityRegressionSuite } from './server/securityTests.ts';
 import { sanitizeCsvField } from './server/redaction.ts';
+import { storageService } from './server/storageService.ts';
+import { queueService } from './server/queueService.ts';
+import { aiLimiter } from './server/aiLimiter.ts';
+import { deploymentService } from './server/deploymentService.ts';
+import { runDeploymentSmokeTests } from './server/smokeTests.ts';
+import { loadTestingService } from './server/loadTestingService.ts';
+import { drTestingService } from './server/drTestingService.ts';
+import { observabilityService } from './server/observabilityService.ts';
+import { runSreValidationSuite } from './server/sreTests.ts';
+import { PerformanceTestSuite } from './server/performanceTestSuite.ts';
+import { identityService } from './server/identityService.ts';
+import { runIdentityValidationSuite } from './server/identityTests.ts';
+import { integrationService } from './server/integrationService.ts';
+import { dataGovernanceService } from './server/dataGovernanceService.ts';
+import { complianceControlService } from './server/complianceControlService.ts';
+import { dastSecurityService } from './server/dastSecurityService.ts';
+import { releaseAcceptanceService } from './server/releaseAcceptanceService.ts';
+import { runFinalUatSuite } from './server/finalUatSuite.ts';
+import { runFullRegressionSuite } from './server/fullRegressionSuite.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +70,35 @@ async function startServer() {
   // Security Middleware Stack
   app.use(requestIdMiddleware);
   app.use(securityHeadersMiddleware);
+
+  // Phase 16: SRE Observability Request Telemetry Middleware
+  app.use((req, res, next) => {
+    const start = Date.now();
+    const reqId = (req.headers['x-request-id'] as string) || `req-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const traceId = (req.headers['x-trace-id'] as string) || `tr-${Date.now()}`;
+    const isSynthetic =
+      req.headers['x-telemetry-class'] === 'SYNTHETIC_SMOKE' ||
+      req.path.includes('/smoke-tests') ||
+      req.path.includes('/sre-test');
+
+    res.on('finish', () => {
+      if (req.path.startsWith('/api/') || req.path === '/health' || req.path === '/live' || req.path === '/ready') {
+        const duration = Date.now() - start;
+        observabilityService.recordRequest({
+          timestamp: new Date().toISOString(),
+          method: req.method,
+          route: req.baseUrl + (req.route?.path || req.path),
+          status_code: res.statusCode,
+          duration_ms: duration,
+          telemetry_class: isSynthetic ? 'SYNTHETIC_SMOKE' : 'REAL_USER',
+          request_id: reqId,
+          trace_id: traceId,
+          organization_id: (req.headers['x-organization-id'] as string) || 'oil-india-demo',
+        });
+      }
+    });
+    next();
+  });
 
   // Body parsers
   app.use(express.json({ limit: '15mb' }));
@@ -332,6 +380,223 @@ async function startServer() {
     res.json({ token: updated.token, user: updated, request_id: req.requestId });
   });
 
+  // --- Phase 17 Enterprise Identity, SSO/OIDC & Access Governance Endpoints ---
+  app.get('/api/v1/auth/providers', (_req: Request, res: Response) => {
+    const providers = identityService.getProviders(undefined, true);
+    res.json({
+      providers,
+      count: providers.length,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  app.post('/api/v1/auth/discover-domain', (req: Request, res: Response) => {
+    const { email } = req.body || {};
+    const result = identityService.discoverOrganizationByEmail(email);
+    res.json(result);
+  });
+
+  app.post('/api/v1/auth/sso/start', rateLimiterMiddleware('AUTH'), (req: Request, res: Response) => {
+    const { provider_id, redirect_uri } = req.body || {};
+    if (!provider_id) {
+      return res.status(400).json({ error: { code: 'MISSING_PROVIDER', message: 'provider_id is required' } });
+    }
+
+    try {
+      const authReq = identityService.createOidcAuthorizationRequest(provider_id, redirect_uri);
+      res.json(authReq);
+    } catch (err: any) {
+      res.status(400).json({ error: { code: 'IDP_REQUEST_FAILED', message: err.message } });
+    }
+  });
+
+  app.post('/api/v1/auth/sso/callback', rateLimiterMiddleware('AUTH'), (req: Request, res: Response) => {
+    const { state, code, id_token } = req.body || {};
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.ip || '127.0.0.1';
+    const ua = (req.headers['user-agent'] as string) || 'Browser';
+
+    const result = identityService.handleSsoCallback({
+      state,
+      code,
+      id_token,
+      ip,
+      ua,
+      requestId: req.requestId,
+    });
+
+    if (!result.success) {
+      return res.status(result.status).json({
+        error: {
+          code: result.reason_code || 'SSO_AUTH_FAILED',
+          message: result.error,
+          account_status: result.account_status,
+          request_id: req.requestId,
+        },
+      });
+    }
+
+    res.json({
+      token: result.session.token,
+      user: {
+        id: result.session.user_id,
+        email: result.session.email,
+        name: result.session.name,
+        role: result.session.role,
+        organization_id: result.session.organization_id,
+        organization_name: result.session.organization_name,
+        site_access: result.session.site_access,
+        permissions: result.session.permissions,
+      },
+      mapped_role: result.mapped_role,
+      expires_at: result.session.expires_at,
+      request_id: req.requestId,
+    });
+  });
+
+  app.get('/api/v1/auth/sso/jwks', (_req: Request, res: Response) => {
+    res.json(identityService.getJwks());
+  });
+
+  app.post('/api/v1/auth/sso/logout', (req: Request, res: Response) => {
+    let token: string | undefined;
+    const authHeader = req.header('Authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7).trim();
+    } else if (req.header('X-Session-Token')) {
+      token = req.header('X-Session-Token')!.trim();
+    }
+
+    if (token) {
+      authStore.revokeSession(token, req.auth?.email, req.requestId);
+      authStore.logSecurityEvent({
+        event_type: 'ENTERPRISE_LOGOUT',
+        actor_email: req.auth?.email,
+        organization_id: req.auth?.organization_id,
+        action_summary: `Enterprise SSO session terminated for ${req.auth?.email || 'user'}`,
+        outcome: 'SUCCESS',
+        request_id: req.requestId,
+      });
+    }
+
+    res.json({
+      message: 'Enterprise session revoked. Application logout complete.',
+      request_id: req.requestId,
+    });
+  });
+
+  // Admin Identity Governance & Federation Controls
+  app.get('/api/v1/admin/identity/providers', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || req.auth?.organization_id;
+    const providers = identityService.getProviders(orgId);
+    res.json({ providers, timestamp: new Date().toISOString() });
+  });
+
+  app.post('/api/v1/admin/identity/providers', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    try {
+      const provider = identityService.registerProvider(req.body, req.auth?.email || 'system_admin');
+      res.status(201).json({ provider, message: 'Identity Provider registered successfully' });
+    } catch (err: any) {
+      res.status(400).json({ error: { code: 'REGISTRATION_FAILED', message: err.message } });
+    }
+  });
+
+  app.patch('/api/v1/admin/identity/providers/:id', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const updated = identityService.updateProvider(req.params.id, req.body, req.auth?.email || 'system_admin');
+    if (!updated) {
+      return res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Identity Provider not found' } });
+    }
+    res.json({ provider: updated, message: 'Identity Provider updated successfully' });
+  });
+
+  app.post('/api/v1/admin/identity/providers/:id/status', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const { status } = req.body || {};
+    const result = identityService.setProviderStatus(req.params.id, status, req.auth?.email || 'system_admin');
+    if (!result.success) {
+      return res.status(400).json({ error: { code: 'STATUS_UPDATE_FAILED', message: result.error } });
+    }
+    res.json({ provider: result.provider, message: `Identity Provider status updated to ${status}` });
+  });
+
+  app.post('/api/v1/admin/identity/providers/:id/validate', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const result = identityService.validateProviderConfig(req.params.id, req.auth?.email || 'system_admin');
+    res.json(result);
+  });
+
+  app.get('/api/v1/admin/identity/mappings', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || req.auth?.organization_id;
+    const mappings = identityService.getGroupRoleMappings(orgId);
+    res.json({ mappings, count: mappings.length });
+  });
+
+  app.post('/api/v1/admin/identity/mappings', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    try {
+      const mapping = identityService.createGroupRoleMapping(req.body, req.auth?.email || 'system_admin');
+      res.status(201).json({ mapping, message: 'Group mapping created successfully' });
+    } catch (err: any) {
+      res.status(400).json({ error: { code: 'MAPPING_CREATION_FAILED', message: err.message } });
+    }
+  });
+
+  app.delete('/api/v1/admin/identity/mappings/:id', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const success = identityService.deleteGroupRoleMapping(req.params.id, req.auth?.email || 'system_admin');
+    if (!success) {
+      return res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Mapping not found' } });
+    }
+    res.json({ success: true, message: 'Group mapping removed successfully' });
+  });
+
+  app.get('/api/v1/admin/identity/links', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || req.auth?.organization_id;
+    const links = identityService.getIdentityLinks(orgId);
+    res.json({ links, count: links.length });
+  });
+
+  app.post('/api/v1/admin/identity/users/:id/status', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const { status, reason } = req.body || {};
+    const result = identityService.setAccountLifecycleStatus(req.params.id, status, req.auth?.email || 'system_admin', reason);
+    if (!result.success) {
+      return res.status(400).json({ error: { code: 'STATUS_UPDATE_FAILED', message: result.error } });
+    }
+    res.json({ success: true, message: `Account lifecycle status updated to ${status}` });
+  });
+
+  app.post('/api/v1/admin/identity/links/:id/unlink', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const result = identityService.unlinkExternalIdentity(req.params.id, req.auth?.email || 'system_admin');
+    if (!result.success) {
+      return res.status(404).json({ error: { code: 'NOT_FOUND', message: result.error } });
+    }
+    res.json({ success: true, message: 'External identity link removed. User and data history preserved.' });
+  });
+
+  app.get('/api/v1/admin/identity/governance-report', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    const orgId = (req.query.organization_id as string) || req.auth?.organization_id;
+    const report = identityService.getAccessGovernanceReport(orgId);
+    res.json(report);
+  });
+
+  app.get('/api/v1/admin/identity/compliance-matrix', authMiddleware(), requireRole(['OrgAdmin']), (_req: Request, res: Response) => {
+    const controls = identityService.getComplianceControlMatrix();
+    res.json({ controls, count: controls.length, timestamp: new Date().toISOString() });
+  });
+
+  app.get('/api/v1/admin/identity/telemetry', authMiddleware(), requireRole(['OrgAdmin']), (_req: Request, res: Response) => {
+    res.json(identityService.getTelemetry());
+  });
+
+  app.post('/api/v1/admin/identity/simulate-token', authMiddleware(), requireRole(['OrgAdmin']), (req: Request, res: Response) => {
+    try {
+      const token = identityService.generateSyntheticOidcToken(req.body);
+      res.json({ token, generated_at: new Date().toISOString() });
+    } catch (err: any) {
+      res.status(400).json({ error: { code: 'TOKEN_GEN_FAILED', message: err.message } });
+    }
+  });
+
+  app.post('/api/v1/admin/identity/run-suite', authMiddleware(), requireRole(['OrgAdmin']), async (_req: Request, res: Response) => {
+    const summary = await runIdentityValidationSuite();
+    res.json(summary);
+  });
+
   // --- Phase 14 Security & Operations Control Endpoints ---
   app.get('/api/v1/admin/security/status', (_req: Request, res: Response) => {
     res.json({
@@ -417,6 +682,337 @@ async function startServer() {
     } catch (err: any) {
       res.status(500).json({ error: 'Failed to execute security regression suite', details: err.message });
     }
+  });
+
+  // --- Phase 15 Cloud Deployment, Scalability & Operations Endpoints ---
+  app.get('/api/v1/admin/deployments/current', (_req: Request, res: Response) => {
+    res.json({
+      current: deploymentService.getCurrentDeployment(),
+      db_pool: deploymentService.getDatabasePoolCapacity(),
+      queue: queueService.getTelemetry(),
+      storage: storageService.getStatus(),
+      ai_limiter: aiLimiter.getTelemetry(),
+    });
+  });
+
+  app.get('/api/v1/admin/deployments/history', (_req: Request, res: Response) => {
+    res.json(deploymentService.getDeploymentHistory());
+  });
+
+  app.post('/api/v1/admin/deployments/deploy', (req: Request, res: Response) => {
+    try {
+      const {
+        environment,
+        application_version,
+        image_version,
+        commit_sha,
+        migration_version,
+        release_notes,
+        active_replicas,
+      } = req.body || {};
+
+      const actor = req.body.actor || {
+        id: req.auth?.user_id || 'usr-admin-01',
+        name: req.auth?.name || 'Dr. Rajesh Sharma',
+        role: req.auth?.role || 'OrgAdmin',
+      };
+
+      const record = deploymentService.triggerDeployment({
+        environment: environment || 'production',
+        application_version: application_version || 'v1.5.1',
+        image_version: image_version || `suchak:${application_version || 'v1.5.1'}-git-${(commit_sha || 'c8f13b2').slice(0, 7)}`,
+        commit_sha: commit_sha || 'c8f13b2',
+        migration_version: migration_version || '20260920_002_scalability_indexes',
+        release_notes: release_notes || 'Scheduled production rollout with forward-compatible migrations.',
+        actor,
+        active_replicas: Number(active_replicas) || 3,
+      });
+
+      res.status(201).json(record);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.post('/api/v1/admin/deployments/rollback', (req: Request, res: Response) => {
+    try {
+      const { target_deployment_id } = req.body || {};
+      const actor = req.body.actor || {
+        id: req.auth?.user_id || 'usr-admin-01',
+        name: req.auth?.name || 'Dr. Rajesh Sharma',
+        role: req.auth?.role || 'OrgAdmin',
+      };
+
+      if (!target_deployment_id) {
+        return res.status(400).json({ error: 'target_deployment_id is required for rollback.' });
+      }
+
+      const rolledBack = deploymentService.rollbackDeployment(target_deployment_id, actor);
+      res.json(rolledBack);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/deployments/readiness-matrix', (_req: Request, res: Response) => {
+    res.json(deploymentService.getReadinessMatrix());
+  });
+
+  app.get('/api/v1/admin/deployments/db-pool', (_req: Request, res: Response) => {
+    res.json(deploymentService.getDatabasePoolCapacity());
+  });
+
+  app.post('/api/v1/admin/deployments/smoke-tests', async (_req: Request, res: Response) => {
+    try {
+      const summary = await runDeploymentSmokeTests();
+      res.json(summary);
+    } catch (err: any) {
+      res.status(500).json({ error: 'Failed to execute smoke test suite', details: err.message });
+    }
+  });
+
+  app.post('/api/v1/admin/deployments/load-test', async (req: Request, res: Response) => {
+    try {
+      const { scenario, iterations } = req.body || {};
+      const result = await loadTestingService.executeScenario({
+        scenarioName: scenario || 'COMPREHENSIVE_MIX',
+        concurrentIterations: Number(iterations) || 50,
+        syntheticPayloadType: 'INDUSTRIAL_SAFETY_TELEMETRY',
+      });
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: 'Failed to execute synthetic load test', details: err.message });
+    }
+  });
+
+  app.post('/api/v1/admin/deployments/dr-test', async (_req: Request, res: Response) => {
+    try {
+      const report = await drTestingService.executeNonDestructiveSuite();
+      res.json(report);
+    } catch (err: any) {
+      res.status(500).json({ error: 'Failed to execute disaster recovery suite', details: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/storage/status', (_req: Request, res: Response) => {
+    res.json(storageService.getStatus());
+  });
+
+  app.post('/api/v1/admin/storage/signed-upload-url', (req: Request, res: Response) => {
+    try {
+      const { resource_type, resource_id, file_name, content_type, size_bytes } = req.body || {};
+      const tenantId = req.auth?.organization_id || 'oil-india-demo';
+      const actorId = req.auth?.user_id || 'usr-admin-01';
+
+      if (!file_name || !content_type || !size_bytes) {
+        return res.status(400).json({ error: 'file_name, content_type, and size_bytes are required.' });
+      }
+
+      const signed = storageService.generateSignedUploadUrl(
+        {
+          tenantId,
+          resourceType: resource_type || 'report_attachment',
+          resourceId: resource_id || 'general',
+          fileName: file_name,
+          contentType: content_type,
+          sizeBytes: Number(size_bytes),
+        },
+        actorId
+      );
+
+      res.json(signed);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/queue/status', (req: Request, res: Response) => {
+    const limit = Number(req.query.limit) || 20;
+    res.json({
+      telemetry: queueService.getTelemetry(),
+      recent_jobs: queueService.getJobs(limit),
+    });
+  });
+
+  app.post('/api/v1/admin/queue/enqueue', (req: Request, res: Response) => {
+    try {
+      const { type, payload, priority } = req.body || {};
+      const tenantId = req.auth?.organization_id || 'oil-india-demo';
+      const actorId = req.auth?.user_id || 'usr-admin-01';
+
+      if (!type) {
+        return res.status(400).json({ error: 'Job type is required.' });
+      }
+
+      const job = queueService.enqueueJob({
+        type,
+        tenantId,
+        actorUserId: actorId,
+        payload: payload || {},
+        priority: priority || 'NORMAL',
+      });
+
+      res.status(202).json(job);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/scalability/ai-limiter', (_req: Request, res: Response) => {
+    res.json(aiLimiter.getTelemetry());
+  });
+
+  // =========================================================================
+  // Phase 16: SRE, Observability, SLOs, Incidents, & Performance Endpoints
+  // =========================================================================
+  app.get('/api/v1/admin/sre/overview', (_req: Request, res: Response) => {
+    try {
+      res.json({
+        golden_signals: observabilityService.getGoldenSignals(),
+        services: observabilityService.getServiceInventory(),
+        slos: observabilityService.getSlos(),
+        incidents_summary: observabilityService.getIncidents(),
+        capacity: observabilityService.getCapacityPlan(),
+        client_performance: observabilityService.getClientPerformanceSummary(),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: 'Failed to fetch SRE overview', details: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/sre/services', (_req: Request, res: Response) => {
+    res.json(observabilityService.getServiceInventory());
+  });
+
+  app.get('/api/v1/admin/sre/slos', (_req: Request, res: Response) => {
+    res.json(observabilityService.getSlos());
+  });
+
+  app.get('/api/v1/admin/sre/incidents', (_req: Request, res: Response) => {
+    res.json(observabilityService.getIncidents());
+  });
+
+  app.post('/api/v1/admin/sre/incidents', (req: Request, res: Response) => {
+    try {
+      const { severity, service_id, summary, impact_description, owner, runbook_url } = req.body;
+      if (!severity || !service_id || !summary) {
+        return res.status(400).json({ error: 'severity, service_id, and summary are required' });
+      }
+      const inc = observabilityService.createIncident({
+        severity,
+        service_id,
+        summary,
+        impact_description: impact_description || 'Operational observation',
+        owner: owner || 'SRE On-Call',
+        runbook_url,
+      });
+      res.status(201).json(inc);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.post('/api/v1/admin/sre/incidents/:id/transition', (req: Request, res: Response) => {
+    try {
+      const { status, actor_name, notes } = req.body;
+      if (!status) {
+        return res.status(400).json({ error: 'status is required' });
+      }
+      const updated = observabilityService.transitionIncident(
+        req.params.id,
+        status,
+        actor_name || 'SRE Engineer',
+        notes
+      );
+      res.json(updated);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/sre/traces', (req: Request, res: Response) => {
+    const limit = Number(req.query.limit) || 30;
+    res.json(observabilityService.getTraces(limit));
+  });
+
+  app.get('/api/v1/admin/sre/traces/:traceId', (req: Request, res: Response) => {
+    const trace = observabilityService.getTraceById(req.params.traceId);
+    if (!trace) {
+      return res.status(404).json({ error: `Trace ${req.params.traceId} not found` });
+    }
+    res.json(trace);
+  });
+
+  app.get('/api/v1/admin/sre/baselines', (_req: Request, res: Response) => {
+    res.json({
+      baselines: observabilityService.getBaselines(),
+      regressions: observabilityService.getRegressions(),
+    });
+  });
+
+  app.post('/api/v1/admin/sre/run-performance-suite', async (req: Request, res: Response) => {
+    try {
+      const { workloadClass, iterations, concurrency, environment } = req.body || {};
+      const result = await PerformanceTestSuite.executeTest({
+        workloadClass: workloadClass || 'BASELINE',
+        iterations: iterations ? Number(iterations) : 25,
+        concurrency: concurrency ? Number(concurrency) : 3,
+        environment: environment || 'PRODUCTION_STAGING',
+      });
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: 'Performance suite failed', details: err.message });
+    }
+  });
+
+  app.post('/api/v1/admin/sre/run-sre-suite', async (_req: Request, res: Response) => {
+    try {
+      const summary = await runSreValidationSuite();
+      res.json(summary);
+    } catch (err: any) {
+      res.status(500).json({ error: 'SRE validation suite failed', details: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/sre/fault-scenarios', (_req: Request, res: Response) => {
+    res.json(observabilityService.getFaultScenarios());
+  });
+
+  app.post('/api/v1/admin/sre/fault-injection', async (req: Request, res: Response) => {
+    try {
+      const { scenario_id } = req.body || {};
+      if (!scenario_id) {
+        return res.status(400).json({ error: 'scenario_id is required' });
+      }
+      const result = await observabilityService.executeFaultSimulation(scenario_id);
+      res.json(result);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/sre/capacity', (_req: Request, res: Response) => {
+    res.json(observabilityService.getCapacityPlan());
+  });
+
+  app.get('/api/v1/admin/sre/security-findings', (_req: Request, res: Response) => {
+    res.json(observabilityService.getSecurityFindings());
+  });
+
+  app.post('/api/v1/admin/sre/client-telemetry', (req: Request, res: Response) => {
+    try {
+      observabilityService.recordClientBeacon({
+        ...req.body,
+        timestamp: new Date().toISOString(),
+      });
+      res.status(202).json({ status: 'accepted' });
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/v1/admin/sre/client-telemetry', (_req: Request, res: Response) => {
+    res.json(observabilityService.getClientPerformanceSummary());
   });
 
   app.get('/api/v1/auth/users', (req: Request, res: Response) => {
@@ -2607,6 +3203,261 @@ Ground your response in IOGP Life-Saving Rules, barrier integrity, and SIF precu
     res.json({ answer, source: 'suchak_hse_intelligence_engine' });
   });
 
+  // =========================================================================
+  // PHASE 18: ENTERPRISE INTEGRATIONS, DATA GOVERNANCE & RELEASE ACCEPTANCE
+  // =========================================================================
+
+  // --- 1. Enterprise Integrations & Connectors ---
+  app.get('/api/v1/integrations/connectors', (req: Request, res: Response) => {
+    const orgId = (req.query.org as string) || (req as any).user?.organization_id || 'oil-india-demo';
+    const connectors = integrationService.getConnectors(orgId);
+    res.json({ connectors, total: connectors.length });
+  });
+
+  app.post('/api/v1/integrations/connectors', (req: Request, res: Response) => {
+    try {
+      const actor = (req as any).user?.email || 'system_admin';
+      const connector = integrationService.registerConnector(req.body, actor);
+      res.status(201).json({ success: true, connector });
+    } catch (err: any) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/integrations/connectors/:id', (req: Request, res: Response) => {
+    const connector = integrationService.getConnectorById(req.params.id);
+    if (!connector) return res.status(404).json({ error: 'Connector not found' });
+    res.json({ connector });
+  });
+
+  app.put('/api/v1/integrations/connectors/:id', (req: Request, res: Response) => {
+    try {
+      const actor = (req as any).user?.email || 'system_admin';
+      const updated = integrationService.updateConnector(req.params.id, req.body, actor);
+      if (!updated) return res.status(404).json({ error: 'Connector not found' });
+      res.json({ success: true, connector: updated });
+    } catch (err: any) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  });
+
+  app.post('/api/v1/integrations/connectors/:id/status', (req: Request, res: Response) => {
+    const { status, oil_hsse_mode } = req.body;
+    const actor = (req as any).user?.email || 'system_admin';
+    const result = integrationService.setConnectorStatus(req.params.id, status, oil_hsse_mode, actor);
+    if (!result.success) {
+      return res.status(400).json({ success: false, error: result.error });
+    }
+    res.json({ success: true, connector: result.connector });
+  });
+
+  app.post('/api/v1/integrations/connectors/:id/validate', (req: Request, res: Response) => {
+    const actor = (req as any).user?.email || 'system_admin';
+    const validation = integrationService.validateConnector(req.params.id, actor);
+    res.json({ validation });
+  });
+
+  app.post('/api/v1/integrations/connectors/:id/ingest', async (req: Request, res: Response) => {
+    try {
+      const { records, is_dry_run } = req.body;
+      if (!Array.isArray(records)) {
+        return res.status(400).json({ error: 'Payload must contain a "records" array' });
+      }
+      const actor = (req as any).user?.email || 'system_integration';
+      const result = await integrationService.ingestBatch(req.params.id, records, {
+        isDryRun: is_dry_run,
+        actor,
+      });
+      res.json({ success: true, batch: result });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/integrations/audit-logs', (_req: Request, res: Response) => {
+    const logs = integrationService.getIntegrationAuditLogs();
+    res.json({ logs, total: logs.length });
+  });
+
+  app.get('/api/v1/integrations/outbound-webhooks', (req: Request, res: Response) => {
+    const orgId = (req.query.org as string) || (req as any).user?.organization_id || 'oil-india-demo';
+    const webhooks = integrationService.getOutboundWebhooks(orgId);
+    res.json({ webhooks, total: webhooks.length });
+  });
+
+  app.post('/api/v1/integrations/outbound-webhooks', (req: Request, res: Response) => {
+    try {
+      const created = integrationService.registerOutboundWebhook(req.body);
+      res.status(201).json({ success: true, webhook: created });
+    } catch (err: any) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/integrations/outbound-deliveries', (_req: Request, res: Response) => {
+    const deliveries = integrationService.getOutboundDeliveries();
+    res.json({ deliveries, total: deliveries.length });
+  });
+
+  // --- 2. Advanced Data Governance & Lineage ---
+  app.get('/api/v1/governance/policies', (_req: Request, res: Response) => {
+    const policies = dataGovernanceService.getPolicies();
+    res.json({ policies, total: policies.length });
+  });
+
+  app.put('/api/v1/governance/policies/:domain', (req: Request, res: Response) => {
+    try {
+      const actor = (req as any).user?.email || 'system_admin';
+      const updated = dataGovernanceService.updatePolicy(req.params.domain as any, req.body, actor);
+      res.json({ success: true, policy: updated });
+    } catch (err: any) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/governance/legal-holds', (req: Request, res: Response) => {
+    const orgId = (req.query.org as string) || (req as any).user?.organization_id || 'oil-india-demo';
+    const holds = dataGovernanceService.getLegalHolds(orgId);
+    res.json({ holds, total: holds.length });
+  });
+
+  app.post('/api/v1/governance/legal-holds', (req: Request, res: Response) => {
+    try {
+      const actor = (req as any).user?.email || 'legal_officer';
+      const hold = dataGovernanceService.placeLegalHold({
+        ...req.body,
+        placed_by: actor,
+        organization_id: req.body.organization_id || 'oil-india-demo',
+      });
+      res.status(201).json({ success: true, hold });
+    } catch (err: any) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  });
+
+  app.post('/api/v1/governance/legal-holds/:id/release', (req: Request, res: Response) => {
+    const actor = (req as any).user?.email || 'legal_officer';
+    const result = dataGovernanceService.releaseLegalHold(req.params.id, req.body.reason || 'Matter closed', actor);
+    if (!result.success) {
+      return res.status(400).json({ success: false, error: result.error });
+    }
+    res.json({ success: true, hold: result.hold });
+  });
+
+  app.get('/api/v1/governance/reports/:id/lineage', (req: Request, res: Response) => {
+    const lineage = dataGovernanceService.getReportLineage(req.params.id);
+    if (!lineage) {
+      return res.status(404).json({ error: 'Report not found for lineage trace' });
+    }
+    res.json({ lineage });
+  });
+
+  app.get('/api/v1/governance/quality', (req: Request, res: Response) => {
+    const orgId = (req.query.org as string) || (req as any).user?.organization_id || 'oil-india-demo';
+    const quality = dataGovernanceService.evaluateDataQuality(orgId);
+    res.json({ quality });
+  });
+
+  app.post('/api/v1/governance/retention/scan', (req: Request, res: Response) => {
+    const orgId = req.body.organization_id || 'oil-india-demo';
+    const scan = dataGovernanceService.executeRetentionScan(orgId);
+    res.json({ success: true, scan });
+  });
+
+  app.post('/api/v1/governance/export/evaluate', (req: Request, res: Response) => {
+    const evaluation = dataGovernanceService.evaluateExportRequest({
+      user_email: req.body.user_email || (req as any).user?.email || 'anonymous',
+      user_role: req.body.user_role || (req as any).user?.role || 'Observer',
+      organization_id: req.body.organization_id || 'oil-india-demo',
+      domain: req.body.domain || 'reports',
+      format: req.body.format || 'CSV',
+    });
+    res.json({ evaluation });
+  });
+
+  app.get('/api/v1/governance/export/audits', (_req: Request, res: Response) => {
+    const audits = dataGovernanceService.getExportGovernanceAudits();
+    res.json({ audits, total: audits.length });
+  });
+
+  // --- 3. Compliance Control Catalog ---
+  app.get('/api/v1/compliance/controls', (req: Request, res: Response) => {
+    const area = req.query.area as any;
+    const controls = complianceControlService.getControls(area);
+    res.json({ controls, total: controls.length });
+  });
+
+  app.get('/api/v1/compliance/summary', (_req: Request, res: Response) => {
+    const summary = complianceControlService.getSummary();
+    res.json({ summary });
+  });
+
+  // --- 4. Security Assurance & DAST ---
+  app.get('/api/v1/security/findings', (_req: Request, res: Response) => {
+    const findings = dastSecurityService.getFindings();
+    const openCriticalOrHigh = dastSecurityService.getOpenCriticalOrHighCount();
+    res.json({ findings, total: findings.length, open_critical_or_high: openCriticalOrHigh });
+  });
+
+  app.post('/api/v1/security/dast/run', async (_req: Request, res: Response) => {
+    try {
+      const results = await dastSecurityService.runDastSuite();
+      res.json({ success: true, dast: results });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/security/dast/results', (_req: Request, res: Response) => {
+    const results = dastSecurityService.getLastDastResults();
+    res.json({ results });
+  });
+
+  // --- 5. Production Acceptance & Release Gates ---
+  app.get('/api/v1/release/manifest', async (_req: Request, res: Response) => {
+    const manifest = await releaseAcceptanceService.getReleaseCandidate();
+    res.json({ manifest });
+  });
+
+  app.post('/api/v1/release/evaluate', async (_req: Request, res: Response) => {
+    const manifest = await releaseAcceptanceService.evaluateReleaseCandidate();
+    res.json({ success: true, manifest });
+  });
+
+  app.get('/api/v1/release/database-integrity', (req: Request, res: Response) => {
+    const orgId = (req.query.org as string) || 'oil-india-demo';
+    const integrity = releaseAcceptanceService.verifyDatabaseIntegrity(orgId);
+    res.json({ integrity });
+  });
+
+  app.post('/api/v1/release/uat/run', async (_req: Request, res: Response) => {
+    try {
+      const uatRun = await releaseAcceptanceService.triggerUatSuite();
+      res.json({ success: true, uat: uatRun });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/release/uat/latest', (_req: Request, res: Response) => {
+    const latest = releaseAcceptanceService.getLastUatRun();
+    res.json({ uat: latest });
+  });
+
+  app.post('/api/v1/release/regression/run', async (_req: Request, res: Response) => {
+    try {
+      const regRun = await releaseAcceptanceService.triggerRegressionSuite();
+      res.json({ success: true, regression: regRun });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  app.get('/api/v1/release/regression/latest', (_req: Request, res: Response) => {
+    const latest = releaseAcceptanceService.getLastRegressionRun();
+    res.json({ regression: latest });
+  });
+
   // Centralized Secure Error Handler
   app.use(secureErrorHandler);
 
@@ -2625,9 +3476,37 @@ Ground your response in IOGP Life-Saving Rules, barrier integrity, and SIF precu
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`SUCHAK Server running on http://0.0.0.0:${PORT}`);
   });
+
+  // Graceful Shutdown Handlers (Kubernetes SIGTERM / SIGINT)
+  const handleGracefulShutdown = async (signal: string) => {
+    console.log(`[SUCHAK Server] Received ${signal}. Starting graceful shutdown sequence...`);
+    
+    // 1. Stop receiving new ingress requests
+    server.close(async () => {
+      console.log('[SUCHAK Server] HTTP server closed to new incoming connections.');
+      try {
+        // 2. Drain background queue workers
+        await queueService.drainAndShutdown(4000);
+        console.log('[SUCHAK Server] Background queues drained successfully.');
+        process.exit(0);
+      } catch (err) {
+        console.error('[SUCHAK Server] Error during shutdown drain:', err);
+        process.exit(1);
+      }
+    });
+
+    // 3. Fallback force exit if connections hang past 10 seconds
+    setTimeout(() => {
+      console.error('[SUCHAK Server] Forceful shutdown triggered after timeout limit.');
+      process.exit(1);
+    }, 10000).unref();
+  };
+
+  process.on('SIGTERM', () => handleGracefulShutdown('SIGTERM'));
+  process.on('SIGINT', () => handleGracefulShutdown('SIGINT'));
 }
 
 startServer().catch((err) => {

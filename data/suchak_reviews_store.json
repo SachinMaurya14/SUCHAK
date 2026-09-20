@@ -8,19 +8,19 @@
       "reviewer_id": "user-debajit-03",
       "reviewer_name": "Debajit Bora",
       "reviewer_role": "SafetyReviewer",
-      "status": "ASSIGNED",
-      "decision": null,
+      "status": "REVIEW_CONFIRMED",
+      "decision": "CONFIRM",
       "eligibility_reasons": [
         "SIF_UNCERTAIN",
         "RISK_FLAGGED_FOR_REVIEW"
       ],
       "reviewer_comment": null,
-      "reviewer_summary": null,
+      "reviewer_summary": "Confirmed SIF precursor: rotary kelly pin failure under tension creates line-of-fire hazard.",
       "corrections": [],
       "comments": [],
       "assigned_at": "2026-09-18T07:05:04.344Z",
       "started_at": null,
-      "completed_at": null,
+      "completed_at": "2026-09-20T11:44:23.330Z",
       "lock_token": null,
       "lock_acquired_at": null,
       "review_version": "REVIEW_V1",
@@ -35,7 +35,7 @@
       "is_stale": false,
       "stale_reason": null,
       "created_at": "2026-09-18T14:25:00.000Z",
-      "updated_at": "2026-09-18T14:30:00.000Z"
+      "updated_at": "2026-09-20T11:44:23.330Z"
     },
     {
       "id": "rev-rep-2026-0889",
@@ -522,9 +522,198 @@
       "stale_reason": null,
       "created_at": "2026-09-18T14:05:00.000Z",
       "updated_at": "2026-09-18T14:10:00.000Z"
+    },
+    {
+      "id": "rev-rep-2026-0892",
+      "organization_id": "oil-india-demo",
+      "report_id": "rep-uuid-0892",
+      "report_number": "REP-2026-0892",
+      "reviewer_id": null,
+      "reviewer_name": null,
+      "reviewer_role": null,
+      "status": "QUEUED",
+      "decision": null,
+      "eligibility_reasons": [
+        "NEEDS_REVIEW_CLASSIFICATION",
+        "INSUFFICIENT_EVIDENCE",
+        "IOGP_MAPPING_UNCERTAIN",
+        "RISK_FLAGGED_FOR_REVIEW"
+      ],
+      "reviewer_comment": null,
+      "reviewer_summary": null,
+      "corrections": [],
+      "comments": [],
+      "assigned_at": null,
+      "started_at": null,
+      "completed_at": null,
+      "lock_token": null,
+      "lock_acquired_at": null,
+      "review_version": "REVIEW_V1",
+      "source_snapshots": {
+        "analysis_version": "suchak_deterministic_nlp_engine-vv1.0.0-rules",
+        "safety_intelligence_version": "suchak-intelligence-v1.0",
+        "risk_assessment_version": "risk-policy-v1.0",
+        "pattern_version": "PATTERN_DISCOVERY_V1",
+        "report_updated_at": "2026-09-18T15:10:00.000Z",
+        "description_hash": "79f1e20b55955804"
+      },
+      "is_stale": false,
+      "stale_reason": null,
+      "created_at": "2026-09-18T15:05:00.000Z",
+      "updated_at": "2026-09-18T15:10:00.000Z"
+    },
+    {
+      "id": "rev-rep-2026-0893",
+      "organization_id": "oil-india-demo",
+      "report_id": "rep-uuid-0893",
+      "report_number": "REP-2026-0893",
+      "reviewer_id": null,
+      "reviewer_name": null,
+      "reviewer_role": null,
+      "status": "QUEUED",
+      "decision": null,
+      "eligibility_reasons": [
+        "NEEDS_REVIEW_CLASSIFICATION",
+        "INSUFFICIENT_EVIDENCE",
+        "RISK_FLAGGED_FOR_REVIEW"
+      ],
+      "reviewer_comment": null,
+      "reviewer_summary": null,
+      "corrections": [],
+      "comments": [],
+      "assigned_at": null,
+      "started_at": null,
+      "completed_at": null,
+      "lock_token": null,
+      "lock_acquired_at": null,
+      "review_version": "REVIEW_V1",
+      "source_snapshots": {
+        "analysis_version": "suchak_deterministic_nlp_engine-vv1.0.0-rules",
+        "safety_intelligence_version": "suchak-intelligence-v1.0",
+        "risk_assessment_version": "risk-policy-v1.0",
+        "pattern_version": "PATTERN_DISCOVERY_V1",
+        "report_updated_at": "2026-09-18T16:10:00.000Z",
+        "description_hash": "edf5d213ace68dbe"
+      },
+      "is_stale": false,
+      "stale_reason": null,
+      "created_at": "2026-09-18T16:05:00.000Z",
+      "updated_at": "2026-09-18T16:10:00.000Z"
+    },
+    {
+      "id": "rev-rep-2026-0894",
+      "organization_id": "oil-india-demo",
+      "report_id": "rep-uuid-0894",
+      "report_number": "REP-2026-0894",
+      "reviewer_id": null,
+      "reviewer_name": null,
+      "reviewer_role": null,
+      "status": "QUEUED",
+      "decision": null,
+      "eligibility_reasons": [
+        "NEEDS_REVIEW_CLASSIFICATION",
+        "INSUFFICIENT_EVIDENCE",
+        "RISK_FLAGGED_FOR_REVIEW"
+      ],
+      "reviewer_comment": null,
+      "reviewer_summary": null,
+      "corrections": [],
+      "comments": [],
+      "assigned_at": null,
+      "started_at": null,
+      "completed_at": null,
+      "lock_token": null,
+      "lock_acquired_at": null,
+      "review_version": "REVIEW_V1",
+      "source_snapshots": {
+        "analysis_version": "suchak_deterministic_nlp_engine-vv1.0.0-rules",
+        "safety_intelligence_version": "suchak-intelligence-v1.0",
+        "risk_assessment_version": "risk-policy-v1.0",
+        "pattern_version": "PATTERN_DISCOVERY_V1",
+        "report_updated_at": "2026-09-18T17:10:00.000Z",
+        "description_hash": "d4ad22fabbcfd322"
+      },
+      "is_stale": false,
+      "stale_reason": null,
+      "created_at": "2026-09-18T17:05:00.000Z",
+      "updated_at": "2026-09-18T17:10:00.000Z"
+    },
+    {
+      "id": "rev-rep-2026-0895",
+      "organization_id": "oil-india-demo",
+      "report_id": "rep-uuid-0895",
+      "report_number": "REP-2026-0895",
+      "reviewer_id": null,
+      "reviewer_name": null,
+      "reviewer_role": null,
+      "status": "QUEUED",
+      "decision": null,
+      "eligibility_reasons": [
+        "NEEDS_REVIEW_CLASSIFICATION",
+        "INSUFFICIENT_EVIDENCE",
+        "IOGP_MAPPING_UNCERTAIN",
+        "RISK_FLAGGED_FOR_REVIEW"
+      ],
+      "reviewer_comment": null,
+      "reviewer_summary": null,
+      "corrections": [],
+      "comments": [],
+      "assigned_at": null,
+      "started_at": null,
+      "completed_at": null,
+      "lock_token": null,
+      "lock_acquired_at": null,
+      "review_version": "REVIEW_V1",
+      "source_snapshots": {
+        "analysis_version": "suchak_deterministic_nlp_engine-vv1.0.0-rules",
+        "safety_intelligence_version": "suchak-intelligence-v1.0",
+        "risk_assessment_version": "risk-policy-v1.0",
+        "pattern_version": "PATTERN_DISCOVERY_V1",
+        "report_updated_at": "2026-09-18T18:10:00.000Z",
+        "description_hash": "60bcf0011dcbcb8e"
+      },
+      "is_stale": false,
+      "stale_reason": null,
+      "created_at": "2026-09-18T18:05:00.000Z",
+      "updated_at": "2026-09-18T18:10:00.000Z"
     }
   ],
-  "reviewedRecords": [],
+  "reviewedRecords": [
+    {
+      "id": "rec-rev-rep-2026-0891",
+      "organization_id": "oil-india-demo",
+      "report_id": "rep-uuid-0891",
+      "review_id": "rev-rep-2026-0891",
+      "review_version": "REVIEW_V1",
+      "decision": "CONFIRM",
+      "reviewed_sif_classification": "SIF_POTENTIAL",
+      "reviewed_hazards": [
+        "High-pressure line testing with compromised or bypassed safety restraint"
+      ],
+      "reviewed_precursors": [
+        "WHY FLAGGED: Report documents high-pressure line operation with compromised barrier controls, representing a direct Line-of-Fire SIF precursor."
+      ],
+      "reviewed_barrier_failures": [
+        "High-pressure line testing with compromised or bypassed safety restraint"
+      ],
+      "reviewed_iogp_rule": "High-pressure line testing with compromised or bypassed safety restraint",
+      "reviewed_energy_context": [],
+      "original_ai_sif_classification": "SIF_POTENTIAL",
+      "original_ai_hazards": [
+        "High-pressure line testing with compromised or bypassed safety restraint"
+      ],
+      "original_ai_precursor": "WHY FLAGGED: Report documents high-pressure line operation with compromised barrier controls, representing a direct Line-of-Fire SIF precursor.",
+      "original_ai_barrier_failure": "High-pressure line testing with compromised or bypassed safety restraint",
+      "original_ai_iogp_rule": "High-pressure line testing with compromised or bypassed safety restraint",
+      "corrections_count": 0,
+      "reviewer_id": "usr-analyst-02",
+      "reviewer_name": "Priya Gohain (HSE Analyst)",
+      "reviewer_role": "HSE Analyst",
+      "reviewer_summary": "Confirmed SIF precursor: rotary kelly pin failure under tension creates line-of-fire hazard.",
+      "is_current": true,
+      "created_at": "2026-09-20T11:44:23.330Z"
+    }
+  ],
   "reviewHistory": [],
   "auditEvents": [
     {
@@ -783,6 +972,778 @@
         "initial_status": "QUEUED"
       },
       "created_at": "2026-09-20T07:05:04.356Z"
+    },
+    {
+      "id": "rev-aud-1789902543212-ydbn",
+      "review_id": "rev-rep-2026-1041",
+      "report_id": "rep-uuid-d2rhxvhd",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.212Z"
+    },
+    {
+      "id": "rev-aud-1789902543221-n5q7",
+      "review_id": "rev-rep-2026-1050",
+      "report_id": "rep-uuid-42jds50m",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.221Z"
+    },
+    {
+      "id": "rev-aud-1789902543225-1k1w",
+      "review_id": "rev-rep-2026-1047",
+      "report_id": "rep-uuid-tgdb8my0",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.225Z"
+    },
+    {
+      "id": "rev-aud-1789902543229-4q64",
+      "review_id": "rev-rep-2026-1052",
+      "report_id": "rep-uuid-vo86ig82",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.229Z"
+    },
+    {
+      "id": "rev-aud-1789902543234-lslj",
+      "review_id": "rev-rep-2026-1057",
+      "report_id": "rep-uuid-by58dod7",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.234Z"
+    },
+    {
+      "id": "rev-aud-1789902543243-59wa",
+      "review_id": "rev-rep-2026-1046",
+      "report_id": "rep-uuid-c5d3pxe6",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.243Z"
+    },
+    {
+      "id": "rev-aud-1789902543250-b8r0",
+      "review_id": "rev-rep-2026-1044",
+      "report_id": "rep-uuid-hho0j9gf",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.250Z"
+    },
+    {
+      "id": "rev-aud-1789902543311-0y9k",
+      "review_id": "rev-rep-2026-1051",
+      "report_id": "rep-uuid-s8hwiri0",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.311Z"
+    },
+    {
+      "id": "rev-aud-1789902543316-jbfl",
+      "review_id": "rev-rep-2026-1043",
+      "report_id": "rep-uuid-qgxkq222",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.316Z"
+    },
+    {
+      "id": "rev-aud-1789902543322-ui42",
+      "review_id": "rev-rep-2026-1045",
+      "report_id": "rep-uuid-kcnxv2zx",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.322Z"
+    },
+    {
+      "id": "rev-aud-1789902543329-95z6",
+      "review_id": "rev-rep-2026-1040",
+      "report_id": "rep-uuid-n0vzj7kq",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.329Z"
+    },
+    {
+      "id": "rev-aud-1789902543332-jsyu",
+      "review_id": "rev-rep-2026-1049",
+      "report_id": "rep-uuid-u1vt1xnm",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.332Z"
+    },
+    {
+      "id": "rev-aud-1789902543336-k84x",
+      "review_id": "rev-rep-2026-1055",
+      "report_id": "rep-uuid-9wabks14",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.336Z"
+    },
+    {
+      "id": "rev-aud-1789902543339-y8c6",
+      "review_id": "rev-rep-2026-1056",
+      "report_id": "rep-uuid-ptji0roi",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.339Z"
+    },
+    {
+      "id": "rev-aud-1789902543343-c5jg",
+      "review_id": "rev-rep-2026-1058",
+      "report_id": "rep-uuid-lohjo4it",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.343Z"
+    },
+    {
+      "id": "rev-aud-1789902543347-ekhd",
+      "review_id": "rev-rep-2026-1054",
+      "report_id": "rep-uuid-wp6zfz17",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.347Z"
+    },
+    {
+      "id": "rev-aud-1789902543352-2enz",
+      "review_id": "rev-rep-2026-1059",
+      "report_id": "rep-uuid-k6q9w7w2",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.352Z"
+    },
+    {
+      "id": "rev-aud-1789902543356-0l28",
+      "review_id": "rev-rep-2026-1053",
+      "report_id": "rep-uuid-ryimsxy6",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.356Z"
+    },
+    {
+      "id": "rev-aud-1789902543360-arcm",
+      "review_id": "rev-rep-2026-1042",
+      "report_id": "rep-uuid-7ox76756",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.360Z"
+    },
+    {
+      "id": "rev-aud-1789902543364-wclm",
+      "review_id": "rev-rep-2026-1048",
+      "report_id": "rep-uuid-qhct1eoj",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:03.364Z"
+    },
+    {
+      "id": "rev-aud-1789902565511-06cd",
+      "review_id": "rev-rep-2026-1044",
+      "report_id": "rep-uuid-dolrpru7",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.511Z"
+    },
+    {
+      "id": "rev-aud-1789902565528-tt75",
+      "review_id": "rev-rep-2026-1047",
+      "report_id": "rep-uuid-8hkpmrq1",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.528Z"
+    },
+    {
+      "id": "rev-aud-1789902565533-kukn",
+      "review_id": "rev-rep-2026-1040",
+      "report_id": "rep-uuid-g0xm4h5a",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.533Z"
+    },
+    {
+      "id": "rev-aud-1789902565537-zf9w",
+      "review_id": "rev-rep-2026-1049",
+      "report_id": "rep-uuid-j5nvd302",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.537Z"
+    },
+    {
+      "id": "rev-aud-1789902565543-5e3c",
+      "review_id": "rev-rep-2026-1045",
+      "report_id": "rep-uuid-45f4qrdi",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.543Z"
+    },
+    {
+      "id": "rev-aud-1789902565548-g1wy",
+      "review_id": "rev-rep-2026-1042",
+      "report_id": "rep-uuid-bgmzrtkn",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.548Z"
+    },
+    {
+      "id": "rev-aud-1789902565555-3fjq",
+      "review_id": "rev-rep-2026-1046",
+      "report_id": "rep-uuid-y8h1dm2k",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.555Z"
+    },
+    {
+      "id": "rev-aud-1789902565562-en2w",
+      "review_id": "rev-rep-2026-1043",
+      "report_id": "rep-uuid-vp5w5x12",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.562Z"
+    },
+    {
+      "id": "rev-aud-1789902565569-kump",
+      "review_id": "rev-rep-2026-1048",
+      "report_id": "rep-uuid-yg06b1zv",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.569Z"
+    },
+    {
+      "id": "rev-aud-1789902565574-olaz",
+      "review_id": "rev-rep-2026-1041",
+      "report_id": "rep-uuid-t6dmsffj",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:09:25.574Z"
+    },
+    {
+      "id": "rev-aud-1789904663329-ffvu",
+      "review_id": "rev-rep-2026-1040",
+      "report_id": "rep-uuid-m5rn94hw",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:44:23.329Z"
+    },
+    {
+      "id": "rev-aud-1789904663330-rvzi",
+      "review_id": "rev-rep-2026-0891",
+      "report_id": "rep-uuid-0891",
+      "organization_id": "oil-india-demo",
+      "actor_id": "usr-analyst-02",
+      "actor_name": "Priya Gohain (HSE Analyst)",
+      "actor_role": "HSE Analyst",
+      "event_type": "REVIEW_CONFIRMED",
+      "details": {
+        "decision": "CONFIRM",
+        "summary": "Confirmed SIF precursor: rotary kelly pin failure under tension creates line-of-fire hazard.",
+        "review_version": "REVIEW_V1"
+      },
+      "created_at": "2026-09-20T11:44:23.330Z"
+    },
+    {
+      "id": "rev-aud-1789904663682-7xhv",
+      "review_id": "rev-rep-2026-1041",
+      "report_id": "rep-uuid-t5zz25fk",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:44:23.682Z"
+    },
+    {
+      "id": "rev-aud-1789904734186-v0q8",
+      "review_id": "rev-rep-2026-1040",
+      "report_id": "rep-uuid-rcqnsxc2",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "SIF_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:45:34.186Z"
+    },
+    {
+      "id": "rev-aud-1789904734512-unl7",
+      "review_id": "rev-rep-2026-1041",
+      "report_id": "rep-uuid-oho81fws",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:45:34.512Z"
+    },
+    {
+      "id": "rev-aud-1789904828902-4teg",
+      "review_id": "rev-rep-2026-0892",
+      "report_id": "rep-uuid-0892",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:47:08.902Z"
+    },
+    {
+      "id": "rev-aud-1789904828903-8mq8",
+      "review_id": "rev-rep-2026-0893",
+      "report_id": "rep-uuid-0893",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:47:08.903Z"
+    },
+    {
+      "id": "rev-aud-1789904828903-wti9",
+      "review_id": "rev-rep-2026-0894",
+      "report_id": "rep-uuid-0894",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:47:08.903Z"
+    },
+    {
+      "id": "rev-aud-1789904828903-3ujq",
+      "review_id": "rev-rep-2026-0895",
+      "report_id": "rep-uuid-0895",
+      "organization_id": "oil-india-demo",
+      "actor_id": "system",
+      "actor_name": "SUCHAK Eligibility Engine",
+      "actor_role": "System",
+      "event_type": "REVIEW_CREATED",
+      "details": {
+        "reasons": [
+          "NEEDS_REVIEW_CLASSIFICATION",
+          "INSUFFICIENT_EVIDENCE",
+          "IOGP_MAPPING_UNCERTAIN",
+          "RISK_FLAGGED_FOR_REVIEW"
+        ],
+        "initial_status": "QUEUED"
+      },
+      "created_at": "2026-09-20T11:47:08.903Z"
     }
   ]
 }

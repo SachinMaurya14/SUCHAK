@@ -1323,6 +1323,14 @@ class AlertStore {
       recent: items.slice(-10).reverse(),
     };
   }
+
+  public getAlerts(organizationId: string = 'oil-india-demo'): Alert[] {
+    return Array.from(this.alerts.values()).filter((a) => a.organization_id === organizationId);
+  }
+
+  public getRules(organizationId: string = 'oil-india-demo'): AlertRule[] {
+    return Array.from(this.rules.values()).filter((r) => r.organization_id === organizationId);
+  }
 }
 
 export const alertStore = new AlertStore();
