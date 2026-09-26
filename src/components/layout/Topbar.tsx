@@ -369,7 +369,7 @@ export const Topbar: React.FC<TopbarProps> = ({
                       key={alt.id}
                       onClick={() => {
                         setShowNotifications(false);
-                        onNavigate('/alerts');
+                        onNavigate('/review');
                       }}
                       className="pt-2 cursor-pointer hover:bg-surface-muted p-1.5 rounded-lg transition-colors"
                     >
@@ -396,11 +396,11 @@ export const Topbar: React.FC<TopbarProps> = ({
                   type="button"
                   onClick={() => {
                     setShowNotifications(false);
-                    onNavigate('/alerts');
+                    onNavigate('/review');
                   }}
                   className="w-full text-center text-xs font-medium text-primary hover:underline transition-all duration-200 ease-in-out cursor-pointer py-1"
                 >
-                  View all alerts & workflow items →
+                  Go to Review Queue →
                 </button>
               </div>
             </div>
@@ -534,16 +534,6 @@ export const Topbar: React.FC<TopbarProps> = ({
               <div className="pt-2 border-t border-border-subtle">
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowUserMenu(false);
-                    onNavigate('/settings');
-                  }}
-                  className="w-full text-left px-2.5 py-1.5 text-xs text-foreground hover:bg-surface-muted rounded-md transition-all duration-200 ease-in-out cursor-pointer"
-                >
-                  Account Settings
-                </button>
-                <button
-                  type="button"
                   onClick={handleSignOut}
                   className="w-full text-left px-2.5 py-1.5 text-xs text-danger hover:bg-danger/10 rounded-md transition-all duration-200 ease-in-out cursor-pointer"
                 >
@@ -593,17 +583,27 @@ export const Topbar: React.FC<TopbarProps> = ({
                   }}
                   className="px-2.5 py-1 rounded-md border border-border bg-surface-muted hover:border-primary text-foreground transition-all duration-200 ease-in-out cursor-pointer"
                 >
-                  ⚡ Evaluate New Safety Report
+                  ⚡ Evaluate Report
                 </button>
                 <button
                   type="button"
                   onClick={() => {
                     setShowSearchModal(false);
-                    onNavigate('/rules');
+                    onNavigate('/reports');
                   }}
                   className="px-2.5 py-1 rounded-md border border-border bg-surface-muted hover:border-primary text-foreground transition-all duration-200 ease-in-out cursor-pointer"
                 >
-                  📖 IOGP Life-Saving Rules
+                  📑 Incident Reports
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowSearchModal(false);
+                    onNavigate('/review');
+                  }}
+                  className="px-2.5 py-1 rounded-md border border-border bg-surface-muted hover:border-primary text-foreground transition-all duration-200 ease-in-out cursor-pointer"
+                >
+                  ⚖️ Review Queue
                 </button>
                 <button
                   type="button"
@@ -614,6 +614,16 @@ export const Topbar: React.FC<TopbarProps> = ({
                   className="px-2.5 py-1 rounded-md border border-border bg-surface-muted hover:border-primary text-foreground transition-all duration-200 ease-in-out cursor-pointer"
                 >
                   🔍 Precursor Patterns
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowSearchModal(false);
+                    onNavigate('/ask');
+                  }}
+                  className="px-2.5 py-1 rounded-md border border-border bg-surface-muted hover:border-primary text-foreground transition-all duration-200 ease-in-out cursor-pointer"
+                >
+                  💡 Ask SUCHAK
                 </button>
               </div>
             </div>

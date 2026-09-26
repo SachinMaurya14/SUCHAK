@@ -671,6 +671,7 @@ export class PatternDiscoveryEngine {
  */
 export class PatternStore {
   private patterns: Map<string, PrecursorPattern> = new Map();
+  private patternNumberIndex: Map<string, string> = new Map();
   private discoveryRuns: DiscoveryRun[] = [];
   private activeVersionId: string = 'PATTERN_DISCOVERY_V1';
 
@@ -697,9 +698,15 @@ export class PatternStore {
       limit?: number;
     }
   ): { patterns: PrecursorPattern[]; total: number; page: number; total_pages: number } {
-    let list = Array.from(this.patterns.values()).filter(
-      (p) => p.organization_id === organizationId
-    );
+    // Strictly deduplicate by id
+    const uniqueMap = new Map<string, PrecursorPattern>();
+    for (const p of this.patterns.values()) {
+      if (p.organization_id === organizationId) {
+        uniqueMap.set(p.id, p);
+      }
+    }
+
+    let list = Array.from(uniqueMap.values());
 
     if (filters) {
       if (filters.status) {
@@ -778,7 +785,13 @@ export class PatternStore {
   }
 
   public getPatternById(organizationId: string, patternId: string): PrecursorPattern | null {
-    const p = this.patterns.get(patternId);
+    let p = this.patterns.get(patternId);
+    if (!p) {
+      const mappedId = this.patternNumberIndex.get(patternId.toLowerCase());
+      if (mappedId) {
+        p = this.patterns.get(mappedId);
+      }
+    }
     if (!p || p.organization_id !== organizationId) {
       // Also try lookup by pattern_number (e.g. PAT-2026-01)
       for (const item of this.patterns.values()) {
@@ -796,7 +809,13 @@ export class PatternStore {
   }
 
   public getPatternSummary(organizationId: string): PatternSummaryKPIs {
-    const list = Array.from(this.patterns.values()).filter((p) => p.organization_id === organizationId);
+    const uniqueMap = new Map<string, PrecursorPattern>();
+    for (const p of this.patterns.values()) {
+      if (p.organization_id === organizationId) {
+        uniqueMap.set(p.id, p);
+      }
+    }
+    const list = Array.from(uniqueMap.values());
 
     const recurring = list.filter((p) => p.status === 'RECURRING').length;
     const emerging = list.filter((p) => p.status === 'EMERGING').length;
@@ -853,13 +872,20 @@ export class PatternStore {
     }
 
     this.patterns.clear();
+    this.patternNumberIndex.clear();
+
     for (const [id, p] of otherOrgPatterns) {
       this.patterns.set(id, p);
+      if (p.pattern_number) {
+        this.patternNumberIndex.set(p.pattern_number.toLowerCase(), id);
+      }
     }
 
     for (const p of newPatterns) {
       this.patterns.set(p.id, p);
-      this.patterns.set(p.pattern_number, p);
+      if (p.pattern_number) {
+        this.patternNumberIndex.set(p.pattern_number.toLowerCase(), p.id);
+      }
     }
 
     this.saveToDisk();
@@ -872,10 +898,16 @@ export class PatternStore {
         fs.mkdirSync(dataDir, { recursive: true });
       }
 
+      // Strictly deduplicate by id
+      const uniqueMap = new Map<string, PrecursorPattern>();
+      for (const p of this.patterns.values()) {
+        uniqueMap.set(p.id, p);
+      }
+
       const serialized = {
         active_version_id: this.activeVersionId,
         saved_at: new Date().toISOString(),
-        patterns: Array.from(this.patterns.values()),
+        patterns: Array.from(uniqueMap.values()),
         discovery_runs: this.discoveryRuns,
       };
 
@@ -892,9 +924,12 @@ export class PatternStore {
         const parsed = JSON.parse(raw);
         if (parsed.patterns && Array.isArray(parsed.patterns)) {
           this.patterns.clear();
+          this.patternNumberIndex.clear();
           for (const p of parsed.patterns) {
             this.patterns.set(p.id, p);
-            this.patterns.set(p.pattern_number, p);
+            if (p.pattern_number) {
+              this.patternNumberIndex.set(p.pattern_number.toLowerCase(), p.id);
+            }
           }
         }
         if (parsed.discovery_runs && Array.isArray(parsed.discovery_runs)) {

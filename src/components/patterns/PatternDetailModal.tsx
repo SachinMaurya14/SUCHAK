@@ -292,9 +292,9 @@ export const PatternDetailModal: React.FC<PatternDetailModalProps> = ({
               </div>
 
               <div className="space-y-2">
-                {pattern.members.map((m) => (
+                {pattern.members.map((m, mIdx) => (
                   <div
-                    key={m.report_id}
+                    key={`${m.report_id || m.report_number}-${mIdx}`}
                     className="p-3.5 rounded-lg border border-border bg-card hover:border-primary/40 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs"
                   >
                     <div className="space-y-1 flex-1">

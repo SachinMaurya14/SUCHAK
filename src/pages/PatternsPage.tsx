@@ -63,7 +63,17 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
       const patternsData = await patternsRes.json();
       const summaryData = await summaryRes.json();
 
-      setPatterns(patternsData.patterns || []);
+      const rawPatterns: PrecursorPattern[] = patternsData.patterns || [];
+      const uniquePatterns: PrecursorPattern[] = [];
+      const seenIds = new Set<string>();
+      for (const pat of rawPatterns) {
+        if (!seenIds.has(pat.id)) {
+          seenIds.add(pat.id);
+          uniquePatterns.push(pat);
+        }
+      }
+
+      setPatterns(uniquePatterns);
       setSummary(summaryData);
     } catch (err: any) {
       console.error('[PatternsPage] Fetch error:', err);
@@ -357,9 +367,9 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPatterns.map((p) => (
+          {filteredPatterns.map((p, pIdx) => (
             <Card
-              key={p.id}
+              key={`${p.id}-${pIdx}`}
               className="flex flex-col justify-between hover:border-primary/50 transition-all duration-150 shadow-sm hover:shadow group"
             >
               <div>
@@ -390,7 +400,7 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                   {/* Supporting Observation Summary Stats */}
                   <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-border-subtle">
                     <div>
-                      <span className="text-[11px] text-muted-foreground block">Reports</span>
+                      <span className="text-[11px] text-muted-foreground block">Reports (Support)</span>
                       <span className="font-mono font-bold text-foreground">
                         {p.support_count}{' '}
                         <span className="font-normal text-[10px] text-muted-foreground">
@@ -402,6 +412,22 @@ export const PatternsPage: React.FC<PatternsPageProps> = ({ onNavigate }) => {
                       <span className="text-[11px] text-muted-foreground block">Observation Span</span>
                       <span className="text-[11px] font-medium text-foreground block truncate">
                         {formatDate(p.last_seen_at)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Sites & Activities */}
+                  <div className="space-y-1 text-xs pt-2 border-t border-border-subtle">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-muted-foreground text-[11px] shrink-0">Site(s):</span>
+                      <span className="font-semibold text-right text-foreground text-[11px] truncate">
+                        {p.primary_site || 'Digboi Central Asset'}
+                      </span>
+                    </div>
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-muted-foreground text-[11px] shrink-0">Activity:</span>
+                      <span className="font-semibold text-right text-foreground text-[11px] truncate">
+                        {p.primary_activity || 'High Pressure Line Testing'}
                       </span>
                     </div>
                   </div>

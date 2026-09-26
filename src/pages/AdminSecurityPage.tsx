@@ -49,7 +49,7 @@ interface SecurityStatusData {
     secret_key_configured: boolean;
     database_configured: boolean;
   };
-  prototype_boundary: string;
+  operational_boundary: string;
   rpo_rto_status: {
     rpo: string;
     rto: string;
@@ -224,11 +224,11 @@ export const AdminSecurityPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Prototype Boundary Disclaimer Callout */}
+        {/* Operational Boundary Disclaimer Callout */}
         <div className="mt-4 pt-4 border-t border-slate-800/80 flex items-start gap-2.5 text-xs text-slate-300">
           <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <span className="font-semibold text-amber-400">Enterprise Prototype Operational Boundary: </span>
+            <span className="font-semibold text-amber-400">Enterprise Operational Boundary: </span>
             <span>
               This installation operates on in-memory persistence and container-isolated state for Oil India Limited validation.
               Production certification requires multi-AZ persistence and disaster recovery schedule sign-off.

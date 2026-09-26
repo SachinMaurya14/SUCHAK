@@ -71,7 +71,7 @@ export const SiteRiskPage: React.FC<SiteRiskPageProps> = ({ onNavigate }) => {
       <div className="p-3.5 rounded-xl bg-surface-muted/60 border border-border text-xs flex items-start gap-2.5 text-muted-foreground">
         <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div>
-          <span className="font-semibold text-foreground">Prototype Prioritization Foundation:</span> SIF Precursor Density represents the ratio of verified SIF precursor observations to total sample size. Sites with fewer than 5 records are explicitly flagged as <em>INSUFFICIENT DATA</em> to prevent sample-size distortion. This is a prototype prioritization index, not an official OIL formula.
+          <span className="font-semibold text-foreground">Risk Prioritization Foundation:</span> SIF Precursor Density represents the ratio of verified SIF precursor observations to total sample size. Sites with fewer than 5 records are explicitly flagged as <em>INSUFFICIENT DATA</em> to prevent sample-size distortion. This is an operational prioritization index, not an official OIL formula.
         </div>
       </div>
 

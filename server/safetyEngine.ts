@@ -242,7 +242,7 @@ Return ONLY a valid JSON object matching this exact schema:
 }`;
 
     const response = await client.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.8-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -269,8 +269,8 @@ Return ONLY a valid JSON object matching this exact schema:
         actual_outcome: actualOutcome || fallback.actual_outcome,
         potential_consequence: parsed.potential_consequence || fallback.potential_consequence,
         explanation: parsed.explanation || fallback.explanation,
-        model_name: 'gemini-2.5-flash',
-        model_version: 'v2.5',
+        model_name: 'gemini-3.8-flash',
+        model_version: 'v3.8',
         prompt_version: 'SUCHAK_SIF_V1',
         analyzed_at: nowIso,
         created_at: nowIso,

@@ -10,6 +10,7 @@ import {
   X,
   AlertOctagon,
   Clock,
+  Check,
 } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader.tsx';
 import { Card } from '../components/ui/Card.tsx';
@@ -29,6 +30,7 @@ import {
 } from '../components/ui/TableShell.tsx';
 import { PaginationShell } from '../components/ui/PaginationShell.tsx';
 import { reportService } from '../services/reportService.ts';
+import { downloadCsv, CsvColumn } from '../utils/csvExport.ts';
 
 export interface ReportsPageProps {
   onNavigate: (path: string) => void;
@@ -44,6 +46,7 @@ interface DisplayReport {
   risk: string;
   rule: string;
   status: string;
+  description?: string;
 }
 
 export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
@@ -54,6 +57,8 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportSuccessMessage, setExportSuccessMessage] = useState<string | null>(null);
   const [reports, setReports] = useState<DisplayReport[]>([]);
 
   // Baseline structured demonstration reports
@@ -68,6 +73,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'SIF_POTENTIAL',
       rule: 'Line of Fire',
       status: 'Under Review',
+      description: 'High-pressure test line swivel whip-check cable unlatched while crew pressurized manifold to 3,500 psi. Operator noticed vibrating line and called all-stop.',
     },
     {
       id: 'REP-2026-0889',
@@ -79,6 +85,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'HIGH',
       rule: 'Confined Space',
       status: 'Unreviewed',
+      description: 'Gas separator skid vessel entry planned without secondary continuous multi-gas monitor verification. LEL test was delayed.',
     },
     {
       id: 'REP-2026-0885',
@@ -90,6 +97,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'SIF_POTENTIAL',
       rule: 'Working at Height',
       status: 'Verified SIF',
+      description: 'Contractor rigger unclipped dual fall arrest lanyards while transitioning between scaffold working decks at 8m elevation without 100% tie-off.',
     },
     {
       id: 'REP-2026-0880',
@@ -101,6 +109,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'HIGH',
       rule: 'Safe Mechanical Lifting',
       status: 'Action Assigned',
+      description: 'Mobile crane swung 12-inch casing joint over active pedestrian access walkway without barricades or tag lines deployed.',
     },
     {
       id: 'REP-2026-0876',
@@ -112,6 +121,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'NON_SIF',
       rule: 'Hot Work',
       status: 'Overridden Non-SIF',
+      description: 'Grinding wheel operation conducted with impact goggles only; full face shield was missing from machine safety holder.',
     },
     {
       id: 'REP-2026-0872',
@@ -123,6 +133,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
       risk: 'SIF_POTENTIAL',
       rule: 'Energy Isolation',
       status: 'Verified SIF',
+      description: 'Electrician began maintenance on 415V transformer breaker panel prior to testing and confirming zero live energy potential.',
     },
   ];
 
@@ -146,6 +157,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
             risk: (r.processingStatus as string) === 'ANALYZED' || r.processingStatus === 'Classified' ? 'SIF_POTENTIAL' : 'HIGH',
             rule: r.activity.includes('Drill') ? 'Line of Fire' : 'Energy Isolation',
             status: r.reviewStatus,
+            description: r.description,
           }));
 
           // Merge without duplicate IDs
@@ -205,6 +217,60 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
   const paginatedReports = filteredReports.slice((page - 1) * pageSize, page * pageSize);
   const totalPages = Math.max(1, Math.ceil(filteredReports.length / pageSize));
 
+  // Strongly-typed column definitions for CSV export conforming to RFC 4180
+  const reportExportColumns: CsvColumn<DisplayReport>[] = [
+    { header: 'Report ID', accessor: 'id' },
+    { header: 'Date / Time', accessor: 'date' },
+    { header: 'Asset / Site', accessor: 'site' },
+    { header: 'Specific Location', accessor: 'location' },
+    { header: 'Observed Activity', accessor: 'activity' },
+    { header: 'Report Type', accessor: 'type' },
+    { header: 'Mapped IOGP Rule', accessor: 'rule' },
+    {
+      header: 'Risk Classification',
+      accessor: (r) =>
+        r.risk === 'SIF_POTENTIAL'
+          ? 'SIF Potential'
+          : r.risk === 'HIGH'
+          ? 'High Risk'
+          : r.risk === 'NON_SIF'
+          ? 'Non-SIF'
+          : r.risk,
+    },
+    { header: 'Review Status', accessor: 'status' },
+    { header: 'Narrative Description', accessor: (r) => r.description || '' },
+  ];
+
+  // Export filtered incident data as a clean CSV download using professional utility
+  const handleExportCSV = () => {
+    if (filteredReports.length === 0 || isExporting) return;
+    setIsExporting(true);
+
+    try {
+      const timestamp = new Date().toISOString().substring(0, 10);
+      const isSuccess = downloadCsv({
+        filename: `suchak_incident_reports_${timestamp}.csv`,
+        columns: reportExportColumns,
+        data: filteredReports,
+        includeBom: true,
+      });
+
+      if (isSuccess) {
+        const msg = `Successfully exported ${filteredReports.length} filtered incident ${
+          filteredReports.length === 1 ? 'report' : 'reports'
+        } to CSV.`;
+        setExportSuccessMessage(msg);
+        setTimeout(() => {
+          setExportSuccessMessage((prev) => (prev === msg ? null : prev));
+        }, 5000);
+      }
+    } catch (err) {
+      console.error('[ReportsPage] CSV export error:', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       <PageHeader
@@ -216,10 +282,13 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
             <Button
               variant="outline"
               size="sm"
-              icon={<Download className="w-3.5 h-3.5" />}
-              onClick={() => onNavigate('/exports')}
+              icon={exportSuccessMessage ? <Check className="w-3.5 h-3.5 text-success" /> : <Download className="w-3.5 h-3.5" />}
+              onClick={handleExportCSV}
+              disabled={filteredReports.length === 0 || isExporting}
+              loading={isExporting}
+              title="Download currently filtered incident records as a CSV spreadsheet"
             >
-              Export CSV
+              {exportSuccessMessage ? 'Exported!' : `Export CSV (${filteredReports.length})`}
             </Button>
             <Button
               variant="primary"
@@ -232,6 +301,27 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
           </div>
         }
       />
+
+      {/* Export Confirmation Feedback */}
+      {exportSuccessMessage && (
+        <div className="p-3 px-4 rounded-xl border border-success/30 bg-success/10 text-success text-xs flex items-center justify-between shadow-2xs animate-in fade-in slide-in-from-top-1 duration-150">
+          <div className="flex items-center gap-2">
+            <Check className="w-4 h-4 shrink-0" />
+            <span className="font-semibold text-foreground">{exportSuccessMessage}</span>
+            <span className="text-muted-foreground hidden sm:inline">
+              (File saved to your downloads for offline analysis)
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setExportSuccessMessage(null)}
+            className="text-muted-foreground hover:text-foreground p-1 transition-colors rounded"
+            title="Dismiss notice"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* Metrics Mini-Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -373,6 +463,20 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ onNavigate }) => {
                 Reset
               </Button>
             )}
+
+            <div className="ml-auto flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                icon={exportSuccessMessage ? <Check className="w-3.5 h-3.5 text-success" /> : <Download className="w-3.5 h-3.5" />}
+                onClick={handleExportCSV}
+                disabled={filteredReports.length === 0 || isExporting}
+                loading={isExporting}
+                title="Download filtered incident data as CSV"
+              >
+                Export CSV ({filteredReports.length})
+              </Button>
+            </div>
           </div>
         </div>
 

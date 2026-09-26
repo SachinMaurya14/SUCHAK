@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
@@ -12,6 +15,7 @@ import { evaluationStore } from './server/evaluationStore.ts';
 import { evaluationRunner } from './server/evaluationRunner.ts';
 import { errorAnalysisService } from './server/errorAnalysisService.ts';
 import { GoogleGenAI } from '@google/genai';
+import { analyzeReportSafety } from './server/safetyEngine.ts';
 import { config, validateConfig } from './server/config.ts';
 import { logger } from './server/logger.ts';
 import { authStore } from './server/authStore.ts';
@@ -61,7 +65,7 @@ async function startServer() {
   }
 
   const app = express();
-  const PORT = 3000;
+  const PORT = config.port || 3000;
 
   // Security Middleware Stack
   app.use(requestIdMiddleware);
@@ -1386,6 +1390,54 @@ async function startServer() {
       });
     }
     res.json(updated);
+  });
+
+  app.post('/api/v1/analyze-narrative', async (req: Request, res: Response) => {
+    try {
+      const description = (req.body.description || req.body.narrative || '').trim();
+      const actualOutcome = req.body.actualOutcome || req.body.actual_outcome || null;
+      if (!description) {
+        return res.status(400).json({ error: 'Description is required' });
+      }
+      const result = await analyzeReportSafety('preview', description, actualOutcome);
+
+      // Determine IOGP rule
+      const lower = description.toLowerCase();
+      let mappedRule = 'Line of Fire';
+      if (lower.includes('height') || lower.includes('scaffold') || lower.includes('fall') || lower.includes('ladder')) {
+        mappedRule = 'Working at Height';
+      } else if (lower.includes('isolate') || lower.includes('loto') || lower.includes('lockout') || lower.includes('electrical')) {
+        mappedRule = 'Energy Isolation';
+      } else if (lower.includes('confined') || lower.includes('tank') || lower.includes('vessel')) {
+        mappedRule = 'Confined Space';
+      } else if (lower.includes('lift') || lower.includes('crane') || lower.includes('rigging') || lower.includes('hoist')) {
+        mappedRule = 'Safe Mechanical Lifting';
+      } else if (lower.includes('hot work') || lower.includes('weld') || lower.includes('torch') || lower.includes('grind')) {
+        mappedRule = 'Hot Work';
+      } else if (lower.includes('gas') || lower.includes('h2s') || lower.includes('hydrocarbon') || lower.includes('leak')) {
+        mappedRule = 'Toxic Gas & Vapor Control';
+      } else if (lower.includes('pressure') || lower.includes('psi') || lower.includes('manifold')) {
+        mappedRule = 'Line of Fire';
+      }
+
+      // Recommended HSE Action
+      let recommendedAction = 'Conduct immediate field safety inspection and verify secondary physical restraints.';
+      if (result.classification === 'SIF_POTENTIAL') {
+        recommendedAction = `Immediate Stop-Work Authority (SWA). Re-verify barrier integrity under IOGP [${mappedRule}], establish strict exclusion barricades, and conduct mandatory supervisor stand-down before recommencing.`;
+      } else if (result.classification === 'NEEDS_REVIEW') {
+        recommendedAction = `Assign to HSE safety reviewer for physical barrier verification and energy dissipation validation prior to shift closure.`;
+      } else {
+        recommendedAction = `Log standard observation, inspect local housekeeping, and review safe operating procedures at the next pre-shift toolbox talk.`;
+      }
+
+      res.json({
+        ...result,
+        iogp_rule: mappedRule,
+        recommended_action: recommendedAction,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: 'Failed to analyze narrative', details: err.message });
+    }
   });
 
   app.post('/api/v1/reports/:id/analyze', async (req: Request, res: Response) => {
@@ -3172,13 +3224,13 @@ async function startServer() {
       try {
         const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
         const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3.8-flash',
           contents: `You are SUCHAK, an expert Enterprise HSE Safety Intelligence assistant specialized in oil & gas exploration, drilling operations, and refinery safety.
 Provide a clear, structured safety intelligence answer to this operational inquiry:
 "${query}"
 Ground your response in IOGP Life-Saving Rules, barrier integrity, and SIF precursor prevention.`,
         });
-        return res.json({ answer: response.text, source: 'gemini-2.5-flash' });
+        return res.json({ answer: response.text, source: 'gemini-3.8-flash' });
       } catch (err) {
         console.warn('[SUCHAK] Ask Gemini failed, falling back to expert response:', err);
       }

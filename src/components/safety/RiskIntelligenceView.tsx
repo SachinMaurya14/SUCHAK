@@ -227,7 +227,7 @@ export const RiskIntelligenceView: React.FC<RiskIntelligenceViewProps> = ({
               <div className="ml-2">{getPriorityBadge(assessment.priority)}</div>
             </div>
             <p className="text-[10px] text-muted-foreground pt-1">
-              SUCHAK Prototype Priority Scale (not official OIL score)
+              SUCHAK Safety Priority Scale (not official OIL score)
             </p>
           </div>
 

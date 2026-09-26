@@ -203,18 +203,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4">
       <div className="w-full max-w-xl space-y-6">
         {/* Header Branding */}
-        <div className="text-center space-y-3">
-          <div className="flex justify-center">
-            <SuchakLogo variant="compact" size="lg" />
+        <div className="text-center space-y-2">
+          <div className="flex justify-center py-2">
+            <SuchakLogo variant="full" size="lg" />
           </div>
-          <div>
-            <h1 className="text-3xl font-black tracking-tight text-white font-display">
-              SUCHAK
-            </h1>
-            <p className="text-xs text-amber-400 font-semibold tracking-widest uppercase mt-1">
-              Enterprise HSE Safety Intelligence Platform
-            </p>
-          </div>
+          <p className="text-xs text-amber-400 font-semibold tracking-widest uppercase">
+            Enterprise HSE Safety Platform
+          </p>
           <p className="text-xs text-slate-400 max-w-md mx-auto">
             Zero-Harm Incident Prevention • SIF Precursor Detection • OIDC Federated Identity Control
           </p>
